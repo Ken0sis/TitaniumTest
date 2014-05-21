@@ -24,9 +24,9 @@ exports.updateItem = function(_id, _done) {
 	return rows;
 };
 
-exports.addItem = function(_item) {
+exports.addItem = function(_item, _category) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('insert into todo values (?,?,?)', _item, 0, 'yellow');
+	mydb.execute('insert into todo values (?,?,?)', _item, 0, _category);
 	mydb.close();
 };
 
