@@ -1,0 +1,66 @@
+dependencies: \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneProxy.m \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiBase.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiThreading.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiPublicAPI.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiEvaluator.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/KrollContext.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/headers/TiCore/TiCore.h \
+  headers/TiCore/Ti.h headers/TiCore/TiBase.h \
+  headers/TiCore/TiContextRef.h headers/TiCore/TiObjectRef.h \
+  headers/TiCore/TiValueRef.h headers/TiCore/WebKitAvailability.h \
+  headers/TiCore/TiStringRef.h headers/TiCore/TiStringRefCF.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/headers/TiCore/TiContextRefPrivate.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/KrollCallback.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/KrollObject.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiBindingRunLoop.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUtils.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiDimension.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiColor.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/WebFont.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiFile.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiBuffer.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiBlob.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiApp.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiHost.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/Bridge.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiStylesheet.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/KrollBridge.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiModule.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/XHRBridge.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiRootViewController.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiControllerProtocols.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiViewProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIView.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiAnimation.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiPoint.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/ListenerEntry.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/LayoutConstraint.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiGradient.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiRect.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiViewTemplate.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneAnimationStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneStatusBarProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneRowAnimationStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneSystemButtonStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneSystemButtonProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneProgressBarStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneActivityIndicatorStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneSystemIconProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneScrollIndicatorStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneTableViewStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneTableViewSeparatorStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneTableViewScrollPositionProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneTableViewCellSelectionStyleProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPadProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPadPopoverProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiViewController.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPadSplitWindowProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiWindowProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiTab.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiTabGroup.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiOSTransitionAnimationProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiOSDocumentViewerProxy.h \
+  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/TiUIiPhoneAlertDialogStyleProxy.h
