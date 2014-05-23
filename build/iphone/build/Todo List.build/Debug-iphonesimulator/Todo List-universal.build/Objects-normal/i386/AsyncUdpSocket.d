@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/AsyncUdpSocket.m \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/AsyncUdpSocket.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/AsyncUdpSocket.m \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/AsyncUdpSocket.h

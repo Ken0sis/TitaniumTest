@@ -1,2 +1,2 @@
 dependencies: \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/main.m
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/main.m

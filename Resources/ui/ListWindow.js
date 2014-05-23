@@ -54,6 +54,12 @@ var getTableData = function(done) {
 	var row = null;
 	var todoItems = db.selectItems(done);
 
+var section1 = Ti.UI.createTableViewSection({
+	headerTitle:'Header 1',
+	backgroundColor: '#00ff00'
+});
+
+
 	for (var i = 0; i < todoItems.length; i++) {
 		row = Ti.UI.createTableViewRow({
 			id: todoItems[i].id,
@@ -63,8 +69,11 @@ var getTableData = function(done) {
 				fontWeight: 'bold'
 			}
 		});
-		data.push(row);
+		section1.add(row);
 	}
+	
+	data.push(section1);
+	
 	return data;
 };
 

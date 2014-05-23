@@ -1,4 +1,4 @@
 dependencies: \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/AudioStreamer/AudioStreamerCUR.m \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/AudioStreamer/AudioStreamerCUR.h \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/AudioStreamer/AudioStreamer.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/AudioStreamer/AudioStreamerCUR.m \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/AudioStreamer/AudioStreamerCUR.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/AudioStreamer/AudioStreamer.h

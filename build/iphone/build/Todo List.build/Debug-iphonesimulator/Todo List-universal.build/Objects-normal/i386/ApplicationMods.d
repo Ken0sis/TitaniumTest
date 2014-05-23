@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/ApplicationMods.m \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/ApplicationMods.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ApplicationMods.m \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ApplicationMods.h

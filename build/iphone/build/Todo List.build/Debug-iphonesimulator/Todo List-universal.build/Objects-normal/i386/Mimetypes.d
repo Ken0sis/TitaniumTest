@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/Mimetypes.m \
-  /Users/datnguyen/Desktop/Titanium/TodoList/build/iphone/Classes/Mimetypes.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/Mimetypes.m \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/Mimetypes.h
