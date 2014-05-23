@@ -54,27 +54,51 @@ var getTableData = function(done) {
 	var row = null;
 	var todoItems = db.selectItems(done);
 
-var section1 = Ti.UI.createTableViewSection({
-	headerTitle:'Header 1',
+catlist = [];
+
+for (var i=0; i < todoItems.length; i++) {
+
+	if (catlist.indexOf(todoItems[i].cat) == -1) 
+	{
+	catlist.push(todoItems[i].cat);
+	}
+}
+
+console.log(catlist);
+
+for (var i=0; i < catlist.length; i++) {
+	
+	var section = Ti.UI.createTableViewSection({
+	headerTitle:catlist[i],
 	backgroundColor: '#00ff00'
-});
-
-
-	for (var i = 0; i < todoItems.length; i++) {
-		row = Ti.UI.createTableViewRow({
-			id: todoItems[i].id,
-			title: todoItems[i].item,
+	});
+	
+	
+	
+	for (var j=0; j < todoItems.length; j++) {
+		
+		if (todoItems[j].cat == catlist[i])
+		{
+		var row = Ti.UI.createTableViewRow({
+			id: todoItems[j].id,    
+			title: todoItems[j].item,
 			color: '#000',
 			font: {
-				fontWeight: 'bold'
+			fontWeight: 'bold'
 			}
-		});
-		section1.add(row);
-	}
+			});
+		section.add(row);	
+		}
+    }
 	
-	data.push(section1);
-	
-	return data;
+	data.push(section);
+		
+}
+
+
+
+return data;
+
 };
 
 var createConfirmDialog = function(id, title, isDone) {
