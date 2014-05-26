@@ -70,8 +70,7 @@ for (var i=0; i < catlist.length; i++) {
 	
 	var section = Ti.UI.createTableViewSection({
 	headerTitle:catlist[i],
-	backgroundColor: '#00ff00',
-	headerView: '#00ff00'
+	backgroundColor: '#00ff00'
 	});
 	
 	for (var j=0; j < todoItems.length; j++) {
@@ -82,7 +81,11 @@ for (var i=0; i < catlist.length; i++) {
 		var label = Ti.UI.createLabel({
 			right: 10,
 			text: (i+1),
-			height: 30	
+			height: 30,
+			font: {
+			fontWeight: 'normal',
+			fontSize: 12
+			}
 		});
 			
 		var row = Ti.UI.createTableViewRow({
@@ -90,7 +93,8 @@ for (var i=0; i < catlist.length; i++) {
 			title: todoItems[j].item,
 			color: '#000',
 			font: {
-			fontWeight: 'bold'
+			fontWeight: 'normal',
+			fontSize: 12
 			}
 			});
 		row.add(label);
