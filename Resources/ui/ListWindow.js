@@ -48,6 +48,8 @@ exports.ListWindow = function(args) {
 	return self;
 };
 
+
+
 var getTableData = function(done) {
 	var db = require('db');
 	var data = [];
@@ -64,8 +66,6 @@ for (var i=0; i < todoItems.length; i++) {
 	}
 }
 
-console.log(catlist);
-
 for (var i=0; i < catlist.length; i++) {
 	
 	var section = Ti.UI.createTableViewSection({
@@ -73,12 +73,17 @@ for (var i=0; i < catlist.length; i++) {
 	backgroundColor: '#00ff00'
 	});
 	
-	
-	
 	for (var j=0; j < todoItems.length; j++) {
 		
 		if (todoItems[j].cat == catlist[i])
 		{
+			
+		var label = Ti.UI.createLabel({
+			right: 10,
+			text: (i+1),
+			height: 30	
+		});
+			
 		var row = Ti.UI.createTableViewRow({
 			id: todoItems[j].id,    
 			title: todoItems[j].item,
@@ -87,10 +92,11 @@ for (var i=0; i < catlist.length; i++) {
 			fontWeight: 'bold'
 			}
 			});
+		row.add(label);
 		section.add(row);	
 		}
     }
-	
+    
 	data.push(section);
 		
 }

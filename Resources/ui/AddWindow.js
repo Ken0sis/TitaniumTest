@@ -63,13 +63,13 @@ exports.AddWindow = function() {
 	return self;
 };
 
-var addTask = function(_item, _done, win) {
+var addTask = function(_item, _category, win) {
 	if (_item === '') {
 		alert('Please enter a task first');
 		return;
 	}
 
-	require('db').addItem(_item, _done);
+	require('db').addItem(_item, _category);
 	Ti.App.fireEvent('app:updateTables');
 	win.close();
 };
