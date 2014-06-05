@@ -38,7 +38,13 @@ exports.ListWindow = function(args) {
 	}
 
 	tableview.addEventListener('click', function(e) {
-		createConfirmDialog(e.row.id, e.row.title, isDone).show();
+		
+		console.log(e);
+		
+		if(e.source != "[object TiUIButton]") {
+			console.log("Not from button - fired");
+			createConfirmDialog(e.row.id, e.row.title, isDone).show();
+		}
 	});
 
 	Ti.App.addEventListener('app:updateTables', function() {
@@ -51,6 +57,7 @@ exports.ListWindow = function(args) {
 
 
 var getTableData = function(done) {
+	var AddWindow = require('ui/AddWindow').AddWindow;
 	var db = require('db');
 	var data = [];
 	var row = null;
@@ -78,14 +85,27 @@ for (var i=0; i < catlist.length; i++) {
 		if (todoItems[j].cat == catlist[i])
 		{
 			
-		var label = Ti.UI.createLabel({
+		var label = Ti.UI.createButton({
 			right: 10,
-			text: (i+1),
+			title: (i+1),
 			height: 30,
+			width: 100,
 			font: {
-			fontWeight: 'normal',
-			fontSize: 12
-			}
+				fontWeight: 'normal',
+				fontSize: 12, 
+			},
+			zIndex: 10,
+			backgroundColor: 'red',		
+		});
+		
+		label.addEventListener('click', function(e) {
+					console.log(e);
+
+		e.bubbles = false;
+		e.cancelBubble = false;
+
+		new AddWindow().open();
+			return false;
 		});
 			
 		var row = Ti.UI.createTableViewRow({
@@ -105,8 +125,6 @@ for (var i=0; i < catlist.length; i++) {
 	data.push(section);
 		
 }
-
-
 
 return data;
 
