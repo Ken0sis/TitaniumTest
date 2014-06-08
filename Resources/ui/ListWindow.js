@@ -103,7 +103,7 @@ var getTableData = function(done) {
 				}
 			);
 				
-			var row = Ti.UI.createTableViewRow({    //Crates row
+			var row = Ti.UI.createTableViewRow({    //Creates row
 				id: todoItems[j].id,    
 				title: todoItems[j].item,
 				color: '#000',

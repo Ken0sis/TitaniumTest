@@ -18,13 +18,15 @@ exports.AddWindow = function() {
 		addTask(itemField.value, categoryField.value, self);
 	});
 	
-	
+	var hint = function randomInt(max){
+  		return Math.floor(Math.random() * max) + 1;
+	};
 	
     var categoryField = Ti.UI.createTextField({
 		width: '300dp',
 		height: '45dp',
 		top: '80dp',
-		hintText: 'Category',
+		hintText: hint(10),
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
 		returnKeyType: Ti.UI.RETURNKEY_DONE
 	});
