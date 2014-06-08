@@ -38,11 +38,7 @@ exports.ListWindow = function(args) {
 	}
 
 	tableview.addEventListener('click', function(e) {
-		
-		console.log(e);
-		
 		if(e.source != "[object TiUIButton]") {
-			console.log("Not from button - fired");
 			createConfirmDialog(e.row.id, e.row.title, isDone).show();
 		}
 	});
@@ -62,69 +58,68 @@ var getTableData = function(done) {
 	var data = [];
 	var row = null;
 	var todoItems = db.selectItems(done);
+	var catlist = [];
 
-catlist = [];
+	//Create category list
 
-for (var i=0; i < todoItems.length; i++) {
-
-	if (catlist.indexOf(todoItems[i].cat) == -1) 
+	for (var i=0; i < todoItems.length; i++) 
 	{
-	catlist.push(todoItems[i].cat);
-	}
-}
-
-for (var i=0; i < catlist.length; i++) {
-	
-	var section = Ti.UI.createTableViewSection({
-	headerTitle:catlist[i],
-	backgroundColor: '#00ff00'
-	});
-	
-	for (var j=0; j < todoItems.length; j++) {
-		
-		if (todoItems[j].cat == catlist[i])
+		if (catlist.indexOf(todoItems[i].cat) == -1) 
 		{
-			
-		var label = Ti.UI.createButton({
-			right: 10,
-			title: (i+1),
-			height: 30,
-			width: 100,
-			font: {
-				fontWeight: 'normal',
-				fontSize: 12, 
-			},
-			zIndex: 10,
-			backgroundColor: 'red',		
-		});
-		
-		label.addEventListener('click', function(e) {
-					console.log(e);
-
-		e.bubbles = false;
-		e.cancelBubble = false;
-
-		new AddWindow().open();
-			return false;
-		});
-			
-		var row = Ti.UI.createTableViewRow({
-			id: todoItems[j].id,    
-			title: todoItems[j].item,
-			color: '#000',
-			font: {
-			fontWeight: 'normal',
-			fontSize: 12
-			}
-			});
-		row.add(label);
-		section.add(row);	
+		catlist.push(todoItems[i].cat);
 		}
-    }
-    
-	data.push(section);
+	}
+
+	//Create sections, create rows, and attach labels?
+
+	for (var i=0; i < catlist.length; i++)            //For each category, do this
+	{
+		var section = Ti.UI.createTableViewSection({
+		headerTitle:catlist[i],
+		backgroundColor: '#00ff00'
+		});
+	
+		for (var j=0; j < todoItems.length; j++)     //For each data item, do this
+		{
+			if (todoItems[j].cat == catlist[i])      //Creates label
+			{	
+			var label = Ti.UI.createButton({
+				right: 10,
+				title: (i+1),
+				height: 30,
+				width: 100,
+				font: {
+					fontWeight: 'normal',
+					fontSize: 12, 
+				},	
+			});
+			
+			label.addEventListener(
+				'click', 
+				function(e) 
+				{
+				new AddWindow().open();
+				return false;
+				}
+			);
+				
+			var row = Ti.UI.createTableViewRow({    //Crates row
+				id: todoItems[j].id,    
+				title: todoItems[j].item,
+				color: '#000',
+				font: {
+				fontWeight: 'normal',
+				fontSize: 12
+				}
+				});
+			row.add(label);
+			section.add(row);	
+			}
+	    }
+	    
+		data.push(section);
 		
-}
+	}
 
 return data;
 
@@ -134,17 +129,22 @@ var createConfirmDialog = function(id, title, isDone) {
 	var db = require('db');
 	var buttons, doneIndex, clickHandler;
 
-	if (isDone) {
+	if (isDone) 
+	{
 		buttons = ['Delete', 'Cancel'];
 		clickHandler = function(e) {
-			if (e.index === 0) {
+			if (e.index === 0) 
+			{
 				deleteItem(db, id, isDone);
 				Ti.App.fireEvent('app:updateTables');
 			}
 		};
-	} else {
+	} 
+	else 
+	{
 		buttons = ['Done', 'Delete', 'Cancel'];
-		clickHandler = function(e) {
+		clickHandler = function(e) 
+		{
 			if (e.index === 0) {
 				db.updateItem(id, 1);
 				Ti.App.fireEvent('app:updateTables');
