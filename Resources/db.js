@@ -4,29 +4,29 @@ exports.createDb = function() {
 	Ti.Database.install('todo.sqlite', DATABASE_NAME);
 };
 
-exports.selectItems = function(_done) {
+exports.selectItems = function(_Done) {
 	var retData = [];
 	var db = Ti.Database.open(DATABASE_NAME);
-	var rows = db.execute('select ROWID, * from todo where done = ?', _done);
+	var rows = db.execute('select ROWID, * from todo where Done = ?', _Done);
 	while (rows.isValidRow()) {
-		retData.push({item: rows.fieldByName('item'), cat: rows.fieldByName('category') ,id:rows.fieldByName('ROWID')});
+		retData.push({Item: rows.fieldByName('Item'), cat: rows.fieldByName('Category') ,id:rows.fieldByName('ROWID')});
 		rows.next();
 	}
 	db.close();
 	return retData;
 };
 
-exports.updateItem = function(_id, _done) { 
+exports.updateItem = function(_id, _Done) { 
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('update todo set done = ? where ROWID = ?', _done, _id);
-	var rows = mydb.execute('select * from todo where done = ?', _done);
+	mydb.execute('update todo set Done = ? where ROWID = ?', _Done, _id);
+	var rows = mydb.execute('select * from todo where Done = ?', _Done);
 	mydb.close();
 	return rows;
 };
 
-exports.addItem = function(_item, _category) {
+exports.addItem = function(_Item, _Category) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('insert into todo values (?,?,?)', _item, 0, _category);
+	mydb.execute('insert into todo values (?,?,?)', _Item, 0, _Category);
 	mydb.close();
 };
 

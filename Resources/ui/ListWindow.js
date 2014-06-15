@@ -52,15 +52,15 @@ exports.ListWindow = function(args) {
 
 
 
-var getTableData = function(done) {
+var getTableData = function(Done) {
 	var AddWindow = require('ui/AddWindow').AddWindow;
 	var db = require('db');
 	var data = [];
 	var row = null;
-	var todoItems = db.selectItems(done);
+	var todoItems = db.selectItems(Done);
 	var catlist = [];
 
-	//Create category list
+	//Create Category list
 
 	for (var i=0; i < todoItems.length; i++) 
 	{
@@ -72,14 +72,14 @@ var getTableData = function(done) {
 
 	//Create sections, create rows, and attach labels?
 
-	for (var i=0; i < catlist.length; i++)            //For each category, do this
+	for (var i=0; i < catlist.length; i++)            //For each Category, do this
 	{
 		var section = Ti.UI.createTableViewSection({
 		headerTitle:catlist[i],
 		backgroundColor: '#00ff00'
 		});
 	
-		for (var j=0; j < todoItems.length; j++)     //For each data item, do this
+		for (var j=0; j < todoItems.length; j++)     //For each data Item, do this
 		{
 			if (todoItems[j].cat == catlist[i])      //Creates label
 			{	
@@ -105,7 +105,7 @@ var getTableData = function(done) {
 				
 			var row = Ti.UI.createTableViewRow({    //Creates row
 				id: todoItems[j].id,    
-				title: todoItems[j].item,
+				title: todoItems[j].Item,
 				color: '#000',
 				font: {
 				fontWeight: 'normal',
@@ -127,7 +127,7 @@ return data;
 
 var createConfirmDialog = function(id, title, isDone) {
 	var db = require('db');
-	var buttons, doneIndex, clickHandler;
+	var buttons, DoneIndex, clickHandler;
 
 	if (isDone) 
 	{

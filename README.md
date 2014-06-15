@@ -1,6 +1,6 @@
 # Sample.Todo
 
-This is a Titanium Mobile sample app that creates a basic todo list. With this app you can maintain a listing of tasks to be completed, add to that list, and mark tasks as **done**. 
+This is a Titanium Mobile sample app that creates a basic todo list. With this app you can maintain a listing of tasks to be completed, add to that list, and mark tasks as **Done**. 
 
 ### Topics Covered
 
@@ -15,9 +15,9 @@ This is a Titanium Mobile sample app that creates a basic todo list. With this a
 ### SQL for pre-populated todo.sqlite file
 
 ```
-create table if not exists todo (item text, done integer);
-insert into todo (item,done) values ('Pick Up Laundry',0);
-insert into todo (item,done) values ('Go Food Shopping',0);
-insert into todo (item,done) values ('Call Mom',0);
-insert into todo (item,done) values ('Sleep',1);
+create table if not exists todo (Item text, Done integer);
+insert into todo (Item,Done) values ('Pick Up Laundry',0);
+insert into todo (Item,Done) values ('Go Food Shopping',0);
+insert into todo (Item,Done) values ('Call Mom',0);
+insert into todo (Item,Done) values ('Sleep',1);
 ```

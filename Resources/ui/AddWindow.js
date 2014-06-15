@@ -6,32 +6,32 @@ exports.AddWindow = function() {
 		backgroundColor: '#fff'
 	});
 	
-	var itemField = Ti.UI.createTextField({
+	var ItemField = Ti.UI.createTextField({
 		width: '300dp',
 		height: '45dp',
 		top: '20dp',
 		hintText: 'New Item',
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-		returnKeyType: Ti.UI.RETURNKEY_DONE
+		returnKeyType: Ti.UI.RETURNKEY_Done
 	});
-	itemField.addEventListener('return', function(e) {
-		addTask(itemField.value, categoryField.value, self);
+	ItemField.addEventListener('return', function(e) {
+		addTask(ItemField.value, CategoryField.value, self);
 	});
 	
 	var hint = function randomInt(max){
   		return Math.floor(Math.random() * max) + 1;
 	};
 	
-    var categoryField = Ti.UI.createTextField({
+    var CategoryField = Ti.UI.createTextField({
 		width: '300dp',
 		height: '45dp',
 		top: '80dp',
 		hintText: hint(10),
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-		returnKeyType: Ti.UI.RETURNKEY_DONE
+		returnKeyType: Ti.UI.RETURNKEY_Done
 	});
-	itemField.addEventListener('return', function(e) {
-		addTask(itemField.value, categoryField.value, self);
+	ItemField.addEventListener('return', function(e) {
+		addTask(ItemField.value, CategoryField.value, self);
 	});	
 	
 	
@@ -44,7 +44,7 @@ exports.AddWindow = function() {
 		top: '140dp'
 	});
 	addButton.addEventListener('click', function() {
-		addTask(itemField.value, categoryField.value, self);
+		addTask(ItemField.value, CategoryField.value, self);
 	});
 
 	var cancelButton = Ti.UI.createButton({
@@ -57,21 +57,21 @@ exports.AddWindow = function() {
 		self.close();
 	});
 
-	self.add(itemField);
-	self.add(categoryField);
+	self.add(ItemField);
+	self.add(CategoryField);
 	self.add(addButton);
 	self.add(cancelButton);
 
 	return self;
 };
 
-var addTask = function(_item, _category, win) {
-	if (_item === '') {
+var addTask = function(_Item, _Category, win) {
+	if (_Item === '') {
 		alert('Please enter a task first');
 		return;
 	}
 
-	require('db').addItem(_item, _category);
+	require('db').addItem(_Item, _Category);
 	Ti.App.fireEvent('app:updateTables');
 	win.close();
 };
