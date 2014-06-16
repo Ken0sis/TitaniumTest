@@ -26,7 +26,8 @@ exports.updateItem = function(_id, _Done) {
 
 exports.addItem = function(_Item, _Category, _HoursRemain, _DueDate) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('insert into todo (Item,Category,HourRemain,DueDate) values (?,?,?,?)', _Item, _Category, _HoursRemain, _DueDate);
+	var timeID = new Date().getTime();
+	mydb.execute('insert into todo (Item,Category,HourRemain,DueDate,TaskID) values (?,?,?,?,?)', _Item, _Category, _HoursRemain, _DueDate, timeID);
 	mydb.close();
 };
 

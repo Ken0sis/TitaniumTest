@@ -9,7 +9,7 @@ exports.selectItems = function(_Done) {
 	var db = Ti.Database.open(DATABASE_NAME);
 	var rows = db.execute('select ROWID, * from todo where Done = ?', _Done);
 	while (rows.isValidRow()) {
-		retData.push({Item: rows.fieldByName('Item'), cat: rows.fieldByName('Category') ,id:rows.fieldByName('ROWID')});
+		retData.push({Item: rows.fieldByName('Item'), cat: rows.fieldByName('TimeStamp') ,id:rows.fieldByName('ROWID')});
 		rows.next();
 	}
 	db.close();
@@ -26,7 +26,8 @@ exports.updateItem = function(_id, _Done) {
 
 exports.addItem = function(_Item, _Category, _HoursRemain, _DueDate) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('insert into todo (Item,Category,HourRemain,DueDate) values (?,?,?,?)', _Item, _Category, _HoursRemain, _DueDate);
+	var timeID = new Date().getTime();
+	mydb.execute('insert into todo (Item,Category,HourRemain,DueDate,TaskID) values (?,?,?,?,?)', _Item, _Category, _HoursRemain, _DueDate, timeID);
 	mydb.close();
 };
 
