@@ -101,12 +101,12 @@ exports.AddWindow = function() {
 	return self;
 };
 
-var addTask = function(_Item, _Category, _HoursRemain, _DueDate, win) {
+var addTask = function(_Item, _Category, _LoadSigma, _DueDate, win) {
 	if (_Item === '') {
 		alert('Please enter a task first');
 		return;
 	}
-	require('db').addItem(_Item, _Category, _HoursRemain, _DueDate);
+	require('db').addItem(_Item, _Category, _LoadSigma, _DueDate);
 	Ti.App.fireEvent('app:updateTables');
 	win.close();
 };

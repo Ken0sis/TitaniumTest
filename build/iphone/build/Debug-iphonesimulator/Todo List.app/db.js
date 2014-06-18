@@ -7,9 +7,9 @@ exports.createDb = function() {
 exports.selectItems = function(_Done) {
 	var retData = [];
 	var db = Ti.Database.open(DATABASE_NAME);
-	var rows = db.execute('select ROWID, * from todo where Done = ?', _Done);
+	var rows = db.execute('select * from todo where Done = ?', _Done);
 	while (rows.isValidRow()) {
-		retData.push({Item: rows.fieldByName('Item'), cat: rows.fieldByName('TimeStamp') ,id:rows.fieldByName('ROWID')});
+		retData.push({item: rows.fieldByName('Item'), cat: rows.fieldByName('TaskID') ,id: rows.fieldByName('TaskID')});
 		rows.next();
 	}
 	db.close();
@@ -24,10 +24,11 @@ exports.updateItem = function(_id, _Done) {
 	return rows;
 };
 
-exports.addItem = function(_Item, _Category, _HoursRemain, _DueDate) {
+
+exports.addItem = function(_Item, _Category, _LoadSigma, _DueDate) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	var timeID = new Date().getTime();
-	mydb.execute('insert into todo (Item,Category,HourRemain,DueDate,TaskID) values (?,?,?,?,?)', _Item, _Category, _HoursRemain, _DueDate, timeID);
+	var taskID = new Date().getTime();
+	mydb.execute('insert into todo (Item,Category,LoadSigma,DueDate,TaskID) values (?,?,?,?,?)', _Item, _Category, _LoadSigma, _DueDate, taskID);
 	mydb.close();
 };
 
@@ -35,4 +36,33 @@ exports.deleteItem = function(_id) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	mydb.execute('delete from todo where ROWID = ?', _id);
 	mydb.close();
+};
+
+exports.selectEdit = function(_taskID) {
+	var retData = [];
+	var db = Ti.Database.open(DATABASE_NAME);
+	var rows = db.execute('select * from todo where TaskID = ?', _taskID);
+	while (rows.isValidRow()) {
+		retData.push(
+		{ 
+			taskID: rows.fieldByName('TaskID'),
+			item: rows.fieldByName('Item'),
+			category: rows.fieldByName('Category'),
+			done: rows.fieldByName('Done'),
+			positionID: rows.fieldByName('PositionID'),
+			dueDate: rows.fieldByName('DueDate'),
+			loadSigma: rows.fieldByName('LoadSigma'),
+			workSigma: rows.fieldByName('WorkSigma'),
+			goalID: rows.fieldByName('GoalID'),
+			goalGuide: rows.fieldByName('GoalGuide'),
+			goalType: rows.fieldByName('GoalType'),
+			goalSigma: rows.fieldByName('GoalSigma'),
+			loadDelta: rows.fieldByName('LoadDelta'),
+			workDelta: rows.fieldByName('WorkDelta'),
+			dueDelta: rows.fieldByName('DueDelta') 
+		});
+		rows.next();
+	}
+	db.close();
+	return retData;
 };

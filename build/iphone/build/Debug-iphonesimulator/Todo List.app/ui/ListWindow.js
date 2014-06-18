@@ -54,8 +54,9 @@ exports.ListWindow = function(args) {
 
 var getTableData = function(Done) {
 	var AddWindow = require('ui/AddWindow').AddWindow;
+	var EditWindow = require('ui/EditWindow').EditWindow;
 	var db = require('db');
-	var data = [];
+	var data = [];    
 	var row = null;
 	var todoItems = db.selectItems(Done);
 	var catlist = [];
@@ -81,7 +82,10 @@ var getTableData = function(Done) {
 	
 		for (var j=0; j < todoItems.length; j++)     //For each data Item, do this
 		{
-			if (todoItems[j].cat == catlist[i])      //Creates label
+
+			var feedID = todoItems[j].id;
+			
+			if (todoItems[j].cat == catlist[i])      //Creates label with eventlistner
 			{	
 			var label = Ti.UI.createButton({
 				right: 10,
@@ -96,23 +100,24 @@ var getTableData = function(Done) {
 			
 			label.addEventListener(
 				'click', 
-				function(e) 
+				function() 
 				{
-				new AddWindow().open();
+				new EditWindow(feedID).open();        
 				return false;
 				}
 			);
 				
 			var row = Ti.UI.createTableViewRow({    //Creates row
 				id: todoItems[j].id,    
-				title: todoItems[j].Item,
+				title: todoItems[j].item,
 				color: '#000',
 				font: {
 				fontWeight: 'normal',
 				fontSize: 12
 				}
 				});
-			row.add(label);
+
+			row.add(label);							//Add labels to the rows
 			section.add(row);	
 			}
 	    }
@@ -128,6 +133,10 @@ return data;
 var createConfirmDialog = function(id, title, isDone) {
 	var db = require('db');
 	var buttons, DoneIndex, clickHandler;
+     
+
+	//Creates buttons and clickhandler.  Buttons and clickhandler are already declared as variables.
+	//Buttons is just a list and clickhandler is a function.
 
 	if (isDone) 
 	{
@@ -136,7 +145,7 @@ var createConfirmDialog = function(id, title, isDone) {
 			if (e.index === 0) 
 			{
 				deleteItem(db, id, isDone);
-				Ti.App.fireEvent('app:updateTables');
+				Ti.App.fireEvent('app:updateTables');       
 			}
 		};
 	} 
@@ -154,6 +163,8 @@ var createConfirmDialog = function(id, title, isDone) {
 			}
 		};
 	}
+
+	//This now creates the window for the buttons and clickhandler to act in.
 
 	var confirm = Ti.UI.createAlertDialog({
 		title: 'Change Task Status',
