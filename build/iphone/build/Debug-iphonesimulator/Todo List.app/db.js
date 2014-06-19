@@ -9,7 +9,7 @@ exports.selectItems = function(_Done) {
 	var db = Ti.Database.open(DATABASE_NAME);
 	var rows = db.execute('select * from todo where Done = ?', _Done);
 	while (rows.isValidRow()) {
-		retData.push({item: rows.fieldByName('Item'), cat: rows.fieldByName('TaskID') ,id: rows.fieldByName('TaskID')});
+		retData.push({item: rows.fieldByName('Item'), cat: rows.fieldByName('Category') ,id: rows.fieldByName('TaskID')});
 		rows.next();
 	}
 	db.close();

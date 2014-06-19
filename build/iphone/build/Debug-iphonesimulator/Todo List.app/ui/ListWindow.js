@@ -83,13 +83,11 @@ var getTableData = function(Done) {
 		for (var j=0; j < todoItems.length; j++)     //For each data Item, do this
 		{
 
-			var feedID = todoItems[j].id;
-			
 			if (todoItems[j].cat == catlist[i])      //Creates label with eventlistner
 			{	
 			var label = Ti.UI.createButton({
 				right: 10,
-				title: (i+1),
+				title: todoItems[j].id,
 				height: 30,
 				width: 100,
 				font: {
@@ -98,6 +96,8 @@ var getTableData = function(Done) {
 				},	
 			});
 			
+			feedID = todoItems[j].id;
+
 			label.addEventListener(
 				'click', 
 				function() 

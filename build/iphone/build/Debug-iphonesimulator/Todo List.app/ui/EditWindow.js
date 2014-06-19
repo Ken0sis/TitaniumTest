@@ -4,10 +4,10 @@ exports.EditWindow = function(args)
 //Call required database
 
 	var db = require('db');
-	var record = db.selectEdit(1403082689713);
-	var tester = record.item;
+	var record = db.selectEdit(args);
+	var tester = record[0].taskID;
 
-	Ti.API.info('tester');
+	Ti.API.info(tester);
 
 //Create window
 
@@ -24,7 +24,7 @@ exports.EditWindow = function(args)
 		width: '300dp',
 		height: '45dp',
 		top: '70dp',
-		hintText: tester,
+		hintText: record[0].taskID,
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
 		returnKeyType: Ti.UI.RETURNKEY_Done
 	});
