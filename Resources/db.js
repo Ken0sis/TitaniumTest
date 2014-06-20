@@ -9,7 +9,7 @@ exports.selectItems = function(_Done) {
 	var db = Ti.Database.open(DATABASE_NAME);
 	var rows = db.execute('select * from todo where Done = ?', _Done);
 	while (rows.isValidRow()) {
-		retData.push({item: rows.fieldByName('Item'), cat: rows.fieldByName('Category') ,id: rows.fieldByName('TaskID')});
+		retData.push({item: rows.fieldByName('Item'), cat: rows.fieldByName('Category') ,id: rows.fieldByName('TaskID'), done: rows.fieldByName('Done')});
 		rows.next();
 	}
 	db.close();
@@ -18,7 +18,7 @@ exports.selectItems = function(_Done) {
 
 exports.updateItem = function(_id, _Done) { 
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('update todo set Done = ? where ROWID = ?', _Done, _id);
+	mydb.execute('update todo set Done = ? where TaskID = ?', _Done, _id);
 	var rows = mydb.execute('select * from todo where Done = ?', _Done);
 	mydb.close();
 	return rows;
@@ -34,7 +34,7 @@ exports.addItem = function(_Item, _Category, _LoadSigma, _DueDate) {
 
 exports.deleteItem = function(_id) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('delete from todo where ROWID = ?', _id);
+	mydb.execute('delete from todo where TaskID = ?', _id);
 	mydb.close();
 };
 

@@ -84,32 +84,37 @@ var getTableData = function(Done) {
 		{
 
 			if (todoItems[j].cat == catlist[i])      //Creates label with eventlistner
-			{	
+			{
+
+			var feedID = todoItems[j].id;
+
 			var label = Ti.UI.createButton({
 				right: 10,
-				title: todoItems[j].id,
+				title: todoItems[j].done,
+				labelid: todoItems[j].id,
 				height: 30,
 				width: 100,
 				font: {
 					fontWeight: 'normal',
 					fontSize: 12, 
-				},	
+				}	
 			});
-			
-			feedID = todoItems[j].id;
+
+			Ti.API.info(todoItems[j].id, todoItems[j].done);
 
 			label.addEventListener(
 				'click', 
-				function() 
+				function(e) 
 				{
-				new EditWindow(feedID).open();        
+				new EditWindow(e.source.labelid).open();        
 				return false;
 				}
 			);
 				
 			var row = Ti.UI.createTableViewRow({    //Creates row
-				id: todoItems[j].id,    
+				id: feedID,    
 				title: todoItems[j].item,
+				done: todoItems[j].done,
 				color: '#000',
 				font: {
 				fontWeight: 'normal',

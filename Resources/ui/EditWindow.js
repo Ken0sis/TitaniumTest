@@ -6,13 +6,26 @@ exports.EditWindow = function(args)
 	var db = require('db');
 	var record = db.selectEdit(args);
 
+	Ti.API.info(args);
+
+
 //Create window
 
-	var self = Titanium.UI.createWindow(
+	var self = Ti.UI.createWindow(
 	{
-    title:'Edit Item',
+	title: 'Add Item',
+	navBarHidden: false,
     backgroundColor:'#fff',
-    navBarHidden: false,
+	});
+
+	var cancelButton = Ti.UI.createButton({
+		title: 'Cancel',
+		width: '300dp',
+		height: '40dp',
+		top: '400dp'
+	});
+	cancelButton.addEventListener('click', function(e) {
+		self.close();
 	});
 
 //Test display
@@ -27,6 +40,7 @@ exports.EditWindow = function(args)
 	});
 
 	self.add(ItemField);
+	self.add(cancelButton);
 
 	return self;
 
