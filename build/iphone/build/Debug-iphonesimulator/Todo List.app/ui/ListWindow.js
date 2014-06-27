@@ -78,7 +78,9 @@ var getTableData = function(Done) {
 	{
 		var section = Ti.UI.createTableViewSection({
 		headerTitle:catlist[i],
-		backgroundColor: '#00ff00'
+		font: {
+			fontSize: 18
+		}
 		});
 	
 		for (var j=0; j < todoItems.length; j++)     //For each data Item, do this
@@ -92,10 +94,10 @@ var getTableData = function(Done) {
 				title: todoItems[j].goalGuide,
 				labelID: todoItems[j].id,
 				height: 30,
-				width: 30,
+				width: 15,
 				font: {
 					fontWeight: 'normal',
-					fontSize: 12, 
+					fontSize: 19, 
 				}	
 			});
 
@@ -109,19 +111,46 @@ var getTableData = function(Done) {
 				return false;
 				}
 			);
+
+			
+			var title = Ti.UI.createLabel({
+				text: todoItems[j].item,
+				color: 'black',
+				font: {
+					fontSize: 14,
+					fontFamily: 'Helvetica'
+				},
+				left: 14,
+				top: 5,
+				height: 15
+			});
+
+			var subtitle = Ti.UI.createLabel({
+				text: '('+todoItems[j].hours+' hrs), ('+todoItems[j].due+')',
+				color: '#0080f0',
+				font: {
+					fontStyle: 'italic',
+					fontSize: 9
+				},
+				left: 15,
+				top: 22,
+				bottom: 6,
+				height: 15
+			});
 				
 			var row = Ti.UI.createTableViewRow({    //Creates row
 				id: todoItems[j].id,    
-				title: todoItems[j].item,
 				done: todoItems[j].done,
 				color: '#000',
 				font: {
-				fontWeight: 'normal',
-				fontSize: 12
-				}
+					fontWeight: 'normal',
+					fontSize: 13
+					}
 				});
 
 			row.add(label);							//Add labels to the rows
+			row.add(title);	
+			row.add(subtitle);					
 			section.add(row);	
 			}
 	    }
