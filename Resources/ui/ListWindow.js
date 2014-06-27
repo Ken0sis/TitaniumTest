@@ -10,6 +10,7 @@ exports.ListWindow = function(args) {
 	tableview.setData(getTableData(isDone));
 
 	// Need to add a special 'add' button in the 'Todo' window for Mobile Web
+
 	if (isDone || platform !== 'mobileweb') {
 		self.add(tableview);
 	}
@@ -86,14 +87,12 @@ var getTableData = function(Done) {
 			if (todoItems[j].cat == catlist[i])      //Creates label with eventlistner
 			{
 
-			var feedID = todoItems[j].id;
-
 			var label = Ti.UI.createButton({
 				right: 10,
-				title: todoItems[j].done,
-				labelid: todoItems[j].id,
+				title: todoItems[j].goalGuide,
+				labelID: todoItems[j].id,
 				height: 30,
-				width: 100,
+				width: 30,
 				font: {
 					fontWeight: 'normal',
 					fontSize: 12, 
@@ -106,13 +105,13 @@ var getTableData = function(Done) {
 				'click', 
 				function(e) 
 				{
-				new EditWindow(e.source.labelid).open();        
+				new EditWindow(e.source.labelID).open();        
 				return false;
 				}
 			);
 				
 			var row = Ti.UI.createTableViewRow({    //Creates row
-				id: feedID,    
+				id: todoItems[j].id,    
 				title: todoItems[j].item,
 				done: todoItems[j].done,
 				color: '#000',

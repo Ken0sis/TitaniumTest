@@ -1,22 +1,20 @@
 exports.EditWindow = function(args)
 {
 	
-//Call required database
+//Call required database and creat window
 
 	var db = require('db');
 	var record = db.selectEdit(args);
 
 	Ti.API.info(args);
 
-
-//Create window
-
 	var self = Ti.UI.createWindow(
 	{
 	title: 'Add Item',
-	navBarHidden: false,
     backgroundColor:'#fff',
 	});
+
+//Create buttons
 
 	var cancelButton = Ti.UI.createButton({
 		title: 'Cancel',
@@ -28,18 +26,25 @@ exports.EditWindow = function(args)
 		self.close();
 	});
 
-//Test display
 
-	var ItemField = Ti.UI.createTextField({
-		width: '300dp',
+
+
+//Create fields
+
+	var goalField = Ti.UI.createLabel({
+		width: '200dp',
 		height: '45dp',
 		top: '70dp',
-		hintText: record[0].taskID,
-		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+		left:'10dp',
+		text: record[0].goalGuide,
+		textAlign: 'center',
+		borderColor: '#0080f0',
 		returnKeyType: Ti.UI.RETURNKEY_Done
 	});
 
-	self.add(ItemField);
+//Add elements
+
+	self.add(goalField);
 	self.add(cancelButton);
 
 	return self;

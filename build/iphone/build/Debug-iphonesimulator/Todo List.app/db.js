@@ -9,7 +9,7 @@ exports.selectItems = function(_Done) {
 	var db = Ti.Database.open(DATABASE_NAME);
 	var rows = db.execute('select * from todo where Done = ?', _Done);
 	while (rows.isValidRow()) {
-		retData.push({item: rows.fieldByName('Item'), cat: rows.fieldByName('Category') ,id: rows.fieldByName('TaskID'), done: rows.fieldByName('Done')});
+		retData.push({item: rows.fieldByName('Item'), cat: rows.fieldByName('Category') ,id: rows.fieldByName('TaskID'), done: rows.fieldByName('Done'), goalGuide: rows.fieldByName('GoalGuide')});
 		rows.next();
 	}
 	db.close();
@@ -28,7 +28,8 @@ exports.updateItem = function(_id, _Done) {
 exports.addItem = function(_Item, _Category, _LoadSigma, _DueDate) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	var taskID = new Date().getTime();
-	mydb.execute('insert into todo (Item,Category,LoadSigma,DueDate,TaskID) values (?,?,?,?,?)', _Item, _Category, _LoadSigma, _DueDate, taskID);
+	var dummyGoal = Math.floor(Math.random() * 10) + 1;
+	mydb.execute('insert into todo (Item,Category,LoadSigma,DueDate,TaskID, GoalGuide) values (?,?,?,?,?,?)', _Item, _Category, _LoadSigma, _DueDate, taskID, dummyGoal);
 	mydb.close();
 };
 
