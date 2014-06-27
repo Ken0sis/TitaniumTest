@@ -79,7 +79,7 @@ var getTableData = function(Done) {
 		var section = Ti.UI.createTableViewSection({
 		headerTitle:catlist[i],
 		font: {
-			fontSize: 18
+			fontSize: 20
 		}
 		});
 	
@@ -120,7 +120,7 @@ var getTableData = function(Done) {
 					fontSize: 14,
 					fontFamily: 'Helvetica'
 				},
-				left: 14,
+				left: 15,
 				top: 5,
 				height: 15
 			});
@@ -132,9 +132,9 @@ var getTableData = function(Done) {
 					fontStyle: 'italic',
 					fontSize: 9
 				},
-				left: 15,
+				left: 16,
 				top: 22,
-				bottom: 6,
+				bottom: 5,
 				height: 15
 			});
 				
