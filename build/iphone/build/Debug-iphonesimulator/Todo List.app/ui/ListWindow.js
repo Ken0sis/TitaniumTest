@@ -18,7 +18,7 @@ exports.ListWindow = function(args) {
 	if (!isDone) {
 		if (platform !== 'android') {
 			var addBtn = Ti.UI.createButton({
-				title:'+'
+				title:'+ '
 			});
 			addBtn.addEventListener('click', function() {
 				new AddWindow().open();
@@ -94,7 +94,7 @@ var getTableData = function(Done) {
 				title: todoItems[j].goalGuide,
 				labelID: todoItems[j].id,
 				height: 30,
-				width: 15,
+				width: 25,
 				font: {
 					fontWeight: 'normal',
 					fontSize: 19, 

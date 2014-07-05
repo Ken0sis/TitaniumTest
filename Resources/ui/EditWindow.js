@@ -10,8 +10,9 @@ exports.EditWindow = function(args)
 
 	var self = Ti.UI.createWindow(
 	{
-	title: 'Add Item',
-    backgroundColor:'#fff',
+		title: 'Edit Item',
+    	backgroundColor:'#fff',
+    	tabBarHidden: true
 	});
 
 //Create buttons
@@ -23,11 +24,8 @@ exports.EditWindow = function(args)
 		top: '400dp'
 	});
 	cancelButton.addEventListener('click', function(e) {
-		self.close();
+		tabGroup.close();
 	});
-
-
-
 
 //Create fields
 
@@ -47,7 +45,23 @@ exports.EditWindow = function(args)
 	self.add(goalField);
 	self.add(cancelButton);
 
-	return self;
+//Add tab elements together
+
+	var tabGroup = Titanium.UI.createTabGroup();
+
+	var tabWindow = Titanium.UI.createTab(
+	{ 
+    	title:'Edit Item',
+    	window:self
+	});
+
+	tabGroup.addTab(tabWindow);
+
+	
+//Set to display
+
+	tabGroup.currentTab = tabWindow;
+	return tabGroup;
 
 
 //Write function to grab all relevant data about Item

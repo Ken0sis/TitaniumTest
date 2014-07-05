@@ -22,8 +22,8 @@ else {
 				icon: 'images/KS_nav_ui.png',
 				window: new ListWindow({
 					title: 'Todo',
-					backgroundColor: '#fff',
 					navBarHidden: false,
+					barColor: '#FFFFFF',
 					isDone: 0,
 					activity: {
 						onCreateOptionsMenu: function(e) {
