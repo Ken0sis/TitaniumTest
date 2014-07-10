@@ -1,12 +1,14 @@
 exports.EditWindow = function(args)
 {
 	
-//Call required database and creat window
+//Check input pass
+
+	Ti.API.info(args);
+
+//Call required database and create window
 
 	var db = require('db');
 	var record = db.selectEdit(args);
-
-	Ti.API.info(args);
 
 	var self = Ti.UI.createWindow(
 	{
@@ -56,11 +58,10 @@ exports.EditWindow = function(args)
 	});
 
 	tabGroup.addTab(tabWindow);
-
+	tabGroup.currentTab = tabWindow
 	
 //Set to display
-
-	tabGroup.currentTab = tabWindow;
+	
 	return tabGroup;
 
 
