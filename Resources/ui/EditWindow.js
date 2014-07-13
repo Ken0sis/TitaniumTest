@@ -58,7 +58,7 @@ exports.EditWindow = function(args)
 	});
 
 	tabGroup.addTab(tabWindow);
-	tabGroup.currentTab = tabWindow
+	tabGroup.currentTab = tabWindow;
 	
 //Set to display
 	
