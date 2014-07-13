@@ -23,7 +23,7 @@ else {
 				window: new ListWindow({
 					title: 'Todo',
 					navBarHidden: false,
-					barColor: '#FFFFFF',
+					setBarColor: '#FFFFFF',
 					isDone: 0,
 					activity: {
 						onCreateOptionsMenu: function(e) {
