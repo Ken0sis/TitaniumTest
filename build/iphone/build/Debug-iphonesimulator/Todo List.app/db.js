@@ -53,14 +53,18 @@ exports.selectEdit = function(_taskID) {
 			positionID: rows.fieldByName('PositionID'),
 			dueDate: rows.fieldByName('DueDate'),
 			loadSigma: rows.fieldByName('LoadSigma'),
+			loadDelta: rows.fieldByName('LoadDelta'),
 			workSigma: rows.fieldByName('WorkSigma'),
+			workDelta: rows.fieldByName('WorkDelta'),
 			goalID: rows.fieldByName('GoalID'),
 			goalGuide: rows.fieldByName('GoalGuide'),
 			goalType: rows.fieldByName('GoalType'),
-			goalSigma: rows.fieldByName('GoalSigma'),
-			loadDelta: rows.fieldByName('LoadDelta'),
-			workDelta: rows.fieldByName('WorkDelta'),
-			dueDelta: rows.fieldByName('DueDelta') 
+			dueDelta: rows.fieldByName('DueDelta'),
+			sprintID: rows.fieldByName('SprintID'),
+			goalReward: rows.fieldByName('GoalReward'),
+			sprintReward: rows.fieldByName('SprintReward'),
+			earlyReward: rows.fieldByName('EarlyReward'),
+			comboReward: rows.fieldByName('ComboReward'),
 		});
 		rows.next();
 	}

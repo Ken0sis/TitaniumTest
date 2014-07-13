@@ -133,8 +133,8 @@ var getTableData = function(Done) {
 					fontSize: 9
 				},
 				left: 16,
-				top: 22,
-				bottom: 5,
+				top: 24,
+				bottom: 6,
 				height: 15
 			});
 				
