@@ -60,11 +60,19 @@ exports.selectEdit = function(_taskID) {
 			goalGuide: rows.fieldByName('GoalGuide'),
 			goalType: rows.fieldByName('GoalType'),
 			dueDelta: rows.fieldByName('DueDelta'),
+<<<<<<< HEAD
 			sprintID: rows.fieldByName('SprintID'),
 			goalReward: rows.fieldByName('GoalReward'),
 			sprintReward: rows.fieldByName('SprintReward'),
 			earlyReward: rows.fieldByName('EarlyReward'),
 			comboReward: rows.fieldByName('ComboReward'),
+=======
+			sprintID: rows.fieldbyName('SprintID'),
+			dayReward: rows.fieldbyName('DayReward'),
+			sprintReward: rows.fieldbyName('SprintReward'),
+			earlyReward: rows.fieldbyName('EarlyReward'),
+			comboReward: rows.fieldbyName('ComboReward'),
+>>>>>>> FETCH_HEAD
 		});
 		rows.next();
 	}
