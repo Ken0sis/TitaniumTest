@@ -5,6 +5,9 @@ exports.ListWindow = function(args) {
 	var AddWindow = require('ui/AddWindow').AddWindow;
 	var self = Ti.UI.createWindow(args);
 	var tableview = Ti.UI.createTableView();
+	var navView = Ti.UI.createView({
+		width: Titanium.UI.SIZE
+	});
 	var isDone = args.isDone;
 
 	tableview.setData(getTableData(isDone));
@@ -16,24 +19,37 @@ exports.ListWindow = function(args) {
 	}
 
 	if (!isDone) {
+
 		if (platform !== 'android') {
 			var addBtn = Ti.UI.createButton({
-				title:'+ '
+				title:'+',
+				right:0,
+				width: Titanium.UI.SIZE
 			});
+			var rewardBtn = Titanium.UI.createLabel({
+				text:'$125',
+				right: 30,
+				width: Titanium.UI.SIZE
+			});
+
 			addBtn.addEventListener('click', function() {
 				new AddWindow().open();
 			});
-			if (platform === 'mobileweb') {
-				self.layout = 'vertical';
-				addBtn.height = 40;
-				addBtn.width = 40;
-				addBtn.top = 0;
-				addBtn.right = 10;
-				self.add(addBtn);
-				self.add(tableview);
+
+		if (platform === 'mobileweb') {
+			self.layout = 'vertical';
+			addBtn.height = 40;
+			addBtn.width = 40;
+			addBtn.top = 0;
+			addBtn.right = 10;
+			self.add(addBtn);
+			self.add(tableview);
 			}
-			else{
-				self.rightNavButton = addBtn;
+			else
+			{
+			navView.add(addBtn);
+			navView.add(rewardBtn);
+			self.setRightNavButton(navView);
 			}
 		}
 	}
@@ -133,7 +149,7 @@ var getTableData = function(Done) {
 					fontSize: 9
 				},
 				left: 16,
-				top: 24,
+				top: 23,
 				bottom: 6,
 				height: 15
 			});
