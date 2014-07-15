@@ -92,7 +92,24 @@ exports.selectByID = function(_taskID) {
 	return retData;
 };
 
-exports.RecordReward = function (_id, _type, _value) {
+
+exports.getTotalRewards = function () {
+	var mydb = Ti.Database.open(DATABASE_NAME);
+	var retData = [];
+	var TotalReward = mydb.execute('select sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal) from rewards');
+	while (TotalReward.isValidRow()) {
+		retData.push(
+		{
+			results: TotalReward.fieldByName('sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal)')
+		});
+		TotalReward.next();
+	}
+	mydb.close();
+	return retData;
+};
+
+
+exports.updateRewards = function (_id, _type, _value) {
 	var mydb = Ti.Database.open('rewards');
 	
 
