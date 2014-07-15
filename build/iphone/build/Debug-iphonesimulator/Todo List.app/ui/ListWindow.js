@@ -5,10 +5,14 @@ exports.ListWindow = function(args) {
 	var AddWindow = require('ui/AddWindow').AddWindow;
 	var self = Ti.UI.createWindow(args);
 	var tableview = Ti.UI.createTableView();
-	var navView = Ti.UI.createView({
-		width: Titanium.UI.SIZE
-	});
 	var isDone = args.isDone;
+	var navView = Ti.UI.createView({
+		width: 20,
+		horizontalWrap: 'false',
+		layout: 'horizontal',
+		right:0,
+		left: 0,
+	});
 
 	tableview.setData(getTableData(isDone));
 
@@ -24,12 +28,7 @@ exports.ListWindow = function(args) {
 			var addBtn = Ti.UI.createButton({
 				title:'+',
 				right:0,
-				width: Titanium.UI.SIZE
-			});
-			var rewardBtn = Titanium.UI.createLabel({
-				text:'$125',
-				right: 30,
-				width: Titanium.UI.SIZE
+				width: Titanium.UI.SIZE,
 			});
 
 			addBtn.addEventListener('click', function() {
@@ -48,7 +47,6 @@ exports.ListWindow = function(args) {
 			else
 			{
 			navView.add(addBtn);
-			navView.add(rewardBtn);
 			self.setRightNavButton(navView);
 			}
 		}
@@ -75,16 +73,16 @@ var getTableData = function(Done) {
 	var db = require('db');
 	var data = [];    
 	var row = null;
-	var todoItems = db.selectItems(Done);
+	var todoItems = db.selectByDone(Done);
 	var catlist = [];
 
 	//Create Category list
 
 	for (var i=0; i < todoItems.length; i++) 
 	{
-		if (catlist.indexOf(todoItems[i].cat) == -1) 
+		if (catlist.indexOf(todoItems[i].category) == -1) 
 		{
-		catlist.push(todoItems[i].cat);
+		catlist.push(todoItems[i].category);
 		}
 	}
 
@@ -102,13 +100,14 @@ var getTableData = function(Done) {
 		for (var j=0; j < todoItems.length; j++)     //For each data Item, do this
 		{
 
-			if (todoItems[j].cat == catlist[i])      //Creates label with eventlistner
+			if (todoItems[j].category == catlist[i])      //Create labels with eventlistner
 			{
 
 			var label = Ti.UI.createButton({
 				right: 10,
 				title: todoItems[j].goalGuide,
-				labelID: todoItems[j].id,
+				labelID: todoItems[j].taskID,
+				labelItem: todoItems[j].item,
 				height: 30,
 				width: 25,
 				font: {
@@ -117,18 +116,17 @@ var getTableData = function(Done) {
 				}	
 			});
 
-			Ti.API.info(todoItems[j].id, todoItems[j].done);
+			Ti.API.info(todoItems[j].taskID, todoItems[j].done);
 
 			label.addEventListener(
 				'click', 
 				function(e) 
 				{
-				new EditWindow(e.source.labelID).open();        
+				new EditWindow(e.source.labelID, e.source.labelItem).open();        
 				return false;
 				}
 			);
 
-			
 			var title = Ti.UI.createLabel({
 				text: todoItems[j].item,
 				color: 'black',
@@ -142,7 +140,7 @@ var getTableData = function(Done) {
 			});
 
 			var subtitle = Ti.UI.createLabel({
-				text: '('+todoItems[j].hours+' hrs), ('+todoItems[j].due+')',
+				text: '('+todoItems[j].loadSigma+' hrs), ('+todoItems[j].dueDate+')',
 				color: '#0080f0',
 				font: {
 					fontStyle: 'italic',
@@ -154,8 +152,8 @@ var getTableData = function(Done) {
 				height: 15
 			});
 				
-			var row = Ti.UI.createTableViewRow({    //Creates row
-				id: todoItems[j].id,    
+			var row = Ti.UI.createTableViewRow({    //Create row
+				id: todoItems[j].taskID,    
 				done: todoItems[j].done,
 				color: '#000',
 				font: {

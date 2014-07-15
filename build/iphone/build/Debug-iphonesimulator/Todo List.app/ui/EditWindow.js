@@ -1,14 +1,14 @@
-exports.EditWindow = function(args)
+exports.EditWindow = function(_id, _item)
 {
 	
 //Check input pass
 
-	Ti.API.info(args);
+	Ti.API.info(_id);
 
-//Call required database and create window
+//Call required database and create visual elements
 
 	var db = require('db');
-	var record = db.selectEdit(args);
+	var record = db.selectByID(_id);
 
 	var self = Ti.UI.createWindow(
 	{
@@ -17,7 +17,19 @@ exports.EditWindow = function(args)
     	tabBarHidden: true
 	});
 
-//Create buttons
+	var navView = Ti.UI.createView({
+		width: Titanium.UI.SIZE,
+		horizontalWrap: 'false',
+		layout: 'horizontal',
+		right:0,
+		left: 0,
+	});
+
+	var rewardBtn = Ti.UI.createLabel ({
+		text: '$125',
+		right: 0,
+		width: Titanium.UI.SIZE,
+	});
 
 	var cancelButton = Ti.UI.createButton({
 		title: 'Cancel',
@@ -44,6 +56,8 @@ exports.EditWindow = function(args)
 
 //Add elements
 
+	navView.add(rewardBtn);
+	self.setRightNavButton(navView);
 	self.add(goalField);
 	self.add(cancelButton);
 

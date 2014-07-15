@@ -4,12 +4,32 @@ exports.createDb = function() {
 	Ti.Database.install('todo.sqlite', DATABASE_NAME);
 };
 
-exports.selectItems = function(_Done) {
+exports.selectByDone = function(_Done) {
 	var retData = [];
 	var db = Ti.Database.open(DATABASE_NAME);
 	var rows = db.execute('select * from todo where Done = ?', _Done);
 	while (rows.isValidRow()) {
-		retData.push({item: rows.fieldByName('Item'), cat: rows.fieldByName('Category') ,id: rows.fieldByName('TaskID'), done: rows.fieldByName('Done'), goalGuide: rows.fieldByName('GoalGuide'), due: rows.fieldByName('DueDate'), hours: rows.fieldByName('LoadSigma')});
+		retData.push({
+			taskID: rows.fieldByName('TaskID'),
+			item: rows.fieldByName('Item'),
+			category: rows.fieldByName('Category'),
+			done: rows.fieldByName('Done'),
+			positionID: rows.fieldByName('PositionID'),
+			dueDate: rows.fieldByName('DueDate'),
+			loadSigma: rows.fieldByName('LoadSigma'),
+			loadDelta: rows.fieldByName('LoadDelta'),
+			workSigma: rows.fieldByName('WorkSigma'),
+			workDelta: rows.fieldByName('WorkDelta'),
+			goalID: rows.fieldByName('GoalID'),
+			goalGuide: rows.fieldByName('GoalGuide'),
+			goalType: rows.fieldByName('GoalType'),
+			dueDelta: rows.fieldByName('DueDelta'),
+			sprintID: rows.fieldByName('SprintID'),
+			goalReward: rows.fieldByName('GoalReward'),
+			sprintReward: rows.fieldByName('SprintReward'),
+			earlyReward: rows.fieldByName('EarlyReward'),
+			comboReward: rows.fieldByName('ComboReward'),
+		});
 		rows.next();
 	}
 	db.close();
@@ -39,7 +59,7 @@ exports.deleteItem = function(_id) {
 	mydb.close();
 };
 
-exports.selectEdit = function(_taskID) {
+exports.selectByID = function(_taskID) {
 	var retData = [];
 	var db = Ti.Database.open(DATABASE_NAME);
 	var rows = db.execute('select * from todo where TaskID = ?', _taskID);
@@ -70,4 +90,13 @@ exports.selectEdit = function(_taskID) {
 	}
 	db.close();
 	return retData;
+};
+
+exports.RecordReward = function (_id, _type, _value) {
+	var mydb = Ti.Database.open('rewards');
+	
+
+	if (_type = '');
+	mydb.execute('insert into reward (Item,Category,LoadSigma,DueDate,TaskID, GoalGuide) values (?,?,?,?,?,?)', _Item, _Category, _LoadSigma, _DueDate, taskID, dummyGoal);
+	mydb.close();
 };
