@@ -10,8 +10,9 @@ exports.EditWindow = function(_id, _item)
 	var db = require('db');
 	var record = db.selectByID(_id);
 	var totalRewards = db.getTotalRewards();
+	var updateRewards = db.updateRewards();
 
-	Ti.API.info(totalRewards[0].results);
+	Ti.API.info(totalRewards[0]);
 
 	var self = Ti.UI.createWindow(
 	{
