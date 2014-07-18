@@ -9,10 +9,9 @@ exports.EditWindow = function(_id, _item)
 
 	var db = require('db');
 	var record = db.selectByID(_id);
-	var totalRewards = db.getTotalRewards();
-	var updateRewards = db.updateRewards();
+	var getTotalRewards = db.getTotalRewards();
 
-	Ti.API.info(totalRewards[0]);
+	Ti.API.info(getTotalRewards);
 
 	var self = Ti.UI.createWindow(
 	{
@@ -29,11 +28,17 @@ exports.EditWindow = function(_id, _item)
 		left: 0,
 	});
 
-	var rewardBtn = Ti.UI.createLabel ({
-		text: '$125',
+	var rewardLbl = Ti.UI.createLabel ({
+		text: '$'+getTotalRewards,
 		right: 0,
 		width: Titanium.UI.SIZE,
+		font: {
+			fontSize: 11
+		}
 	});
+	rewardLbl.addEventListener('app:updateRewards', function(e) {
+		rewardLbl.text = e.value;
+	})
 
 	var cancelButton = Ti.UI.createButton({
 		title: 'Cancel',
@@ -43,6 +48,17 @@ exports.EditWindow = function(_id, _item)
 	});
 	cancelButton.addEventListener('click', function(e) {
 		tabGroup.close();
+	});
+
+	var addWorkButton = Ti.UI.createButton({
+		title: '+ Work',
+		width: '300dp',
+		height: '40dp',
+		top: '350dp'
+	});
+	addWorkButton.addEventListener('click', function(e) {
+		db.addWork();
+		Ti.App.fireEvent('app:updateRewards', {value:'$'+db.getTotalRewards()});
 	});
 
 //Create fields
@@ -60,10 +76,11 @@ exports.EditWindow = function(_id, _item)
 
 //Add elements
 
-	navView.add(rewardBtn);
+	navView.add(rewardLbl);
 	self.setRightNavButton(navView);
 	self.add(goalField);
 	self.add(cancelButton);
+	self.add(addWorkButton);
 
 //Add tab elements together
 
