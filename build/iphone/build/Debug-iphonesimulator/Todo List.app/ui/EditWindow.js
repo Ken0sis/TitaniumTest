@@ -36,6 +36,10 @@ exports.EditWindow = function(_id, _item)
 			fontSize: 11
 		}
 	});
+	Ti.App.addEventListener('app:updateRewards', function(e) {
+		rewardLbl.text = e.value;
+		console.log(e);
+	});
 
 	var cancelButton = Ti.UI.createButton({
 		title: 'Cancel',
@@ -55,7 +59,7 @@ exports.EditWindow = function(_id, _item)
 	});
 	addWorkButton.addEventListener('click', function(e) {
 		db.addWork();
-		rewardLbl.text = '$'+db.getTotalRewards();
+		Ti.App.fireEvent('app:updateRewards', {value:'$'+db.getTotalRewards()});
 	});
 
 //Create fields
