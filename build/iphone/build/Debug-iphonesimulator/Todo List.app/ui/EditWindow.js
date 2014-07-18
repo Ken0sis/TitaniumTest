@@ -37,8 +37,7 @@ exports.EditWindow = function(_id, _item)
 		}
 	});
 	Ti.App.addEventListener('app:updateRewards', function(e) {
-		rewardLbl.text = e.value;
-		console.log(e);
+		rewardLbl.text = '$'+db.getTotalRewards();
 	});
 
 	var cancelButton = Ti.UI.createButton({
@@ -59,7 +58,7 @@ exports.EditWindow = function(_id, _item)
 	});
 	addWorkButton.addEventListener('click', function(e) {
 		db.addWork();
-		Ti.App.fireEvent('app:updateRewards', {value:'$'+db.getTotalRewards()});
+		Ti.App.fireEvent('app:updateRewards');
 	});
 
 //Create fields

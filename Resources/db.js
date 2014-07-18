@@ -110,6 +110,5 @@ exports.addWork = function () {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	mydb.execute('insert into rewards (TaskID,Item,SprintReVal) values (?,?,?)', 33333,'Testing', 100);
 	mydb.close();
-	
 	return null;
 };
