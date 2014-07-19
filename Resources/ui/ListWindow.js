@@ -6,6 +6,10 @@ exports.ListWindow = function(args) {
 	var self = Ti.UI.createWindow(args);
 	var tableview = Ti.UI.createTableView();
 	var isDone = args.isDone;
+
+
+	//Create necessary views for formatting
+
 	var navBtnView = Ti.UI.createView({
 		width: 20,
 		horizontalWrap: 'false',
@@ -13,6 +17,8 @@ exports.ListWindow = function(args) {
 		right:0,
 		left: 0,
 	});
+
+	//Setting the data for table
 
 	tableview.setData(getTableData(isDone));
 
@@ -52,6 +58,8 @@ exports.ListWindow = function(args) {
 		}
 	}
 
+	//Add event listeners
+
 	tableview.addEventListener('click', function(e) {
 		if(e.source != "[object TiUIButton]") {
 			createConfirmDialog(e.row.id, e.row.title, isDone).show();
@@ -75,6 +83,27 @@ var getTableData = function(Done) {
 	var row = null;
 	var todoItems = db.selectByDone(Done);
 	var catlist = [];
+	var createHeaderView = function(_input) {
+		var header = Ti.UI.createView (
+		{
+		height:27,
+		backgroundColor:'#0080f0',
+		});
+		var headerTitle = Ti.UI.createLabel (
+		{
+			text: _input,
+			color: 'white',
+			font: {
+				fontSize: 14,
+				fontFamily: 'Helvetica',
+				fontWeight: 'bold',
+			},
+			left:11,
+		});
+		header.add(headerTitle);
+
+		return header;
+	}
 
 	//Create Category list
 
@@ -90,11 +119,9 @@ var getTableData = function(Done) {
 
 	for (var i=0; i < catlist.length; i++)            //For each Category, do this
 	{
-		var section = Ti.UI.createTableViewSection({
-		headerTitle:catlist[i],
-		font: {
-			fontSize: 20
-		}
+		var section = Ti.UI.createTableViewSection(
+		{		
+			headerView: new createHeaderView(catlist[i]),
 		});
 	
 		for (var j=0; j < todoItems.length; j++)     //For each data Item, do this
@@ -129,12 +156,12 @@ var getTableData = function(Done) {
 
 			var title = Ti.UI.createLabel({
 				text: todoItems[j].item,
-				color: 'black',
+				color: '#424242',
 				font: {
 					fontSize: 14,
 					fontFamily: 'Helvetica'
 				},
-				left: 15,
+				left: 13,
 				top: 5,
 				height: 15
 			});
@@ -146,10 +173,10 @@ var getTableData = function(Done) {
 					fontStyle: 'italic',
 					fontSize: 9
 				},
-				left: 16,
-				top: 23,
-				bottom: 6,
-				height: 15
+				left: 14,
+				top: 24,
+				bottom: 4,
+				height: 12
 			});
 				
 			var row = Ti.UI.createTableViewRow({    //Create row
