@@ -48,7 +48,13 @@ exports.updateItem = function(_id, _Done) {
 exports.addItem = function(_Item, _Category, _LoadSigma, _DueDate) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	var taskID = new Date().getTime();
-	var dummyGoal = Math.floor(Math.random() * 10) + 1;
+	var dummyGoal = Math.floor(Math.random() * _LoadSigma);
+
+	if (dummyGoal<1)
+	{
+	dummyGoal = dummyGoal + 1;
+	}
+
 	mydb.execute('insert into todo (Item,Category,LoadSigma,DueDate,TaskID, GoalGuide) values (?,?,?,?,?,?)', _Item, _Category, _LoadSigma, _DueDate, taskID, dummyGoal);
 	mydb.close();
 };
