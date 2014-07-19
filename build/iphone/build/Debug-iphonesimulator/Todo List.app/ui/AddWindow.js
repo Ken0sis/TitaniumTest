@@ -5,6 +5,15 @@ exports.AddWindow = function() {
 		title: 'Add Item',
 		backgroundColor: '#fff'
 	});
+	var scrollView = Ti.UI.createScrollView(
+	{
+  		contentWidth: 'auto',
+  		contentHeight: 'auto',
+  		showVerticalScrollIndicator: true,
+  		showHorizontalScrollIndicator: true,
+  		height: Titanium.UI.FILL,
+  		width: Titanium.UI.FILL,
+	});
 	
 	//Setting up the input fields
 	
@@ -18,7 +27,7 @@ exports.AddWindow = function() {
 		top: '70dp',
 		hintText: 'New Item',
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-		returnKeyType: Ti.UI.RETURNKEY_Done
+		returnKeyType: Titanium.UI.RETURNKEY_NEXT
 	});
 	
 	var CategoryField = Ti.UI.createTextField({
@@ -27,7 +36,7 @@ exports.AddWindow = function() {
 		top: '135dp',
 		hintText: 'Category',
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-		returnKeyType: Ti.UI.RETURNKEY_Done
+		returnKeyType: Titanium.UI.RETURNKEY_NEXT
 	});
 	
 	var HoursField = Ti.UI.createTextField({
@@ -36,7 +45,7 @@ exports.AddWindow = function() {
 		top: '200dp',
 		hintText: 'Estimated Hours',
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-		returnKeyType: Ti.UI.RETURNKEY_Done
+		returnKeyType: Titanium.UI.RETURNKEY_NEXT
 	});
 	
 	var DueField = Ti.UI.createTextField({
@@ -45,7 +54,8 @@ exports.AddWindow = function() {
 		top: '265dp',
 		hintText: 'Due Date',
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-		returnKeyType: Ti.UI.RETURNKEY_Done
+		keyboardType: Titanium.UI.KEYBOARD_NUMBERS_PUNCTUATION,
+		returnKeyType: Titanium.UI.RETURNKEY_DONE
 	});
 	
 	
@@ -53,20 +63,21 @@ exports.AddWindow = function() {
 	//Setting up Listeners
 	
 	ItemField.addEventListener('return', function(e) {
-		addTask(ItemField.value, CategoryField.value, HoursField.value, DueField.value, self);
+		CategoryField.focus();
 	});
     
 	CategoryField.addEventListener('return', function(e) {
-		addTask(ItemField.value, CategoryField.value, HoursField.value, DueField.value, self);
+		HoursField.focus();
 	});	
 	
+	HoursField.addEventListener('return', function(e) {
+		DueField.focus();
+		});	
+
 	DueField.addEventListener('return', function(e) {
 		addTask(ItemField.value, CategoryField.value, HoursField.value, DueField.value, self);
 	});	
 	
-	HoursField.addEventListener('return', function(e) {
-		addTask(ItemField.value, CategoryField.value, HoursField.value, DueField.value, self);
-	});	
 	
 	
 	//Setting up Buttons
@@ -75,7 +86,7 @@ exports.AddWindow = function() {
 		title: 'Add',
 		width: '300dp',
 		height: '40dp',
-		top: '350dp'
+		bottom: '85dp'
 	});
 	addButton.addEventListener('click', function() {
 		addTask(ItemField.value, CategoryField.value, HoursField.value, DueField.value, self);
@@ -85,25 +96,26 @@ exports.AddWindow = function() {
 		title: 'Cancel',
 		width: '300dp',
 		height: '40dp',
-		top: '400dp'
+		bottom: '40dp'
 	});
 	cancelButton.addEventListener('click', function(e) {
 		self.close();
 	});
 
-	self.add(ItemField);
-	self.add(CategoryField);
-	self.add(HoursField);
-	self.add(DueField);
-	self.add(addButton);
-	self.add(cancelButton);
+	scrollView.add(ItemField);
+	scrollView.add(CategoryField);
+	scrollView.add(HoursField);
+	scrollView.add(DueField);
+	scrollView.add(addButton);
+	scrollView.add(cancelButton);
+	self.add(scrollView);
 
 	return self;
 };
 
 var addTask = function(_Item, _Category, _LoadSigma, _DueDate, win) {
-	if (_Item === '') {
-		alert('Please enter a task first');
+	if (_Item === '' || _Category ==='' || _LoadSigma ==='' || _DueDate ==='') {
+		alert('Please provide more details about this task');
 		return;
 	}
 	require('db').addItem(_Item, _Category, _LoadSigma, _DueDate);

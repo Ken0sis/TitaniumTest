@@ -83,7 +83,7 @@ var getTableData = function(Done) {
 	var row = null;
 	var todoItems = db.selectByDone(Done);
 	var catlist = [];
-	var createHeaderView = function(_input) {
+	var createHeader = function(_input) {
 		var header = Ti.UI.createView (
 		{
 		height:27,
@@ -121,7 +121,7 @@ var getTableData = function(Done) {
 	{
 		var section = Ti.UI.createTableViewSection(
 		{		
-			headerView: new createHeaderView(catlist[i]),
+			headerView: new createHeader(catlist[i]),
 		});
 	
 		for (var j=0; j < todoItems.length; j++)     //For each data Item, do this
@@ -174,7 +174,7 @@ var getTableData = function(Done) {
 					fontSize: 9
 				},
 				left: 14,
-				top: 24,
+				top: 25,
 				bottom: 4,
 				height: 12
 			});
