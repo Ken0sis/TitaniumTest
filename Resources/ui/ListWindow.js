@@ -14,8 +14,6 @@ exports.ListWindow = function(args) {
 		width: 20,
 		horizontalWrap: 'false',
 		layout: 'horizontal',
-		right:0,
-		left: 0,
 	});
 
 	//Setting the data for table
@@ -32,8 +30,7 @@ exports.ListWindow = function(args) {
 
 		if (platform !== 'android') {
 			var addBtn = Ti.UI.createButton({
-				title:'+',
-				right:0,
+				title:'+ ',
 				width: Titanium.UI.SIZE,
 			});
 
@@ -131,7 +128,7 @@ var getTableData = function(Done) {
 			{
 
 			var label = Ti.UI.createButton({
-				right: 10,
+				right: 15,
 				title: todoItems[j].goalGuide,
 				labelID: todoItems[j].taskID,
 				labelItem: todoItems[j].item,

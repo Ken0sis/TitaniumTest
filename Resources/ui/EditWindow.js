@@ -18,6 +18,7 @@ exports.EditWindow = function(_id, _item)
 		title: 'Edit Item',
     	backgroundColor:'#FFFFFF',
     	barColor:'#FFFFFF',
+    	translucent: false,
     	tabBarHidden: true
 	});
 
@@ -32,6 +33,7 @@ exports.EditWindow = function(_id, _item)
 	var rewardLbl = Ti.UI.createLabel ({
 		text: '$'+getTotalRewards,
 		right: 0,
+		backgroundColor: 'yellow',
 		width: Titanium.UI.SIZE,
 		font: {
 			fontSize: 11
@@ -45,7 +47,7 @@ exports.EditWindow = function(_id, _item)
 		title: 'Cancel',
 		width: '300dp',
 		height: '40dp',
-		top: '400dp'
+		bottom: '40dp'
 	});
 	cancelButton.addEventListener('click', function(e) {
 		tabGroup.close();
@@ -55,7 +57,7 @@ exports.EditWindow = function(_id, _item)
 		title: '+ Work',
 		width: '300dp',
 		height: '40dp',
-		top: '350dp'
+		bottom: '85dp'
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
 		db.addWork();
