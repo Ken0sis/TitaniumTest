@@ -10,6 +10,7 @@ exports.EditWindow = function(_id, _item)
 	var db = require('db');
 	var record = db.selectByID(_id);
 	var getTotalRewards = db.getTotalRewards();
+	var testVal = 0;
 
 	Ti.API.info(getTotalRewards);
 
@@ -29,7 +30,7 @@ exports.EditWindow = function(_id, _item)
 	});
 
 	var rewardLbl = Ti.UI.createLabel ({
-		text: '$'+getTotalRewards,
+		text: '$'+testVal,
 		right: 0,
 		width: Titanium.UI.SIZE,
 		font: {
@@ -37,7 +38,7 @@ exports.EditWindow = function(_id, _item)
 		}
 	});
 	Ti.App.addEventListener('app:updateRewards', function(e) {
-		rewardLbl.text = '$'+db.getTotalRewards();
+		rewardLbl.text = '$'+testVal;
 	});
 
 	var cancelButton = Ti.UI.createButton({
@@ -57,7 +58,7 @@ exports.EditWindow = function(_id, _item)
 		top: '350dp'
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
-		db.addWork();
+		testVal = testVal+1;
 		Ti.App.fireEvent('app:updateRewards');
 	});
 
