@@ -16,7 +16,8 @@ exports.EditWindow = function(_id, _item)
 	var self = Ti.UI.createWindow(
 	{
 		title: 'Edit Item',
-    	backgroundColor:'#fff',
+    	backgroundColor:'#FFFFFF',
+    	barColor:'#FFFFFF',
     	tabBarHidden: true
 	});
 

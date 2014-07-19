@@ -23,7 +23,9 @@ else {
 				window: new ListWindow({
 					title: 'Todo',
 					navBarHidden: false,
-					barColor: '#FFFFFF',
+					backgroundColor: '#FFFFFF',
+					barColor:'#FFFFFF',
+					translucent: false,
 					isDone: 0,
 					activity: {
 						onCreateOptionsMenu: function(e) {
@@ -42,7 +44,8 @@ else {
 				icon: 'images/KS_nav_views.png',
 				window: new ListWindow({
 					title: 'Done',
-					backgroundColor: '#fff',
+					backgroundColor: '#FFFFFF',
+					barColor:'#FFFFFF',
 					navBarHidden: false,
 					isDone: 1
 				})

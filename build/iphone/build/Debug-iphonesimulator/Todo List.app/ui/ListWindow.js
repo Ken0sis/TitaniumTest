@@ -6,7 +6,7 @@ exports.ListWindow = function(args) {
 	var self = Ti.UI.createWindow(args);
 	var tableview = Ti.UI.createTableView();
 	var isDone = args.isDone;
-	var navView = Ti.UI.createView({
+	var navBtnView = Ti.UI.createView({
 		width: 20,
 		horizontalWrap: 'false',
 		layout: 'horizontal',
@@ -46,8 +46,8 @@ exports.ListWindow = function(args) {
 			}
 			else
 			{
-			navView.add(addBtn);
-			self.setRightNavButton(navView);
+			navBtnView.add(addBtn);
+			self.setRightNavButton(navBtnView);
 			}
 		}
 	}
