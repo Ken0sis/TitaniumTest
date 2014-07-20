@@ -165,10 +165,10 @@ var getTableData = function(Done) {
 
 			var subtitle = Ti.UI.createLabel({
 				text: '('+todoItems[j].loadSigma+' hrs), ('+todoItems[j].dueDate+')',
-				color: '#0080f0',
+				color: '#0088FF',
 				font: {
 					fontStyle: 'italic',
-					fontSize: 9
+					fontSize: 8
 				},
 				left: 14,
 				top: 25,

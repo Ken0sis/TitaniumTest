@@ -22,7 +22,7 @@ exports.EditWindow = function(_id, _item)
     	tabBarHidden: true
 	});
 
-	var navView = Ti.UI.createView({
+	var leftNavView = Ti.UI.createView({
 		width: Titanium.UI.SIZE,
 		horizontalWrap: 'false',
 		layout: 'horizontal',
@@ -30,10 +30,17 @@ exports.EditWindow = function(_id, _item)
 		left: 0,
 	});
 
+	var vertBar = Ti.UI.createView({
+		width: .5,
+		borderWidth: .25,
+		borderColor: '#ADADAD',
+		top: 20,
+		height: 220,
+	}); 
+
 	var rewardLbl = Ti.UI.createLabel ({
 		text: '$'+getTotalRewards,
 		right: 0,
-		backgroundColor: 'yellow',
 		width: Titanium.UI.SIZE,
 		font: {
 			fontSize: 11
@@ -64,24 +71,32 @@ exports.EditWindow = function(_id, _item)
 		Ti.App.fireEvent('app:updateRewards');
 	});
 
+//Define output data
+
+	
+
 //Create fields
 
-	var goalField = Ti.UI.createLabel({
-		width: '200dp',
-		height: '45dp',
-		top: '70dp',
-		left:'10dp',
+	var goalLbl = Ti.UI.createLabel({
+		width: Titanium.UI.SIZE,
+		height: Titanium.UI.SIZE,
+		top: 25,
+		left: '70%',
 		text: record[0].goalGuide,
 		textAlign: 'center',
-		borderColor: '#0080f0',
-		returnKeyType: Ti.UI.RETURNKEY_Done
+		color: '#424242',
+		font: 
+		{
+			fontSize: 60
+		}
 	});
 
 //Add elements
 
-	navView.add(rewardLbl);
-	self.setRightNavButton(navView);
-	self.add(goalField);
+	leftNavView.add(rewardLbl);
+	self.setLeftNavButton(leftNavView);
+	self.add(vertBar);
+	self.add(goalLbl);
 	self.add(cancelButton);
 	self.add(addWorkButton);
 
