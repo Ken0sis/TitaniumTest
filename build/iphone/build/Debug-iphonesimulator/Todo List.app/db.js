@@ -98,7 +98,29 @@ exports.selectByID = function(_taskID) {
 	return retData;
 };
 
-exports.getTotalRewards = function () {
+exports.getTotalRewards = function (_id) {
+	var mydb = Ti.Database.open(DATABASE_NAME);
+	var retData = [];
+	var TotalReward = mydb.execute('select sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal) from rewards where TaskID = ?', _id);
+
+	while (TotalReward.isValidRow()) 
+	{
+		retData.push(TotalReward.fieldByName('sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal)'));
+		TotalReward.next();
+	}
+	mydb.close();
+	
+	if (retData[0] == null)
+	{
+		return 0;
+	}
+	else
+	{
+		return retData[0];
+	}
+};
+
+exports.getItemWork = function () {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	var retData = [];
 	var TotalReward = mydb.execute('select sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal) from rewards');
@@ -109,12 +131,34 @@ exports.getTotalRewards = function () {
 		TotalReward.next();
 	}
 	mydb.close();
-	return retData[0];
+	
+	if (retData[0] == 'null')
+	{
+		return 0;
+	}
+	else
+	{
+		return retData[0];
+	}
 };
 
-exports.addWork = function () {
+exports.addWork = function (_id, _item) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('insert into rewards (TaskID,Item,SprintReVal) values (?,?,?)', 33333,'Testing', 100);
+	mydb.execute('insert into rewards (TaskID,Item,SprintReVal) values (?,?,?)', _id, _item, 100);
 	mydb.close();
 	return null;
+};
+
+exports.getImage = function (_input) {
+	var mydb = Ti.Database.open(DATABASE_NAME);
+	var retData = [];
+	var pulledLink = mydb.execute('select link from image where badge = ?', _input);
+
+	while (TotalReward.isValidRow()) 
+	{
+		retData.push(TotalReward.fieldByName('link'));
+		pullLink.next();
+	}
+	mydb.close();
+	return retData[0];
 };

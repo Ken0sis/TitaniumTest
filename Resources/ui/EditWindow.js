@@ -5,13 +5,30 @@ exports.EditWindow = function(_id, _item)
 
 	Ti.API.info(_id);
 
-//Call required database and create visual elements
+//Call required database external functions
 
 	var db = require('db');
 	var record = db.selectByID(_id);
-	var getTotalRewards = db.getTotalRewards();
+	var getTotalRewards = db.getTotalRewards(_id);
+	var imageLink = {};
+	imageLink.reward1 = 'images/Numbers-1-filled-icon.png';
+	imageLink.reward2 = 'images/Numbers-2-filled-icon.png';
+	imageLink.reward3 = 'images/Numbers-3-filled-icon.png';
+	imageLink.reward4 = 'images/Numbers-4-filled-icon.png';
+	imageLink.reward5 = 'images/Numbers-5-filled-icon.png';
+	imageLink.reward6 = 'images/Numbers-6-filled-icon.png';
+	imageLink.reward7 = 'images/Numbers-7-filled-icon.png';
 
-	Ti.API.info(getTotalRewards);
+
+//Create decisioning functions
+
+	var rewardDecision = function ()
+	{
+
+	};
+
+
+//Create tabs, windows and views
 
 	var self = Ti.UI.createWindow(
 	{
@@ -22,12 +39,18 @@ exports.EditWindow = function(_id, _item)
     	tabBarHidden: true
 	});
 
+	var tabGroup = Titanium.UI.createTabGroup();
+
+	var tabWindow = Titanium.UI.createTab(
+	{ 
+    	title:'Edit Item',
+    	window:self
+	});
+
 	var leftNavView = Ti.UI.createView({
 		width: Titanium.UI.SIZE,
-		horizontalWrap: 'false',
+		horizontalWrap: 'true',
 		layout: 'horizontal',
-		right:0,
-		left: 0,
 	});
 
 	var vertBar = Ti.UI.createView({
@@ -35,19 +58,51 @@ exports.EditWindow = function(_id, _item)
 		borderWidth: .25,
 		borderColor: '#ADADAD',
 		top: 20,
-		height: 220,
+		height: 200,
+	}); 
+
+	/*var botView = Ti.UI.createView({
+		width: 32,
+		height: 32,
+		bottom: 120,
+		backgroundImage: 'images/Time-Timer-icon2.png',
+	}); */
+
+
+//Create labels and buttons
+
+	var goalLbl = Ti.UI.createLabel({
+		width: Titanium.UI.SIZE,
+		height: Titanium.UI.SIZE,
+		top: 25,
+		left: '69%',
+		text: record[0].goalGuide,
+		textAlign: 'center',
+		color: '#424242',
+		font: 
+		{
+			fontSize: 60
+		}
+	});
+
+	var botView = Ti.UI.createLabel({
+		width: 25,
+		height: 25,
+		bottom: 120,
+		backgroundImage: imageLink.reward1,
 	}); 
 
 	var rewardLbl = Ti.UI.createLabel ({
 		text: '$'+getTotalRewards,
-		right: 0,
-		width: Titanium.UI.SIZE,
+		width: 100,
+		layout: 'horizontal',
+		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
 		font: {
 			fontSize: 11
 		}
 	});
 	Ti.App.addEventListener('app:updateRewards', function(e) {
-		rewardLbl.text = '$'+db.getTotalRewards();
+		rewardLbl.text = '$'+db.getTotalRewards(_id);
 	});
 
 	var cancelButton = Ti.UI.createButton({
@@ -67,73 +122,23 @@ exports.EditWindow = function(_id, _item)
 		bottom: '85dp'
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
-		db.addWork();
+		db.addWork(_id,_item);
 		Ti.App.fireEvent('app:updateRewards');
 	});
 
-//Define output data
 
-	
-
-//Create fields
-
-	var goalLbl = Ti.UI.createLabel({
-		width: Titanium.UI.SIZE,
-		height: Titanium.UI.SIZE,
-		top: 25,
-		left: '70%',
-		text: record[0].goalGuide,
-		textAlign: 'center',
-		color: '#424242',
-		font: 
-		{
-			fontSize: 60
-		}
-	});
-
-//Add elements
+//Add elements together
 
 	leftNavView.add(rewardLbl);
 	self.setLeftNavButton(leftNavView);
 	self.add(vertBar);
+	self.add(botView);
 	self.add(goalLbl);
 	self.add(cancelButton);
 	self.add(addWorkButton);
-
-//Add tab elements together
-
-	var tabGroup = Titanium.UI.createTabGroup();
-
-	var tabWindow = Titanium.UI.createTab(
-	{ 
-    	title:'Edit Item',
-    	window:self
-	});
-
 	tabGroup.addTab(tabWindow);
 	tabGroup.currentTab = tabWindow;
 	
-//Set to display
-	
 	return tabGroup;
 
-
-//Write function to grab all relevant data about Item
-
-
-
-//Add display boxes
-	//Define what each box displays in term of the data just we grabbed
-
-//Add increment buttons to window
-	//Create functions
-
-/*Add event listener at end to refresh data when any increment button is clicked:
-
-Ti.App.addEventListener('app:updateTables', function() {
-	tableview.setData(getTableData(isDone));*/
-
 };
-
-//Write a function in db.js to pull all relevant data for an edit Item
-	//You can probably just declar this output as a variable in main window, because we don't need a special function for this
