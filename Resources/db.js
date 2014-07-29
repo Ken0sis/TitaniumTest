@@ -48,14 +48,19 @@ exports.updateItem = function(_id, _Done) {
 exports.addItem = function(_Item, _Category, _LoadSigma, _DueDate) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	var taskID = new Date().getTime();
-	var dummyGoal = Math.floor(Math.random() * _LoadSigma);
+	var dummyGoal = 0;
+	var dummyType = Math.floor(Math.random() * 2) + 1;
 
-	if (dummyGoal<1)
+	if (Math.floor(Math.random() * _LoadSigma)<1)
 	{
-	dummyGoal = dummyGoal + 1;
+	dummyGoal = Math.floor(Math.random() * _LoadSigma)+ 1;
+	}
+	else
+	{
+	dummyGoal = Math.floor(Math.random() * _LoadSigma);	
 	}
 
-	mydb.execute('insert into todo (Item,Category,LoadSigma,DueDate,TaskID, GoalGuide) values (?,?,?,?,?,?)', _Item, _Category, _LoadSigma, _DueDate, taskID, dummyGoal);
+	mydb.execute('insert into todo (Item,Category,LoadSigma,DueDate,TaskID, GoalGuide, GoalType) values (?,?,?,?,?,?,?)', _Item, _Category, _LoadSigma, _DueDate, taskID, dummyGoal, dummyType);
 	mydb.close();
 };
 
@@ -147,18 +152,4 @@ exports.addWork = function (_id, _item) {
 	mydb.execute('insert into rewards (TaskID,Item,SprintReVal) values (?,?,?)', _id, _item, 100);
 	mydb.close();
 	return null;
-};
-
-exports.getImage = function (_input) {
-	var mydb = Ti.Database.open(DATABASE_NAME);
-	var retData = [];
-	var pulledLink = mydb.execute('select link from image where badge = ?', _input);
-
-	while (TotalReward.isValidRow()) 
-	{
-		retData.push(TotalReward.fieldByName('link'));
-		pullLink.next();
-	}
-	mydb.close();
-	return retData[0];
 };

@@ -11,13 +11,13 @@ exports.EditWindow = function(_id, _item)
 	var record = db.selectByID(_id);
 	var getTotalRewards = db.getTotalRewards(_id);
 	var imageLink = {};
-	imageLink.reward1 = 'images/Numbers-1-filled-icon.png';
-	imageLink.reward2 = 'images/Numbers-2-filled-icon.png';
-	imageLink.reward3 = 'images/Numbers-3-filled-icon.png';
-	imageLink.reward4 = 'images/Numbers-4-filled-icon.png';
-	imageLink.reward5 = 'images/Numbers-5-filled-icon.png';
-	imageLink.reward6 = 'images/Numbers-6-filled-icon.png';
-	imageLink.reward7 = 'images/Numbers-7-filled-icon.png';
+	imageLink['reward1'] = 'images/Numbers-1-filled-icon.png';
+	imageLink['reward2'] = 'images/Numbers-2-filled-icon.png';
+	imageLink['reward3'] = 'images/Numbers-3-filled-icon.png';
+	imageLink['reward4'] = 'images/Numbers-4-filled-icon.png';
+	imageLink['reward5'] = 'images/Numbers-5-filled-icon.png';
+	imageLink['reward6'] = 'images/Numbers-6-filled-icon.png';
+	imageLink['reward7'] = 'images/Numbers-7-filled-icon.png';
 
 
 //Create decisioning functions
@@ -89,7 +89,7 @@ exports.EditWindow = function(_id, _item)
 		width: 25,
 		height: 25,
 		bottom: 120,
-		backgroundImage: imageLink.reward1,
+		backgroundImage: imageLink['reward1'],
 	}); 
 
 	var rewardLbl = Ti.UI.createLabel ({

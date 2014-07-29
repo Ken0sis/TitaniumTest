@@ -127,6 +127,19 @@ var getTableData = function(Done) {
 			if (todoItems[j].category == catlist[i])      //Create labels with eventlistner
 			{
 
+			function guideColor (guide)
+			{
+				var self = 'white';
+				var colorTable = {};
+				colorTable[1] = 'green';
+				colorTable[2] = 'orange';
+				colorTable[3] = 'red';
+				
+				self = colorTable[guide];
+
+				return self;
+			}
+
 			var label = Ti.UI.createButton({
 				right: 15,
 				title: todoItems[j].goalGuide,
@@ -134,6 +147,7 @@ var getTableData = function(Done) {
 				labelItem: todoItems[j].item,
 				height: 30,
 				width: 25,
+				color: guideColor(todoItems[j].goalType),
 				font: {
 					fontWeight: 'normal',
 					fontSize: 19, 
