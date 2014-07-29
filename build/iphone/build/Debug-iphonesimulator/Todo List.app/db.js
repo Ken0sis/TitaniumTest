@@ -16,6 +16,7 @@ exports.selectByDone = function(_Done) {
 			done: rows.fieldByName('Done'),
 			positionID: rows.fieldByName('PositionID'),
 			dueDate: rows.fieldByName('DueDate'),
+			dueDelta: rows.fieldByName('DueDelta'),
 			loadSigma: rows.fieldByName('LoadSigma'),
 			loadDelta: rows.fieldByName('LoadDelta'),
 			workSigma: rows.fieldByName('WorkSigma'),
@@ -23,12 +24,7 @@ exports.selectByDone = function(_Done) {
 			goalID: rows.fieldByName('GoalID'),
 			goalGuide: rows.fieldByName('GoalGuide'),
 			goalType: rows.fieldByName('GoalType'),
-			dueDelta: rows.fieldByName('DueDelta'),
 			sprintID: rows.fieldByName('SprintID'),
-			goalReward: rows.fieldByName('GoalReward'),
-			sprintReward: rows.fieldByName('SprintReward'),
-			earlyReward: rows.fieldByName('EarlyReward'),
-			comboReward: rows.fieldByName('ComboReward'),
 		});
 		rows.next();
 	}
@@ -48,16 +44,12 @@ exports.updateItem = function(_id, _Done) {
 exports.addItem = function(_Item, _Category, _LoadSigma, _DueDate) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	var taskID = new Date().getTime();
-	var dummyGoal = 0;
+	var dummyGoal = Math.floor(Math.random() * _LoadSigma);
 	var dummyType = Math.floor(Math.random() * 2) + 1;
 
-	if (Math.floor(Math.random() * _LoadSigma)<1)
+	if (dummyGoal<1)
 	{
-	dummyGoal = Math.floor(Math.random() * _LoadSigma)+ 1;
-	}
-	else
-	{
-	dummyGoal = Math.floor(Math.random() * _LoadSigma);	
+	dummyGoal = dummyGoal + 1;
 	}
 
 	mydb.execute('insert into todo (Item,Category,LoadSigma,DueDate,TaskID, GoalGuide, GoalType) values (?,?,?,?,?,?,?)', _Item, _Category, _LoadSigma, _DueDate, taskID, dummyGoal, dummyType);
@@ -69,6 +61,15 @@ exports.deleteItem = function(_id) {
 	mydb.execute('delete from todo where TaskID = ?', _id);
 	mydb.close();
 };
+
+
+exports.addWork = function (_id, _item) {
+	var mydb = Ti.Database.open(DATABASE_NAME);
+	mydb.execute('insert into rewards (TaskID,Item,SprintReward) values (?,?,?)', _id, _item, 100);
+	mydb.close();
+	return null;
+};
+
 
 exports.selectByID = function(_taskID) {
 	var retData = [];
@@ -83,6 +84,7 @@ exports.selectByID = function(_taskID) {
 			done: rows.fieldByName('Done'),
 			positionID: rows.fieldByName('PositionID'),
 			dueDate: rows.fieldByName('DueDate'),
+			dueDelta: rows.fieldByName('DueDelta'),
 			loadSigma: rows.fieldByName('LoadSigma'),
 			loadDelta: rows.fieldByName('LoadDelta'),
 			workSigma: rows.fieldByName('WorkSigma'),
@@ -90,12 +92,7 @@ exports.selectByID = function(_taskID) {
 			goalID: rows.fieldByName('GoalID'),
 			goalGuide: rows.fieldByName('GoalGuide'),
 			goalType: rows.fieldByName('GoalType'),
-			dueDelta: rows.fieldByName('DueDelta'),
 			sprintID: rows.fieldByName('SprintID'),
-			goalReward: rows.fieldByName('GoalReward'),
-			sprintReward: rows.fieldByName('SprintReward'),
-			earlyReward: rows.fieldByName('EarlyReward'),
-			comboReward: rows.fieldByName('ComboReward'),
 		});
 		rows.next();
 	}
@@ -106,11 +103,11 @@ exports.selectByID = function(_taskID) {
 exports.getTotalRewards = function (_id) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	var retData = [];
-	var TotalReward = mydb.execute('select sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal) from rewards where TaskID = ?', _id);
+	var TotalReward = mydb.execute('select sum(WorkReward)+sum(GoalReward)+sum(SprintReward)+sum(EarlyReward)+sum(Combo1Reward)+sum(Combo2Reward)+sum(DoneRedReward)+sum(DoneOrangeReward)+sum(PushPenalty)+sum(SprintPenalty) from rewards where TaskID = ?', _id);
 
 	while (TotalReward.isValidRow()) 
 	{
-		retData.push(TotalReward.fieldByName('sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal)'));
+		retData.push(TotalReward.fieldByName('sum(WorkReward)+sum(GoalReward)+sum(SprintReward)+sum(EarlyReward)+sum(Combo1Reward)+sum(Combo2Reward)+sum(DoneRedReward)+sum(DoneOrangeReward)+sum(PushPenalty)+sum(SprintPenalty)'));
 		TotalReward.next();
 	}
 	mydb.close();
@@ -125,31 +122,32 @@ exports.getTotalRewards = function (_id) {
 	}
 };
 
-exports.getItemWork = function () {
-	var mydb = Ti.Database.open(DATABASE_NAME);
+
+exports.getEditInputs = function(_taskID) {
 	var retData = [];
-	var TotalReward = mydb.execute('select sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal) from rewards');
-
-	while (TotalReward.isValidRow()) 
-	{
-		retData.push(TotalReward.fieldByName('sum(WorkReVal)+sum(GoalReVal)+sum(SprintReVal)+sum(EarlyReVal)+sum(ComboReVal)'));
-		TotalReward.next();
+	var db = Ti.Database.open(DATABASE_NAME);
+	var rows = db.execute('select * from todo where TaskID = ?', _taskID);
+	while (rows.isValidRow()) {
+		retData.push(
+		{ 
+			taskID: rows.fieldByName('TaskID'),
+			item: rows.fieldByName('Item'),
+			category: rows.fieldByName('Category'),
+			done: rows.fieldByName('Done'),
+			positionID: rows.fieldByName('PositionID'),
+			dueDate: rows.fieldByName('DueDate'),
+			dueDelta: rows.fieldByName('DueDelta'),
+			loadSigma: rows.fieldByName('LoadSigma'),
+			loadDelta: rows.fieldByName('LoadDelta'),
+			workSigma: rows.fieldByName('WorkSigma'),
+			workDelta: rows.fieldByName('WorkDelta'),
+			goalID: rows.fieldByName('GoalID'),
+			goalGuide: rows.fieldByName('GoalGuide'),
+			goalType: rows.fieldByName('GoalType'),
+			sprintID: rows.fieldByName('SprintID'),
+		});
+		rows.next();
 	}
-	mydb.close();
-	
-	if (retData[0] == 'null')
-	{
-		return 0;
-	}
-	else
-	{
-		return retData[0];
-	}
-};
-
-exports.addWork = function (_id, _item) {
-	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('insert into rewards (TaskID,Item,SprintReVal) values (?,?,?)', _id, _item, 100);
-	mydb.close();
-	return null;
+	db.close();
+	return retData;
 };

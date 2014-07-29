@@ -127,17 +127,14 @@ var getTableData = function(Done) {
 			if (todoItems[j].category == catlist[i])      //Create labels with eventlistner
 			{
 
-			function guideColor (guide)
+			function guideColor (type)
 			{
-				var self = 'white';
 				var colorTable = {};
 				colorTable[1] = 'green';
 				colorTable[2] = 'orange';
 				colorTable[3] = 'red';
 				
-				self = colorTable[guide];
-
-				return self;
+				return colorTable[type]; 
 			}
 
 			var label = Ti.UI.createButton({
@@ -154,7 +151,7 @@ var getTableData = function(Done) {
 				}	
 			});
 
-			Ti.API.info(todoItems[j].taskID, todoItems[j].done);
+			Ti.API.info(todoItems[j].taskID, todoItems[j].done, todoItems[j].goalType);
 
 			label.addEventListener(
 				'click', 
