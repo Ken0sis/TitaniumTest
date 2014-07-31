@@ -24,7 +24,7 @@ exports.selectByDone = function(_Done) {
 			goalID: rows.fieldByName('GoalID'),
 			goalGuide: rows.fieldByName('GoalGuide'),
 			goalType: rows.fieldByName('GoalType'),
-			sprintID: rows.fieldByName('SprintID'),
+			goalProgress: rows.fieldByName('GoalProgress'),
 		});
 		rows.next();
 	}
@@ -65,7 +65,7 @@ exports.deleteItem = function(_id) {
 
 exports.addWork = function (_id, _item) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('insert into rewards (TaskID,Item,SprintReward) values (?,?,?)', _id, _item, 100);
+	mydb.execute('insert into rewards (TaskID,Item,WorkReward) values (?,?,?)', _id, _item, 100);
 	mydb.close();
 	return null;
 };
@@ -92,7 +92,7 @@ exports.selectByID = function(_taskID) {
 			goalID: rows.fieldByName('GoalID'),
 			goalGuide: rows.fieldByName('GoalGuide'),
 			goalType: rows.fieldByName('GoalType'),
-			sprintID: rows.fieldByName('SprintID'),
+			goalProgress: rows.fieldByName('GoalProgress'),
 		});
 		rows.next();
 	}
@@ -100,14 +100,15 @@ exports.selectByID = function(_taskID) {
 	return retData;
 };
 
+
 exports.getTotalRewards = function (_id) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	var retData = [];
-	var TotalReward = mydb.execute('select sum(WorkReward)+sum(GoalReward)+sum(SprintReward)+sum(EarlyReward)+sum(Combo1Reward)+sum(Combo2Reward)+sum(DoneRedReward)+sum(DoneOrangeReward)+sum(PushPenalty)+sum(SprintPenalty) from rewards where TaskID = ?', _id);
+	var TotalReward = mydb.execute('select sum(WorkReward)+sum(GoalReward)+sum(EarlyReward)+sum(Combo1Reward)+sum(Combo2Reward)+sum(DoneRedReward)+sum(DoneOrangeReward)+sum(PushPenalty) from rewards where TaskID = ?', _id);
 
 	while (TotalReward.isValidRow()) 
 	{
-		retData.push(TotalReward.fieldByName('sum(WorkReward)+sum(GoalReward)+sum(SprintReward)+sum(EarlyReward)+sum(Combo1Reward)+sum(Combo2Reward)+sum(DoneRedReward)+sum(DoneOrangeReward)+sum(PushPenalty)+sum(SprintPenalty)'));
+		retData.push(TotalReward.fieldByName('sum(WorkReward)+sum(GoalReward)+sum(EarlyReward)+sum(Combo1Reward)+sum(Combo2Reward)+sum(DoneRedReward)+sum(DoneOrangeReward)+sum(PushPenalty)'));
 		TotalReward.next();
 	}
 	mydb.close();
@@ -124,30 +125,27 @@ exports.getTotalRewards = function (_id) {
 
 
 exports.getEditInputs = function(_taskID) {
-	var retData = [];
 	var db = Ti.Database.open(DATABASE_NAME);
-	var rows = db.execute('select * from todo where TaskID = ?', _taskID);
-	while (rows.isValidRow()) {
-		retData.push(
-		{ 
-			taskID: rows.fieldByName('TaskID'),
-			item: rows.fieldByName('Item'),
-			category: rows.fieldByName('Category'),
-			done: rows.fieldByName('Done'),
-			positionID: rows.fieldByName('PositionID'),
-			dueDate: rows.fieldByName('DueDate'),
-			dueDelta: rows.fieldByName('DueDelta'),
-			loadSigma: rows.fieldByName('LoadSigma'),
-			loadDelta: rows.fieldByName('LoadDelta'),
-			workSigma: rows.fieldByName('WorkSigma'),
-			workDelta: rows.fieldByName('WorkDelta'),
-			goalID: rows.fieldByName('GoalID'),
-			goalGuide: rows.fieldByName('GoalGuide'),
-			goalType: rows.fieldByName('GoalType'),
-			sprintID: rows.fieldByName('SprintID'),
-		});
-		rows.next();
-	}
+	var taskPull = db.execute('select * from todo where TaskID = ?', _taskID);
+	var rewardsPull = db.execute('select max(TimeStamp), TotalReward from rewards');
+	var tempMem = [
+		{
+			tmWorkDelta: taskPull.fieldByName('WorkDelta'),
+			tmWorkSigma: taskPull.fieldByName('WorkSigma'),
+			tmLoadSiga: taskPull.fieldByName('LoadSigma'),
+			tmGoalGuide: taskPull.fieldByName('GoalGuide'),
+			tmGoalType: taskPull.fieldByName('GoalType'),
+			tmGoalProgress: taskPull.fieldByName('GoalProgress'),
+			tmGoalReward: 0,
+			tmEarlyReward: 0,
+			tmCombo1Reward: 0,
+			tmCombo2Reward: 0,
+			tmDoneRedReward: 0,
+			tmDoneOrangeReward: 0,
+			tmPushPenalty: 0, 
+			tmTotalReward: rewardsPull.fieldByName('TotalReward'),
+		}
+	];
 	db.close();
-	return retData;
+	return tempMem;
 };

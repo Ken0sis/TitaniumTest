@@ -10,6 +10,7 @@ exports.EditWindow = function(_id, _item)
 	var db = require('db');
 	var record = db.selectByID(_id);
 	var getTotalRewards = db.getTotalRewards(_id);
+	var getEditInputs = db.getEditInputs(_id);
 	var imageLink = {};
 	imageLink['reward1'] = 'images/Numbers-1-filled-icon.png';
 	imageLink['reward2'] = 'images/Numbers-2-filled-icon.png';
@@ -22,11 +23,8 @@ exports.EditWindow = function(_id, _item)
 
 //Create decisioning functions
 
-	var rewardDecision = function ()
-	{
 
-	};
-
+Ti.API.info(getEditInputs);
 
 //Create tabs, windows and views
 
