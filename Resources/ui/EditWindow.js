@@ -24,7 +24,7 @@ exports.EditWindow = function(_id, _item)
 //Create decisioning functions
 
 
-Ti.API.info(getEditInputs[0].testOutput+1);
+Ti.API.info(getEditInputs);
 
 //Create tabs, windows and views
 
@@ -101,6 +101,7 @@ Ti.API.info(getEditInputs[0].testOutput+1);
 	});
 	Ti.App.addEventListener('app:updateRewards', function(e) {
 		rewardLbl.text = '$'+db.getTotalRewards(_id);
+		console.log(db.getEditInputs(_id));
 	});
 
 	var cancelButton = Ti.UI.createButton({
