@@ -24,7 +24,7 @@ exports.EditWindow = function(_id, _item)
 //Create decisioning functions
 
 
-Ti.API.info(getEditInputs);
+Ti.API.info(getEditInputs[0].testOutput+1);
 
 //Create tabs, windows and views
 

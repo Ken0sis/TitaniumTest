@@ -10,6 +10,7 @@ exports.selectByDone = function(_Done) {
 	var rows = db.execute('select * from todo where Done = ?', _Done);
 	while (rows.isValidRow()) {
 		retData.push({
+			timeStamp: rows.fieldByName('TimeStamp'),
 			taskID: rows.fieldByName('TaskID'),
 			item: rows.fieldByName('Item'),
 			category: rows.fieldByName('Category'),
@@ -66,6 +67,7 @@ exports.deleteItem = function(_id) {
 exports.addWork = function (_id, _item) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	mydb.execute('insert into rewards (TaskID,Item,WorkReward) values (?,?,?)', _id, _item, 100);
+	mydb.execute('insert into todo (TaskID,Item,WorkDelta) values (?,?,?)', _id, _item, 0.25);
 	mydb.close();
 	return null;
 };
@@ -78,6 +80,7 @@ exports.selectByID = function(_taskID) {
 	while (rows.isValidRow()) {
 		retData.push(
 		{ 
+			timeStamp: rows.fieldByName('TimeStamp'),
 			taskID: rows.fieldByName('TaskID'),
 			item: rows.fieldByName('Item'),
 			category: rows.fieldByName('Category'),
@@ -126,8 +129,18 @@ exports.getTotalRewards = function (_id) {
 
 exports.getEditInputs = function(_taskID) {
 	var db = Ti.Database.open(DATABASE_NAME);
+	var now = new Date();
+	var julianNow = function () {
+		return Math.floor(now/86400000 + 2440587.5);
+	};
 	var taskPull = db.execute('select * from todo where TaskID = ?', _taskID);
 	var rewardsPull = db.execute('select max(TimeStamp), TotalReward from rewards');
+	var d_hrsWrkToday = db.execute('select sum(WorkDelta) from todo where TaskID = ? and cast(julianday(TimeStamp) as integer) = ?', _taskID, julianNow());
+	var d_lastUpdateTime = db.execute('select max(TimeStamp) from todo');
+	var d_lastCombo1Reward = db.execute('select max(TimeStamp) from rewards where Combo1Reward > ?',0);
+	var d_lastCombo2Reward = db.execute('select max(TimeStamp) from rewards where Combo2Reward > ?',0);
+
+
 	var tempMem = [
 		{
 			tmWorkDelta: taskPull.fieldByName('WorkDelta'),
@@ -144,6 +157,7 @@ exports.getEditInputs = function(_taskID) {
 			tmDoneOrangeReward: 0,
 			tmPushPenalty: 0, 
 			tmTotalReward: rewardsPull.fieldByName('TotalReward'),
+			testOutput: d_hrsWrkToday.fieldByName('sum(WorkDelta)'),
 		}
 	];
 	db.close();
