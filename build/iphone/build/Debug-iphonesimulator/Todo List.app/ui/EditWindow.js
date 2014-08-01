@@ -10,7 +10,6 @@ exports.EditWindow = function(_id, _item)
 	var db = require('db');
 	var record = db.selectByID(_id);
 	var getTotalRewards = db.getTotalRewards(_id);
-	var getEditInputs = db.getEditInputs(_id);
 	var imageLink = {};
 	imageLink['reward1'] = 'images/Numbers-1-filled-icon.png';
 	imageLink['reward2'] = 'images/Numbers-2-filled-icon.png';
@@ -24,7 +23,7 @@ exports.EditWindow = function(_id, _item)
 //Create decisioning functions
 
 
-Ti.API.info(getEditInputs);
+
 
 //Create tabs, windows and views
 
@@ -76,7 +75,7 @@ Ti.API.info(getEditInputs);
 		left: '69%',
 		text: record[0].goalGuide,
 		textAlign: 'center',
-		color: '#424242',
+		color: '#0080f0',
 		font: 
 		{
 			fontSize: 60
@@ -101,7 +100,6 @@ Ti.API.info(getEditInputs);
 	});
 	Ti.App.addEventListener('app:updateRewards', function(e) {
 		rewardLbl.text = '$'+db.getTotalRewards(_id);
-		console.log(db.getEditInputs(_id));
 	});
 
 	var cancelButton = Ti.UI.createButton({
@@ -111,6 +109,7 @@ Ti.API.info(getEditInputs);
 		bottom: '40dp'
 	});
 	cancelButton.addEventListener('click', function(e) {
+		Ti.App.fireEvent('app:updateTables');
 		tabGroup.close();
 	});
 
@@ -121,7 +120,7 @@ Ti.API.info(getEditInputs);
 		bottom: '85dp'
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
-		db.addWork(_id,_item);
+		db.addWork(_id);
 		Ti.App.fireEvent('app:updateRewards');
 	});
 
@@ -131,7 +130,6 @@ Ti.API.info(getEditInputs);
 	leftNavView.add(rewardLbl);
 	self.setLeftNavButton(leftNavView);
 	self.add(vertBar);
-	self.add(botView);
 	self.add(goalLbl);
 	self.add(cancelButton);
 	self.add(addWorkButton);

@@ -64,15 +64,6 @@ exports.deleteItem = function(_id) {
 };
 
 
-exports.addWork = function (_id, _item) {
-	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('insert into rewards (TaskID,Item,WorkReward) values (?,?,?)', _id, _item, 100);
-	mydb.execute('insert into history (TaskID,Item,WorkDelta) values (?,?,?)', _id, _item, 0.25);
-	mydb.close();
-	return null;
-};
-
-
 exports.selectByID = function(_taskID) {
 	var retData = [];
 	var db = Ti.Database.open(DATABASE_NAME);
@@ -127,14 +118,51 @@ exports.getTotalRewards = function (_id) {
 };
 
 
-exports.getEditInputs = function(_taskID) {
+exports.addWork = function(_taskID) {
+	
+	//Pull resources
+
 	var db = Ti.Database.open(DATABASE_NAME);
 	var now = new Date();
 	var julianNow = Math.floor(now/86400000 + 2440587.5);
 	var hourNow = now.getHours();
+	
+	//Write to todo and history DB
+
 	var taskPull = db.execute('select * from todo where TaskID = ?', _taskID);
-	var rewardsPull = db.execute('select max(TimeStamp), TotalReward from rewards');
+	var workDelta = taskPull.fieldByName('LoadSigma')>0 ? Math.min(0.5,taskPull.fieldByName('LoadSigma')) : 0.5;
+	var workToday = db.execute('select sum(WorkDelta) from history where TaskID = ? and cast(julianday(TimeStamp) as integer) = ?', _taskID, julianNow);
+	var n_GoalType = taskPull.fieldByName('GoalProgress') == 100 ? Math.max(taskPull.fieldByName('GoalType')-1,1) : taskPull.fieldByName('GoalType');
+	var n_GoalGuide = taskPull.fieldByName('GoalProgress') == 100 ? Math.max(taskPull.fieldByName('Goalguide')*0.5,0.5) : taskPull.fieldByName('Goalguide');
+	var n_LoadSigma = taskPull.fieldByName('LoadSigma')-workDelta;
+	var n_WorkSigma = taskPull.fieldByName('WorkSigma')+workDelta;
+	var n_GoalProgress = Math.round((workToday.fieldByName('sum(WorkDelta)')+workDelta)/n_GoalGuide*100);
+	
+
+
+	db.execute('UPDATE todo SET WorkDelta=?, LoadSigma=?, WorkSigma=?, GoalProgress=?, GoalGuide = ?, GoalType = ? WHERE TaskID=?', workDelta, n_LoadSigma, n_WorkSigma, n_GoalProgress, n_GoalGuide, n_GoalType, _taskID);
+	db.execute('INSERT into history (TaskID, Item, Category, Done, PositionID, DueDate, DueDelta, LoadSigma, LoadDelta, WorkSigma, WorkDelta, GoalID, GoalGuide, GoalType, GoalProgress) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+			taskPull.fieldByName('TaskID'),
+			taskPull.fieldByName('Item'),
+			taskPull.fieldByName('Category'),
+			taskPull.fieldByName('Done'),
+			taskPull.fieldByName('PositionID'),
+			taskPull.fieldByName('DueDate'),
+			taskPull.fieldByName('DueDelta'),
+			n_LoadSigma,
+			taskPull.fieldByName('LoadDelta'),
+			n_WorkSigma,
+			workDelta,
+			taskPull.fieldByName('GoalID'),
+			n_GoalGuide,
+			n_GoalType,
+			n_GoalProgress
+	);
+
+	//Create deicisioning input variables
+
 	var d_WrkToday = db.execute('select sum(WorkDelta) from history where TaskID = ? and cast(julianday(TimeStamp) as integer) = ?', _taskID, julianNow);
+	var d_goalProgress = db.execute('select GoalProgress from history where TaskID = ? and cast(julianday(TimeStamp) as integer) = ?', _taskID, julianNow);
 	var d_lastUpdateTime = db.execute('select max(TimeStamp) from history');
 	var d_lastCombo1Re = db.execute('select max(TimeStamp) from rewards where Combo1Reward > ?',0);
 	var d_lastCombo2Re = db.execute('select max(TimeStamp) from rewards where Combo2Reward > ?',0);
@@ -142,44 +170,63 @@ exports.getEditInputs = function(_taskID) {
 	var d_totalEarlyHrs = db.execute('select sum(WorkDelta) from history where (cast(julianday(TimeStamp) as integer) = ? and strftime (\'%H\', TimeStamp) >= ? and strftime (\'%H\', TimeStamp) <= ?)', julianNow, 5, 12);
 	var d_redWrkToday = db.execute('select sum(WorkDelta) from history where GoalType = ? and cast(julianday(TimeStamp) as integer) = ?', 3, julianNow);
 	var d_orangeWrkToday = db.execute('select sum(WorkDelta) from history where GoalType = ? and cast(julianday(TimeStamp) as integer) = ?', 2, julianNow);
-
-	//Create temporary memory variables
-
-	var tempMem = [
+	var d_totalRewards = db.execute('select TotalReward from rewards where TimeStamp = (select max(TimeStamp) from rewards)');
+	var input =
 		{
-			tmWorkDelta: taskPull.fieldByName('WorkDelta'),
-			tmWorkSigma: taskPull.fieldByName('WorkSigma'),
-			tmLoadSiga: taskPull.fieldByName('LoadSigma'),
-			tmGoalGuide: taskPull.fieldByName('GoalGuide'),
-			tmGoalType: taskPull.fieldByName('GoalType'),
-			tmGoalProgress: taskPull.fieldByName('GoalProgress'),
-			tmGoalReward: 0,
-			tmEarlyReward: 0,
-			tmCombo1Reward: 0,
-			tmCombo2Reward: 0,
-			tmDoneRedReward: 0,
-			tmDoneOrangeReward: 0,
-			tmPushPenalty: 0, 
-			tmTotalReward: rewardsPull.fieldByName('TotalReward'),
-		}
-	];
+		WorkToday: d_WrkToday.fieldByName('sum(WorkDelta)'),
+		goalProgress: d_goalProgress.fieldByName('GoalProgress'),
+		lastUpdateTime: d_lastUpdateTime.fieldByName('max(TimeStamp)'),
+		lastCombo1Re: d_lastCombo1Re.fieldByName('max(TimeStamp)'),
+		lastCombo2Re: d_lastCombo2Re.fieldByName('max(TimeStamp)'),
+		totalEarlyRe: d_totalEarlyRe.fieldByName('count(EarlyReward)'),
+		totalEarlyHrs: d_totalEarlyHrs.fieldByName('sum(WorkDelta)'),
+		redWrkToday: d_redWrkToday.fieldByName('sum(WorkDelta)'),
+		orangeWrkToday: d_orangeWrkToday.fieldByName('sum(WorkDelta)'),
+		totalRewards: d_totalRewards.fieldByName('TotalReward')
+		};
 
+	//Decide on Rewards
 
-	//Create deicisioning variables
-
-	var decisionVar = [
+	var rewards =
 		{
-			WorkToday: d_WrkToday.fieldByName('sum(WorkDelta)'),
-			lastUpdateTime: d_lastUpdateTime.fieldByName('max(TimeStamp)'),
-			lastCombo1Re: d_lastCombo1Re.fieldByName('max(TimeStamp)'),
-			lastCombo2Re: d_lastCombo2Re.fieldByName('max(TimeStamp)'),
-			totalEarlyRe: d_totalEarlyRe.fieldByName('count(EarlyReward)'),
-			totalEarlyHrs: d_totalEarlyHrs.fieldByName('sum(WorkDelta)'),
-			redWrkToday: d_redWrkToday.fieldByName('sum(WorkDelta)'),
-			orangeWrkToday: d_orangeWrkToday.fieldByName('sum(WorkDelta)'),
-		}
-	];
+		Goal: 0,
+		Early: 0,
+		Combo1: 0,
+		Combo2: 0,
+		DoneRed: 0,
+		DoneOrange: 0,
+		Total: input.totalRewards
+		};
 
+	if (input.GoalProgress >= 100)
+	{
+		rewards.Goal = 1;
+	}
+
+	var retData = [];
+	var rows = db.execute('select * from history where TimeStamp = (select max(TimeStamp) from history)');
+	while (rows.isValidRow()) {
+		retData.push({
+			timeStamp: rows.fieldByName('TimeStamp'),
+			taskID: rows.fieldByName('TaskID'),
+			item: rows.fieldByName('Item'),
+			category: rows.fieldByName('Category'),
+			done: rows.fieldByName('Done'),
+			positionID: rows.fieldByName('PositionID'),
+			dueDate: rows.fieldByName('DueDate'),
+			dueDelta: rows.fieldByName('DueDelta'),
+			loadSigma: rows.fieldByName('LoadSigma'),
+			loadDelta: rows.fieldByName('LoadDelta'),
+			workSigma: rows.fieldByName('WorkSigma'),
+			workDelta: rows.fieldByName('WorkDelta'),
+			goalID: rows.fieldByName('GoalID'),
+			goalGuide: rows.fieldByName('GoalGuide'),
+			goalType: rows.fieldByName('GoalType'),
+			goalProgress: rows.fieldByName('GoalProgress'),
+		});
+		rows.next();
+	}
 	db.close();
-	return decisionVar;
+	console.log(retData);
+	console.log(d_WrkToday);
 };

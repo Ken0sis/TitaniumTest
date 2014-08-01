@@ -143,7 +143,7 @@ var getTableData = function(Done) {
 				labelID: todoItems[j].taskID,
 				labelItem: todoItems[j].item,
 				height: 30,
-				width: 25,
+				width: Titanium.UI.SIZE,
 				color: guideColor(todoItems[j].goalType),
 				font: {
 					fontWeight: 'normal',
