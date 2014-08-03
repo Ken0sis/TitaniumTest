@@ -139,9 +139,10 @@ var getTableData = function(Done) {
 
 			var label = Ti.UI.createButton({
 				right: 15,
-				title: todoItems[j].goalGuide,
+				title: todoItems[j].goalGuide == 0 ? 'F' : todoItems[j].goalGuide,
 				labelID: todoItems[j].taskID,
 				labelItem: todoItems[j].item,
+				goalID: todoItems[j].goalID,
 				height: 30,
 				width: Titanium.UI.SIZE,
 				color: guideColor(todoItems[j].goalType),
@@ -157,7 +158,7 @@ var getTableData = function(Done) {
 				'click', 
 				function(e) 
 				{
-				new EditWindow(e.source.labelID, e.source.labelItem).open();        
+				new EditWindow(e.source.labelID, e.source.labelItem, e.source.goalID).open();        
 				return false;
 				}
 			);

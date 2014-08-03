@@ -1,4 +1,4 @@
-exports.EditWindow = function(_id, _item)
+exports.EditWindow = function(_id, _item, _goalID)
 {
 	
 //Check input pass
@@ -73,13 +73,16 @@ exports.EditWindow = function(_id, _item)
 		height: Titanium.UI.SIZE,
 		top: 25,
 		left: '69%',
-		text: record[0].goalGuide,
+		text: db.selectByID(_id)[0].goalGuide == 0 ? 'F' : db.selectByID(_id)[0].goalGuide,
 		textAlign: 'center',
 		color: '#0080f0',
 		font: 
 		{
 			fontSize: 60
 		}
+	});
+	Ti.App.addEventListener('app:updateDisplay', function(e) {
+		goalLbl.text = db.selectByID(_id)[0].goalGuide == 0 ? 'F' : db.selectByID(_id)[0].goalGuide;
 	});
 
 	var botView = Ti.UI.createLabel({
@@ -98,7 +101,7 @@ exports.EditWindow = function(_id, _item)
 			fontSize: 11
 		}
 	});
-	Ti.App.addEventListener('app:updateRewards', function(e) {
+	Ti.App.addEventListener('app:updateDisplay', function(e) {
 		rewardLbl.text = '$'+db.getTotalRewards(_id);
 	});
 
@@ -120,8 +123,8 @@ exports.EditWindow = function(_id, _item)
 		bottom: '85dp'
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
-		db.addWork(_id);
-		Ti.App.fireEvent('app:updateRewards');
+		db.addWork(_id, _goalID);
+		Ti.App.fireEvent('app:updateDisplay');
 	});
 
 
