@@ -55,8 +55,12 @@ exports.EditWindow = function(_id, _item, _goalID)
 		borderWidth: .25,
 		borderColor: '#ADADAD',
 		top: 20,
-		height: 200,
+		height: 150,
 	}); 
+
+	var rightView = Ti.UI.createView({
+		left: '50%',
+	});
 
 	/*var botView = Ti.UI.createView({
 		width: 32,
@@ -72,7 +76,6 @@ exports.EditWindow = function(_id, _item, _goalID)
 		width: Titanium.UI.SIZE,
 		height: Titanium.UI.SIZE,
 		top: 25,
-		left: '69%',
 		text: db.selectByID(_id)[0].goalGuide == 0 ? 'F' : db.selectByID(_id)[0].goalGuide,
 		textAlign: 'center',
 		color: '#0080f0',
@@ -82,10 +85,10 @@ exports.EditWindow = function(_id, _item, _goalID)
 		}
 	});
 	Ti.App.addEventListener('app:updateDisplay', function(e) {
-		goalLbl.text = db.selectByID(_id)[0].goalGuide == 0 ? 'F' : db.selectByID(_id)[0].goalGuide;
+		goalLbl.text = db.selectByID(_id)[0].goalGuide == 0 ? '-' : db.selectByID(_id)[0].goalGuide;
 	});
 
-	var botView = Ti.UI.createLabel({
+	var botCounter = Ti.UI.createLabel({
 		width: 25,
 		height: 25,
 		bottom: 120,
@@ -105,22 +108,38 @@ exports.EditWindow = function(_id, _item, _goalID)
 		rewardLbl.text = '$'+db.getTotalRewards(_id);
 	});
 
-	var cancelButton = Ti.UI.createButton({
-		title: 'Cancel',
-		width: '300dp',
-		height: '40dp',
-		bottom: '40dp'
+	var doneButton = Ti.UI.createButton({
+		title: 'Done',
+		width: '40%',
+		height: 35,
+		bottom: 20,
+		backgroundColor: '#0080f0',
+		color: 'white',
+		borderRadius: 5,
+		font: 
+		{
+			fontFamily:'HelveticaNeue',
+			fontSize: 17,
+		},
 	});
-	cancelButton.addEventListener('click', function(e) {
+	doneButton.addEventListener('click', function(e) {
 		Ti.App.fireEvent('app:updateTables');
 		tabGroup.close();
 	});
 
 	var addWorkButton = Ti.UI.createButton({
 		title: '+ Work',
-		width: '300dp',
-		height: '40dp',
-		bottom: '85dp'
+		width: '40%',
+		height: 35,
+		bottom: 65,
+		backgroundColor: '#0080f0',
+		color: 'white',
+		borderRadius: 5,
+		font: 
+		{
+			fontFamily:'HelveticaNeue',
+			fontSize: 17,
+		},
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
 		db.addWork(_id, _goalID);
@@ -133,12 +152,18 @@ exports.EditWindow = function(_id, _item, _goalID)
 	leftNavView.add(rewardLbl);
 	self.setLeftNavButton(leftNavView);
 	self.add(vertBar);
-	self.add(goalLbl);
-	self.add(cancelButton);
+	self.add(rightView);
+	self.add(doneButton);
 	self.add(addWorkButton);
+	rightView.add(goalLbl);
 	tabGroup.addTab(tabWindow);
 	tabGroup.currentTab = tabWindow;
 	
 	return tabGroup;
+
+};
+
+var showBadges = function ()
+{
 
 };

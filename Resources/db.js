@@ -125,7 +125,7 @@ exports.addWork = function(_taskID, _goalID) {
 	var n_LoadSigma = Math.max(taskPull.fieldByName('LoadSigma')-workDelta,0);
 	var n_WorkSigma = taskPull.fieldByName('WorkSigma')+workDelta;
 	var n_GoalType = taskPull.fieldByName('GoalProgress') >= 100 ? Math.max(taskPull.fieldByName('GoalType')-1,1) : taskPull.fieldByName('GoalType');
-	var n_GoalGuide = taskPull.fieldByName('GoalProgress') >= 100 ? Math.min(n_LoadSigma,Math.round(taskPull.fieldByName('Goalguide')*0.5)) : taskPull.fieldByName('Goalguide');
+	var n_GoalGuide = taskPull.fieldByName('GoalProgress') >= 100 ? Math.min(n_LoadSigma,Math.max(Math.floor(taskPull.fieldByName('Goalguide')*0.5),1)) : taskPull.fieldByName('Goalguide');
 	var n_GoalID = taskPull.fieldByName('GoalProgress') >= 100 ? new Date().getTime() : taskPull.fieldByName('GoalID');
 	var p_goalWrk = db.execute('select sum(WorkDelta) from history where GoalID = ?', n_GoalID);
 	var n_GoalProgress = n_GoalGuide == 0 ? 0 : (p_goalWrk.fieldByName('sum(WorkDelta)')+workDelta)/n_GoalGuide*100;
@@ -182,10 +182,10 @@ exports.addWork = function(_taskID, _goalID) {
 	var rewards =
 		{
 		Work: 5,
+		Combo2: 0,
 		Goal: 0,
 		Early: 0,
 		Combo1: 0,
-		Combo2: 0,
 		DoneRed: 0,
 		DoneOrange: 0,
 		Total: 0
@@ -218,7 +218,7 @@ exports.addWork = function(_taskID, _goalID) {
 		rewards.DoneRed = input.redWrkToday/12 * 160; 
 	}
 
-	if (input.orangeBalance == null && input.orangeWrkToday >0)
+	if (input.orangeBalance == null && input.orangeWrkToday >0 && input.redBalance == null)
 	{
 		rewards.DoneOrange = input.orangeWrkToday/12 * 120; 
 	}
@@ -228,7 +228,7 @@ exports.addWork = function(_taskID, _goalID) {
 	db.execute ('insert into rewards (TaskID, Category, Item, WorkReward, GoalReward, EarlyReward, Combo1Reward, Combo2Reward, DoneRedReward, DoneOrangeReward, TotalReward) values (?,?,?,?,?,?,?,?,?,?,?)', taskPull.fieldByName('TaskID'), taskPull.fieldByName('Category'), taskPull.fieldByName('Item'), rewards.Work, rewards.Goal, rewards.Early, rewards.Combo1, rewards.Combo2, rewards.DoneRed, rewards.DoneOrange, rewards.Total);
 
 	var retData = [];
-	var rows = db.execute('select * from rewards where TimeStamp = (select max(TimeStamp) from history)');
+	var rows = db.execute('select * from history where TimeStamp = (select max(TimeStamp) from history)');
 	while (rows.isValidRow()) {
 		retData.push({
 			timeStamp: rows.fieldByName('TimeStamp'),

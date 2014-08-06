@@ -32,6 +32,9 @@ exports.ListWindow = function(args) {
 			var addBtn = Ti.UI.createButton({
 				title:'+ ',
 				width: Titanium.UI.SIZE,
+				font: {
+					fontSize: 27,
+				},
 			});
 
 			addBtn.addEventListener('click', function() {
@@ -92,7 +95,7 @@ var getTableData = function(Done) {
 			color: 'white',
 			font: {
 				fontSize: 14,
-				fontFamily: 'Helvetica',
+				fontFamily: 'HelveticaNeue',
 				fontWeight: 'bold',
 			},
 			left:11,
@@ -139,13 +142,13 @@ var getTableData = function(Done) {
 
 			var label = Ti.UI.createButton({
 				right: 15,
-				title: todoItems[j].goalGuide == 0 ? 'F' : todoItems[j].goalGuide,
+				title: todoItems[j].goalGuide == 0 ? '-' : todoItems[j].goalGuide,
 				labelID: todoItems[j].taskID,
 				labelItem: todoItems[j].item,
 				goalID: todoItems[j].goalID,
 				height: 30,
 				width: Titanium.UI.SIZE,
-				color: guideColor(todoItems[j].goalType),
+				color: todoItems[j].goalGuide == 0 ? 'black' : guideColor(todoItems[j].goalType),
 				font: {
 					fontWeight: 'normal',
 					fontSize: 19, 
@@ -168,7 +171,7 @@ var getTableData = function(Done) {
 				color: '#424242',
 				font: {
 					fontSize: 14,
-					fontFamily: 'Helvetica'
+					fontFamily: 'HelveticaNeue'
 				},
 				left: 13,
 				top: 5,
