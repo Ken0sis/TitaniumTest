@@ -1,0 +1,1 @@
+exports.AppTabGroup=function(){for(var e=Ti.UI.createTabGroup(),a=0,t=arguments.length;t>a;a++){var o=Ti.UI.createTab(arguments[a]);0===a&&(e.currentTab=o),e.addTab(o)}return e.addEventListener("focus",function(a){e.currentTab=a.tab}),e};

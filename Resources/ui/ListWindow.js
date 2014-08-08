@@ -11,9 +11,7 @@ exports.ListWindow = function(args) {
 	//Create necessary views for formatting
 
 	var navBtnView = Ti.UI.createView({
-		width: 20,
-		horizontalWrap: 'false',
-		layout: 'horizontal',
+		width: Titanium.UI.SIZE,
 	});
 
 	//Setting the data for table
@@ -30,10 +28,10 @@ exports.ListWindow = function(args) {
 
 		if (platform !== 'android') {
 			var addBtn = Ti.UI.createButton({
-				title:'+ ',
-				width: Titanium.UI.SIZE,
+				title:'+',
 				font: {
-					fontSize: 27,
+					fontSize: 32,
+					ontFamily: 'Arial',
 				},
 			});
 
@@ -86,7 +84,7 @@ var getTableData = function(Done) {
 	var createHeader = function(_input) {
 		var header = Ti.UI.createView (
 		{
-		height:27,
+		height:28,
 		backgroundColor:'#0080f0',
 		});
 		var headerTitle = Ti.UI.createLabel (
@@ -94,9 +92,8 @@ var getTableData = function(Done) {
 			text: _input,
 			color: 'white',
 			font: {
-				fontSize: 14,
-				fontFamily: 'HelveticaNeue',
-				fontWeight: 'bold',
+				fontSize: 15,
+				ontFamily: 'HelveticaNeue',
 			},
 			left:11,
 		});
@@ -141,17 +138,18 @@ var getTableData = function(Done) {
 			}
 
 			var label = Ti.UI.createButton({
-				right: 15,
+				right: 7,
 				title: todoItems[j].goalGuide == 0 ? '-' : todoItems[j].goalGuide,
 				labelID: todoItems[j].taskID,
 				labelItem: todoItems[j].item,
 				goalID: todoItems[j].goalID,
 				height: 30,
-				width: Titanium.UI.SIZE,
-				color: todoItems[j].goalGuide == 0 ? 'black' : guideColor(todoItems[j].goalType),
+				width: 53,
+				color: todoItems[j].goalGuide == 0 ? 'gray' : guideColor(todoItems[j].goalType),
 				font: {
 					fontWeight: 'normal',
-					fontSize: 19, 
+					fontFamily: 'HelveticaNeue',
+					fontSize: 24, 
 				}	
 			});
 
@@ -170,25 +168,29 @@ var getTableData = function(Done) {
 				text: todoItems[j].item,
 				color: '#424242',
 				font: {
-					fontSize: 14,
+					fontSize: 18,
 					fontFamily: 'HelveticaNeue'
 				},
+				width:200,
+				ellipsize: true,
+				wordWrap: false,
+				horizontalWrap: false,
 				left: 13,
-				top: 5,
-				height: 15
+				top: 7,
+				height: 15,
 			});
 
 			var subtitle = Ti.UI.createLabel({
 				text: '('+todoItems[j].loadSigma+' hrs), ('+todoItems[j].dueDate+')',
-				color: '#0088FF',
+				color: 'gray',
 				font: {
 					fontStyle: 'italic',
-					fontSize: 8
+					fontSize: 10
 				},
 				left: 14,
-				top: 25,
-				bottom: 4,
-				height: 12
+				top: 34,
+				bottom: 6,
+				height: Titanium.UI.SIZE,
 			});
 				
 			var row = Ti.UI.createTableViewRow({    //Create row

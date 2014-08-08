@@ -10,14 +10,13 @@ exports.EditWindow = function(_id, _item, _goalID)
 	var db = require('db');
 	var record = db.selectByID(_id);
 	var getTotalRewards = db.getTotalRewards(_id);
-	var imageLink = {};
-	imageLink['reward1'] = 'images/Numbers-1-filled-icon.png';
-	imageLink['reward2'] = 'images/Numbers-2-filled-icon.png';
-	imageLink['reward3'] = 'images/Numbers-3-filled-icon.png';
-	imageLink['reward4'] = 'images/Numbers-4-filled-icon.png';
-	imageLink['reward5'] = 'images/Numbers-5-filled-icon.png';
-	imageLink['reward6'] = 'images/Numbers-6-filled-icon.png';
-	imageLink['reward7'] = 'images/Numbers-7-filled-icon.png';
+	var badgeLink = {};
+	badgeLink['Combo1'] = 'images/Numbers-1-filled-icon.png';
+	badgeLink['Combo2'] = 'images/Numbers-2-filled-icon.png';
+	badgeLink['Early'] = 'images/Numbers-3-filled-icon.png';
+	badgeLink['Goal'] = 'images/Numbers-4-filled-icon.png';
+	badgeLink['DoneRed'] = 'images/Numbers-5-filled-icon.png';
+	badgeLink['DoneOrange'] = 'images/Numbers-6-filled-icon.png';
 
 
 //Create decisioning functions
@@ -76,7 +75,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		width: Titanium.UI.SIZE,
 		height: Titanium.UI.SIZE,
 		top: 25,
-		text: db.selectByID(_id)[0].goalGuide == 0 ? 'F' : db.selectByID(_id)[0].goalGuide,
+		text: db.selectByID(_id)[0].goalGuide == 0 ? '-' : db.selectByID(_id)[0].goalGuide,
 		textAlign: 'center',
 		color: '#0080f0',
 		font: 
@@ -110,16 +109,9 @@ exports.EditWindow = function(_id, _item, _goalID)
 
 	var doneButton = Ti.UI.createButton({
 		title: 'Done',
-		width: '40%',
-		height: 35,
-		bottom: 20,
-		backgroundColor: '#0080f0',
-		color: 'white',
-		borderRadius: 5,
 		font: 
 		{
 			fontFamily:'HelveticaNeue',
-			fontSize: 17,
 		},
 	});
 	doneButton.addEventListener('click', function(e) {
@@ -129,16 +121,16 @@ exports.EditWindow = function(_id, _item, _goalID)
 
 	var addWorkButton = Ti.UI.createButton({
 		title: '+ Work',
-		width: '40%',
-		height: 35,
-		bottom: 65,
+		width: '35%',
+		height: 43,
+		bottom: 25,
 		backgroundColor: '#0080f0',
 		color: 'white',
-		borderRadius: 5,
+		borderRadius: 7,
 		font: 
 		{
 			fontFamily:'HelveticaNeue',
-			fontSize: 17,
+			fontSize: 19,
 		},
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
@@ -153,8 +145,8 @@ exports.EditWindow = function(_id, _item, _goalID)
 	self.setLeftNavButton(leftNavView);
 	self.add(vertBar);
 	self.add(rightView);
-	self.add(doneButton);
 	self.add(addWorkButton);
+	self.setRightNavButton(doneButton);
 	rightView.add(goalLbl);
 	tabGroup.addTab(tabWindow);
 	tabGroup.currentTab = tabWindow;

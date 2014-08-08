@@ -1,7 +1,8 @@
 {
-	"target": "simulator",
-	"deployType": "development",
+	"target": "device",
+	"deployType": "test",
 	"deviceFamily": "universal",
+	"developerName": "Quoc Le (Y4NCB3U427)",
 	"iosSdkPath": "/Users/Atlas/Library/Application Support/Titanium/mobilesdk/osx/3.2.3.GA/iphone",
 	"tiCoreHash": "77157e1ffaec640cf559356a147b6a4c",
 	"modulesHash": "d41d8cd98f00b204e9800998ecf8427e",
@@ -16,8 +17,8 @@
 	"description": "not specified",
 	"copyright": "2011-2014 by tlukasavage",
 	"guid": "5458670d-ae76-4266-a236-3f2bacde5530",
-	"skipJSMinification": true,
+	"skipJSMinification": false,
 	"forceCopy": false,
 	"forceCopyAll": false,
-	"encryptJS": false
+	"encryptJS": true
 }

@@ -45,7 +45,8 @@ exports.AddWindow = function() {
 		top: '200dp',
 		hintText: 'Estimated Hours',
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-		returnKeyType: Titanium.UI.RETURNKEY_NEXT
+		keyboardType: Titanium.UI.KEYBOARD_NUMBERS_PUNCTUATION,
+		returnKeyType: Titanium.UI.RETURNKEY_NEXT,
 	});
 	
 	var DueField = Ti.UI.createTextField({
@@ -55,7 +56,7 @@ exports.AddWindow = function() {
 		hintText: 'Due Date',
 		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
 		keyboardType: Titanium.UI.KEYBOARD_NUMBERS_PUNCTUATION,
-		returnKeyType: Titanium.UI.RETURNKEY_DONE
+		returnKeyType: Titanium.UI.RETURNKEY_DONE,
 	});
 	
 	

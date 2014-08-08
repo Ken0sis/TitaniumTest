@@ -125,7 +125,7 @@ exports.addWork = function(_taskID, _goalID) {
 	var n_LoadSigma = Math.max(taskPull.fieldByName('LoadSigma')-workDelta,0);
 	var n_WorkSigma = taskPull.fieldByName('WorkSigma')+workDelta;
 	var n_GoalType = taskPull.fieldByName('GoalProgress') >= 100 ? Math.max(taskPull.fieldByName('GoalType')-1,1) : taskPull.fieldByName('GoalType');
-	var n_GoalGuide = taskPull.fieldByName('GoalProgress') >= 100 ? Math.min(n_LoadSigma,Math.max(Math.floor(taskPull.fieldByName('Goalguide')*0.5),1)) : taskPull.fieldByName('Goalguide');
+	var n_GoalGuide = taskPull.fieldByName('GoalProgress') >= 100 ? Math.min(taskPull.fieldByName('LoadSigma'),Math.max(Math.floor(taskPull.fieldByName('Goalguide')*0.5),1)) : taskPull.fieldByName('Goalguide');
 	var n_GoalID = taskPull.fieldByName('GoalProgress') >= 100 ? new Date().getTime() : taskPull.fieldByName('GoalID');
 	var p_goalWrk = db.execute('select sum(WorkDelta) from history where GoalID = ?', n_GoalID);
 	var n_GoalProgress = n_GoalGuide == 0 ? 0 : (p_goalWrk.fieldByName('sum(WorkDelta)')+workDelta)/n_GoalGuide*100;
@@ -182,10 +182,10 @@ exports.addWork = function(_taskID, _goalID) {
 	var rewards =
 		{
 		Work: 5,
-		Combo2: 0,
-		Goal: 0,
-		Early: 0,
 		Combo1: 0,
+		Combo2: 0,
+		Early: 0,
+		Goal: 0,
 		DoneRed: 0,
 		DoneOrange: 0,
 		Total: 0
@@ -195,7 +195,7 @@ exports.addWork = function(_taskID, _goalID) {
 
 	if (input.goalProgress >= 100)
 	{
-		rewards.Goal = n_GoalGuide*0.5*5;
+		rewards.Goal = n_GoalGuide*5;
 	}
 
 	if (input.totalEarlyRe<input.totalEarlyHrs)
