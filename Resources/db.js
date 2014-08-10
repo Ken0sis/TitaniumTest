@@ -7,7 +7,7 @@ exports.createDb = function() {
 exports.selectByDone = function(_Done) {
 	var retData = [];
 	var db = Ti.Database.open(DATABASE_NAME);
-	var rows = db.execute('select * from todo where Done = ?', _Done);
+	var rows = db.execute('select * from todo where Done = ? and Active = 1', _Done);
 	while (rows.isValidRow()) {
 		retData.push({
 			timeStamp: rows.fieldByName('TimeStamp'),
@@ -15,6 +15,7 @@ exports.selectByDone = function(_Done) {
 			item: rows.fieldByName('Item'),
 			category: rows.fieldByName('Category'),
 			done: rows.fieldByName('Done'),
+			active: rows.fieldByName('Active'),
 			positionID: rows.fieldByName('PositionID'),
 			dueDate: rows.fieldByName('DueDate'),
 			dueDelta: rows.fieldByName('DueDelta'),
@@ -36,7 +37,7 @@ exports.selectByDone = function(_Done) {
 exports.selectByID = function(_taskID) {
 	var retData = [];
 	var db = Ti.Database.open(DATABASE_NAME);
-	var rows = db.execute('select * from todo where TaskID = ?', _taskID);
+	var rows = db.execute('select * from todo where TaskID = ? and Active = 1', _taskID);
 	while (rows.isValidRow()) {
 		retData.push(
 		{ 
@@ -45,6 +46,7 @@ exports.selectByID = function(_taskID) {
 			item: rows.fieldByName('Item'),
 			category: rows.fieldByName('Category'),
 			done: rows.fieldByName('Done'),
+			active: rows.fieldByName('Active'),
 			positionID: rows.fieldByName('PositionID'),
 			dueDate: rows.fieldByName('DueDate'),
 			dueDelta: rows.fieldByName('DueDelta'),
@@ -65,8 +67,8 @@ exports.selectByID = function(_taskID) {
 
 exports.updateItem = function(_id, _Done) { 
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('update todo set Done = ? where TaskID = ?', _Done, _id);
-	var rows = mydb.execute('select * from todo where Done = ?', _Done);
+	mydb.execute('update todo set Done = ? where TaskID = ? and Active = 1', _Done, _id);
+	var rows = mydb.execute('select * from todo where Done = ? and Active = 1', _Done);
 	mydb.close();
 	return rows;
 };
@@ -74,7 +76,7 @@ exports.updateItem = function(_id, _Done) {
 exports.addItem = function(_Item, _Category, _LoadSigma, _DueDate) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
 	var taskID = new Date().getTime();
-	var goalID = new Date().getTime() + Math.floor(Math.random()*999);
+	var goalID = new Date().getTime();
 	var dummyGoal = Math.floor(Math.random() * _LoadSigma);
 	var dummyType = Math.floor(Math.random() * 2) + 1;
 
@@ -89,18 +91,19 @@ exports.addItem = function(_Item, _Category, _LoadSigma, _DueDate) {
 
 exports.deleteItem = function(_id) {
 	var mydb = Ti.Database.open(DATABASE_NAME);
-	mydb.execute('delete from todo where TaskID = ?', _id);
+	mydb.execute('update todo set Active = 0 where TaskID = ?', _id);
+	mydb.execute('update history set Active = 0 where TaskID = ?', _id);
+	mydb.execute('update rewards set Active = 0 where TaskID = ?', _id);
 	mydb.close();
 };
 
 exports.getTotalRewards = function (_id) {
 	var db = Ti.Database.open(DATABASE_NAME);
-	var reVar = 0;
 	var Total = db.execute('select TotalReward from rewards where TimeStamp = (select max(TimeStamp) from rewards)');
-	reVar = Total.fieldByName('TotalReward');
+	var reVar = Total.fieldByName('TotalReward');
 	
 	db.close();
-	return reVar;
+	return reVar == null? 0 : reVar;
 };
 
 
@@ -116,7 +119,7 @@ exports.addWork = function(_taskID, _goalID) {
 	
 	//Setup variables that are changed
 
-	var taskPull = db.execute('select * from todo where TaskID = ?', _taskID);
+	var taskPull = db.execute('select * from todo where TaskID = ? and Active = 1', _taskID);
 	var workDelta = taskPull.fieldByName('LoadSigma')>0 ? Math.min(0.5,taskPull.fieldByName('LoadSigma')) : 0.5;
 	var lastUpdate = db.execute('select max(TimeStamp) from history');
 	var n_LoadSigma = Math.max(taskPull.fieldByName('LoadSigma')-workDelta,0);
@@ -129,12 +132,13 @@ exports.addWork = function(_taskID, _goalID) {
 
 	//Write to todo and history DB
 
-	db.execute('UPDATE todo SET WorkDelta=?, LoadSigma=?, WorkSigma=?, GoalProgress=?, GoalGuide = ?, GoalType = ?, GoalID = ? WHERE TaskID=?', workDelta, n_LoadSigma, n_WorkSigma, n_GoalProgress, n_GoalGuide, n_GoalType, n_GoalID, _taskID);
-	db.execute('INSERT into history (TaskID, Item, Category, Done, PositionID, DueDate, DueDelta, LoadSigma, LoadDelta, WorkSigma, WorkDelta, GoalID, GoalGuide, GoalType, GoalProgress) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
+	db.execute('UPDATE todo SET WorkDelta=?, LoadSigma=?, WorkSigma=?, GoalProgress=?, GoalGuide = ?, GoalType = ?, GoalID = ? WHERE TaskID=? and Active=1', workDelta, n_LoadSigma, n_WorkSigma, n_GoalProgress, n_GoalGuide, n_GoalType, n_GoalID, _taskID);
+	db.execute('INSERT into history (TaskID, Item, Category, Done, Active, PositionID, DueDate, DueDelta, LoadSigma, LoadDelta, WorkSigma, WorkDelta, GoalID, GoalGuide, GoalType, GoalProgress) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', 
 			taskPull.fieldByName('TaskID'),
 			taskPull.fieldByName('Item'),
 			taskPull.fieldByName('Category'),
 			taskPull.fieldByName('Done'),
+			taskPull.fieldByName('Active'),
 			taskPull.fieldByName('PositionID'),
 			taskPull.fieldByName('DueDate'),
 			taskPull.fieldByName('DueDelta'),
@@ -156,8 +160,8 @@ exports.addWork = function(_taskID, _goalID) {
 	var d_totalEarlyHrs = db.execute('select sum(WorkDelta) from history where (cast(julianday(TimeStamp) as integer) = ? and strftime (\'%H\', TimeStamp) >= ? and strftime (\'%H\', TimeStamp) <= ?)', julianNow, 5, 12);
 	var d_redWrkToday = db.execute('select sum(WorkDelta) from history where GoalType = ? and cast(julianday(TimeStamp) as integer) = ?', 3, julianNow);
 	var d_orangeWrkToday = db.execute('select sum(WorkDelta) from history where GoalType = ? and cast(julianday(TimeStamp) as integer) = ?', 2, julianNow);
-	var d_redBalance = db.execute('select sum(GoalGuide*(1-GoalProgress/100)) from todo where GoalType = ?', 3);
-	var d_orangeBalance = db.execute('select sum(GoalGuide*(1-GoalProgress/100)) from todo where GoalType = ?', 2);
+	var d_redBalance = db.execute('select sum(GoalGuide*(1-GoalProgress/100)) from todo where GoalType = ? and Active = 1', 3);
+	var d_orangeBalance = db.execute('select sum(GoalGuide*(1-GoalProgress/100)) from todo where GoalType = ? and Active = 1', 2);
 	var d_totalRewards = db.execute('select TotalReward from rewards where TimeStamp = (select max(TimeStamp) from rewards)');
 	var input =
 		{
@@ -222,7 +226,7 @@ exports.addWork = function(_taskID, _goalID) {
 
 	rewards.Total = input.totalRewards + rewards.Work + rewards.Goal + rewards.Early + rewards.Combo1 + rewards.Combo2 + rewards.DoneRed + rewards.DoneOrange;
 
-	db.execute ('insert into rewards (TaskID, Category, Item, WorkReward, GoalReward, EarlyReward, Combo1Reward, Combo2Reward, DoneRedReward, DoneOrangeReward, TotalReward) values (?,?,?,?,?,?,?,?,?,?,?)', taskPull.fieldByName('TaskID'), taskPull.fieldByName('Category'), taskPull.fieldByName('Item'), rewards.Work, rewards.Goal, rewards.Early, rewards.Combo1, rewards.Combo2, rewards.DoneRed, rewards.DoneOrange, rewards.Total);
+	db.execute ('insert into rewards (TaskID, Active, Category, Item, WorkReward, GoalReward, EarlyReward, Combo1Reward, Combo2Reward, DoneRedReward, DoneOrangeReward, TotalReward) values (?,?,?,?,?,?,?,?,?,?,?,?)', taskPull.fieldByName('TaskID'), 1, taskPull.fieldByName('Category'), taskPull.fieldByName('Item'), rewards.Work, rewards.Goal, rewards.Early, rewards.Combo1, rewards.Combo2, rewards.DoneRed, rewards.DoneOrange, rewards.Total);
 
 	var retData = [];
 	var rows = db.execute('select * from history where TimeStamp = (select max(TimeStamp) from history)');

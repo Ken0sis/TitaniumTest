@@ -3,10 +3,11 @@ var platform = Ti.Platform.osname;
 //A window object which will be associated with the stack of windows
 exports.ListWindow = function(args) {
 	var AddWindow = require('ui/AddWindow').AddWindow;
-	var self = Ti.UI.createWindow(args);
-	var tableview = Ti.UI.createTableView();
 	var isDone = args.isDone;
-
+	var self = Ti.UI.createWindow(args);
+	var tableview = Ti.UI.createTableView({
+		separatorColor:'#0088FF',
+	});
 
 	//Create necessary views for formatting
 
@@ -153,14 +154,13 @@ var getTableData = function(Done) {
 				}	
 			});
 
-			Ti.API.info(todoItems[j].taskID, todoItems[j].done, todoItems[j].goalType, todoItems[j].goalGuide, todoItems[j].goalID);
+			Ti.API.info('taskID:'+todoItems[j].taskID, 'done:'+todoItems[j].done, 'goalType:'+todoItems[j].goalType, 'goalGuide:'+todoItems[j].goalGuide);
 
 			label.addEventListener(
 				'click', 
 				function(e) 
 				{
-				new EditWindow(e.source.labelID, e.source.labelItem, e.source.goalID).open();
-				Ti.App.fireEvent('app:updateDisplay');        
+				new EditWindow(e.source.labelID, e.source.labelItem, e.source.goalID).open();      
 				return false;
 				}
 			);
@@ -190,7 +190,7 @@ var getTableData = function(Done) {
 				},
 				left: 14,
 				top: 34,
-				bottom: 6,
+				bottom: 7,
 				height: Titanium.UI.SIZE,
 			});
 				
@@ -247,7 +247,8 @@ var createConfirmDialog = function(id, title, isDone) {
 				db.updateItem(id, 1);
 				Ti.App.fireEvent('app:updateTables');
 			} else if (e.index === 1) {
-				deleteItem(id, isDone);
+				db.deleteItem(id);
+				console.log('deleted '+id);
 				Ti.App.fireEvent('app:updateTables');
 			}
 		};
@@ -263,15 +264,4 @@ var createConfirmDialog = function(id, title, isDone) {
 	confirm.addEventListener('click', clickHandler);
 
 	return confirm;
-};
-
-var deleteItem = function(id, isDone) {
-	
-	var db = require('db');
-	if (platform === 'mobileweb') {
-		db.deleteItem(id, isDone);
-	}
-	else {
-		db.deleteItem(id);
-	}
 };

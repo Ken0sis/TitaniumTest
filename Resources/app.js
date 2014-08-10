@@ -25,6 +25,8 @@ else {
 					navBarHidden: false,
 					backgroundColor: '#FFFFFF',
 					barColor:'#FFFFFF',
+					borderColor:'#FFFFFF',
+					borderWidth:0,
 					translucent: false,
 					isDone: 0,
 					activity: {

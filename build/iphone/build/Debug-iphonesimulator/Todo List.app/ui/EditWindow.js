@@ -3,7 +3,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 	
 //Check input pass
 
-	Ti.API.info(_id);
+	Ti.API.info('Input taskID:'+_id);
 
 //Call required database external functions
 
@@ -72,8 +72,8 @@ exports.EditWindow = function(_id, _item, _goalID)
 	});
 
 	var botView = Ti.UI.createView({
-		width: 32,
-		height: 32,
+		width: Ti.UI.SIZE,
+		height: Ti.UI.SIZE,
 		bottom: 120,
 		backgroundImage: 'images/Time-Timer-icon2.png',
 	});
@@ -106,7 +106,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		},
 	});
 	Ti.App.addEventListener('app:updateDisplay', function(e) {
-		goalProgress.text = db.selectByID(_id)[0].goalGuide ==0 ? '': Math.round(db.selectByID(_id)[0].goalProgress)+'%';
+		goalProgress.text = db.selectByID(_id)[0].goalGuide == 0 ? '': Math.round(db.selectByID(_id)[0].goalProgress)+'%';
 	});
 
 	var botCounter = Ti.UI.createLabel({
@@ -117,7 +117,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 	}); 
 
 	var rewardLbl = Ti.UI.createLabel ({
-		text: db.getTotalRewards(_id) == null ? '$0' : '$'+db.getTotalRewards(_id),
+		text: '$'+db.getTotalRewards(_id),
 		width: 100,
 		layout: 'horizontal',
 		textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
@@ -126,7 +126,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		}
 	});
 	Ti.App.addEventListener('app:updateDisplay', function(e) {
-		rewardLbl.text = db.getTotalRewards(_id) == null ? '$0' : '$'+db.getTotalRewards(_id);
+		rewardLbl.text = '$'+db.getTotalRewards(_id);
 	});
 
 	var doneButton = Ti.UI.createButton({
@@ -156,7 +156,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		},
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
-		db.addWork(_id, _goalID);
+		showBadges(db.addWork(_id, _goalID));
 		Ti.App.fireEvent('app:updateDisplay');
 	});
 
@@ -169,6 +169,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 	self.add(rightView);
 	self.add(addWorkButton);
 	self.setRightNavButton(doneButton);
+	self.add(botView);
 	rightView.add(goalLbl);
 	rightView.add(goalProgress);
 	tabGroup.addTab(tabWindow);
@@ -182,6 +183,9 @@ var showBadges = function (e)
 {
 	for (var i in e) 
 	{
-		console.log(e[i]);
+		if (i != 'Work') 
+			{
+				console.log(e[i]);
+			}
 	}
 };
