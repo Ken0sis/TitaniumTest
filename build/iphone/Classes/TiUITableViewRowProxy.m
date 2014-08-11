@@ -706,12 +706,10 @@ TiProxy * DeepScanForProxyOfViewContainingPoint(UIView * targetView, CGPoint poi
 // TODO: Add child locking methods for whenever we have to touch children outside TiViewProxy
 -(void)willShow
 {
-	pthread_rwlock_rdlock(&childrenLock);
     NSArray* subproxies = [self children];
 	for (TiViewProxy* child in subproxies) {
 		[child setParentVisible:YES];
 	}
-	pthread_rwlock_unlock(&childrenLock);
 }
 
 -(void)triggerAttach
@@ -749,6 +747,7 @@ TiProxy * DeepScanForProxyOfViewContainingPoint(UIView * targetView, CGPoint poi
 {
 	attaching = YES;
 	[super windowWillOpen];
+	[self setParentVisible:YES];
 	attaching = NO;
 }
 

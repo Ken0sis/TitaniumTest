@@ -40,6 +40,7 @@
 -(void)setSelectionFrom:(id)start to:(id)end;
 #pragma mark - TodoList Internal Use Only
 -(void)updateKeyboardStatus;
+-(NSDictionary*)selectedRange;
 @end
 
 #endif

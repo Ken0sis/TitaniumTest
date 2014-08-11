@@ -34,12 +34,11 @@ dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiRect.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiViewTemplate.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ImageLoader.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequest.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequestConfig.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequestDelegate.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIProgressDelegate.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASICacheDelegate.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASINetworkQueue.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPClient.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPRequest.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPResponse.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPPostForm.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPHelper.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiUIImageView.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/OperationQueue.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiApp.h \

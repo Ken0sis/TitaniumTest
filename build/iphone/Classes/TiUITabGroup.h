@@ -20,6 +20,8 @@
 	NSString* editTitle;
 	
 	TiColor *barColor;
+	TiColor *navTintColor;
+	NSMutableDictionary *theAttributes;
 }
 
 -(UITabBarController*)tabController;

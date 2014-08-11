@@ -22,7 +22,6 @@
 #import <libkern/OSAtomic.h>
 #import "TiExceptionHandler.h"
 #import "Mimetypes.h"
-
 #ifdef KROLL_COVERAGE
 # import "KrollCoverage.h"
 #endif
@@ -121,7 +120,6 @@ TI_INLINE void waitForMemoryPanicCleared();   //WARNING: This must never be run 
 - (void)setDisableNetworkActivityIndicator:(BOOL)value
 {
 	disableNetworkActivityIndicator = value;
-	[ASIHTTPRequest setShouldUpdateNetworkActivityIndicator: !disableNetworkActivityIndicator];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(!disableNetworkActivityIndicator && (networkActivityCount > 0))];
 }
 
@@ -180,7 +178,7 @@ TI_INLINE void waitForMemoryPanicCleared();   //WARNING: This must never be run 
 
 - (void)boot
 {
-	DebugLog(@"[INFO] %@/%@ (%s.b958a70)",TI_APPLICATION_NAME,TI_APPLICATION_VERSION,TI_VERSION_STR);
+	DebugLog(@"[INFO] %@/%@ (%s.787cd39)",TI_APPLICATION_NAME,TI_APPLICATION_VERSION,TI_VERSION_STR);
 	
 	sessionId = [[TiUtils createUUID] retain];
 	TITANIUM_VERSION = [[NSString stringWithCString:TI_VERSION_STR encoding:NSUTF8StringEncoding] retain];
@@ -756,8 +754,7 @@ expectedTotalBytes:(int64_t)expectedTotalBytes {
 {
 	//FunctionName();
 	[[NSNotificationCenter defaultCenter] postNotificationName:kTiPausedNotification object:self];
-	[TiUtils queueAnalytics:@"ti.background" name:@"ti.background" data:nil];
-
+	
 	if (backgroundServices==nil)
 	{
 		return;
@@ -797,8 +794,6 @@ expectedTotalBytes:(int64_t)expectedTotalBytes {
     [launchOptions removeObjectForKey:@"source"];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:kTiResumeNotification object:self];
-	
-	[TiUtils queueAnalytics:@"ti.foreground" name:@"ti.foreground" data:nil];
     
 	if (backgroundServices==nil)
 	{

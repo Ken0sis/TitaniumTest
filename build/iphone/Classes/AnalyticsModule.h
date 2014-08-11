@@ -8,19 +8,7 @@
  */
 
 #import "TiModule.h"
-#import "PlausibleDatabase.h"
 
-@interface AnalyticsModule : TiModule {
-@private
-	PLSqliteDatabase* database;
-	NSOperationQueue * eventQueue;
-	NSTimer *retryTimer;
-	NSTimer *flushTimer;
-	NSURL *url;
-	NSRecursiveLock *lock;
-	NSString * lastEvent;
-}
-
-@property(nonatomic,copy) NSString * lastEvent;
+@interface AnalyticsModule : TiModule
 
 @end

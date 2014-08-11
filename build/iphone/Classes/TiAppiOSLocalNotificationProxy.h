@@ -12,7 +12,7 @@
 
 @interface TiAppiOSLocalNotificationProxy : TiProxy {
 @private
-	UILocalNotification *notification;
+	UILocalNotification *_notification;
 
 }
 

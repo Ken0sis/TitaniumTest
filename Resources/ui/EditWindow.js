@@ -5,23 +5,24 @@ exports.EditWindow = function(_id, _item, _goalID)
 
 	Ti.API.info('Input taskID:'+_id);
 
-//Call required database external functions
+//Call required database and create temporary memory counter
 
 	var db = require('db');
 	var record = db.selectByID(_id);
-	var badgeLink = {};
-	badgeLink['Combo1'] = 'images/Numbers-1-filled-icon.png';
-	badgeLink['Combo2'] = 'images/Numbers-2-filled-icon.png';
-	badgeLink['Early'] = 'images/Numbers-3-filled-icon.png';
-	badgeLink['Goal'] = 'images/Numbers-4-filled-icon.png';
-	badgeLink['DoneRed'] = 'images/Numbers-5-filled-icon.png';
-	badgeLink['DoneOrange'] = 'images/Numbers-6-filled-icon.png';
-
-
-//Batch variables for display inputs
-	var workCounter = 0;
-	var rewardsCounter = 
+	var imageLink = 
 	{
+		WorkHrs: 'images/Numbers-1-filled-icon.png',
+		Combo1: 'images/Numbers-2-filled-icon.png',
+		Combo2: 'images/Numbers-3-filled-icon.png',
+		Early: 'images/Numbers-4-filled-icon.png',
+		Goal: 'images/Numbers-5-filled-icon.png',
+		DoneRed: 'images/Numbers-5-filled-icon.png',
+		DoneOrange: 'images/Numbers-5-filled-icon.png',
+		Total: 'images/Numbers-5-filled-icon.png'
+	};
+	var tempMem = 
+	{
+		WorkHrs: 0,
 		Combo1: 0,
 		Combo2: 0,
 		Early: 0,
@@ -30,8 +31,25 @@ exports.EditWindow = function(_id, _item, _goalID)
 		DoneOrange: 0,
 		Total: 0
 	};
+	Ti.App.addEventListener('app:resetCounter', function(e) {
+	for (var i in tempMem)
+	{
+		tempMem[i]=0;
+	}});
 
+//Function to refresh counter
 
+	var updateCounter = function (e)
+	{
+		for (var i in e) 
+		{
+			if (i != 'Work') 
+				{
+					tempMem[i] = tempMem[i]+1;
+				}
+		}
+		tempMem['WorkHrs'] = tempMem['WorkHrs']+0.5;
+	};
 
 //Create tabs, windows and views
 
@@ -74,10 +92,49 @@ exports.EditWindow = function(_id, _item, _goalID)
 	var botView = Ti.UI.createView({
 		width: Ti.UI.SIZE,
 		height: Ti.UI.SIZE,
-		bottom: 120,
-		backgroundImage: 'images/Time-Timer-icon2.png',
+		layout:'horizontal',
+		bottom: 140,
 	});
 
+
+//Function to show badge
+
+	var showBadge = function (e)
+	{
+
+		botView.removeAllChildren( );
+
+		for (var i in e) 
+		{
+			if (i != 'Work') 
+				{
+					var badgeView = Ti.UI.createView({
+						layout: 'vertical',
+						width: Ti.UI.SIZE,
+						height: Ti.UI.SIZE,
+					});
+
+					var badgeLabel = Ti.UI.createLabel ({
+						text: e[i],
+						textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+						font:
+						{
+							fontSize: 14,
+						},
+					});
+
+					var badgeImage = Titanium.UI.createImageView ({
+						image: imageLink[i],
+						width: 30,
+						height: 30,
+					});
+
+					badgeView.add(badgeLabel);
+					badgeView.add(badgeImage);
+					botView.add(badgeView);
+				}
+		}
+	};
 
 //Create labels and buttons
 
@@ -108,13 +165,6 @@ exports.EditWindow = function(_id, _item, _goalID)
 	Ti.App.addEventListener('app:updateDisplay', function(e) {
 		goalProgress.text = db.selectByID(_id)[0].goalGuide == 0 ? '': Math.round(db.selectByID(_id)[0].goalProgress)+'%';
 	});
-
-	var botCounter = Ti.UI.createLabel({
-		width: 25,
-		height: 25,
-		bottom: 120,
-		backgroundImage: badgeLink['reward1'],
-	}); 
 
 	var rewardLbl = Ti.UI.createLabel ({
 		text: '$'+db.getTotalRewards(_id),
@@ -156,7 +206,9 @@ exports.EditWindow = function(_id, _item, _goalID)
 		},
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
-		showBadges(db.addWork(_id, _goalID));
+		updateCounter(db.addWork(_id, _goalID));
+		showBadge(tempMem);
+		console.log(tempMem);
 		Ti.App.fireEvent('app:updateDisplay');
 	});
 
@@ -177,15 +229,4 @@ exports.EditWindow = function(_id, _item, _goalID)
 	
 	return tabGroup;
 
-};
-
-var showBadges = function (e)
-{
-	for (var i in e) 
-	{
-		if (e[i] != 'Work') 
-			{
-				console.log(e[i]);
-			}
-	}
 };

@@ -34,4 +34,5 @@ dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiUIViewProxy.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiViewProxy.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiRect.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiViewTemplate.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiViewTemplate.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSAnalytics/APSAnalytics.h

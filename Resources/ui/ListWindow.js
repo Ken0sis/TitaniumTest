@@ -160,6 +160,7 @@ var getTableData = function(Done) {
 				'click', 
 				function(e) 
 				{
+				Ti.App.fireEvent('app:resetCounter');
 				new EditWindow(e.source.labelID, e.source.labelItem, e.source.goalID).open();      
 				return false;
 				}

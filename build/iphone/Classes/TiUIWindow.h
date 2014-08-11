@@ -9,7 +9,6 @@
 #import "TiUIView.h"
 
 @interface TiUIWindow : TiUIView {
-	UIView *gradientWrapperView;
 }
 
 @end

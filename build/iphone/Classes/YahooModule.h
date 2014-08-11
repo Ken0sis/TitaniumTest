@@ -10,6 +10,7 @@
 
 #import "TiModule.h"
 #import "KrollCallback.h"
+#import "APSHTTPClient.h"
 
 @interface YahooModule : TiModule {
 @private
@@ -18,7 +19,8 @@
 @end
 
 
-@interface YQLCallback : NSObject {
+@interface YQLCallback : NSObject<APSHTTPRequestDelegate>
+{
 @private
 	YahooModule *module;
 	KrollCallback *callback;

@@ -84,19 +84,17 @@ static void SetEventOverrideDelegateRecursive(NSArray *children, id<TiViewEventO
 
 - (TiUIView *)view
 {
-	return view = (TiUIView *)_listItem.contentView;
+	return nil;
 }
 
-- (void)detachView
+-(BOOL)viewAttached
 {
-	view = nil;
-	[super detachView];
+    return _listItem != nil;
 }
 
--(void)_destroy
+-(UIView *)parentViewForChild:(TiViewProxy *)child
 {
-	view = nil;
-	[super _destroy];
+	return _listItem.contentView;
 }
 
 -(void)propertyChanged:(NSString*)key oldValue:(id)oldValue newValue:(id)newValue proxy:(TiProxy*)proxy_

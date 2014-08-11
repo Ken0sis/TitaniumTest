@@ -45,4 +45,5 @@ dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiDebugger.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiConsole.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APIModule.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiExceptionHandler.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiExceptionHandler.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSAnalytics/APSAnalytics.h

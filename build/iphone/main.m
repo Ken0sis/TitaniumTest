@@ -17,6 +17,7 @@ NSString * const TI_APPLICATION_DESCRIPTION = @"not specified";
 NSString * const TI_APPLICATION_COPYRIGHT = @"2011-2014 by tlukasavage";
 NSString * const TI_APPLICATION_GUID = @"5458670d-ae76-4266-a236-3f2bacde5530";
 BOOL const TI_APPLICATION_ANALYTICS = true;
+NSString * const TI_APPLICATION_BUILD_TYPE = @"";
 
 #ifdef TARGET_IPHONE_SIMULATOR
 NSString * const TI_APPLICATION_RESOURCE_DIR = @"";

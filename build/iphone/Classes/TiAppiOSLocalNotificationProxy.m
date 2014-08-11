@@ -14,12 +14,11 @@
 
 @implementation TiAppiOSLocalNotificationProxy
 
-@synthesize notification;
+@synthesize notification = _notification;
 
 -(void)dealloc
 {
-	[self cancel:nil];
-	RELEASE_TO_NIL(notification);
+	RELEASE_TO_NIL(_notification);
 	[super dealloc];
 }
 
@@ -30,7 +29,7 @@
 
 -(void)cancel:(id)args
 {
-	UILocalNotification * cancelledNotification = [notification retain];
+	UILocalNotification * cancelledNotification = [self.notification retain];
 	TiThreadPerformOnMainThread(^{[[UIApplication sharedApplication] cancelLocalNotification:cancelledNotification];
 		[cancelledNotification release];}, NO);
 }

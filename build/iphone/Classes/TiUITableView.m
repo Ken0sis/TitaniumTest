@@ -309,6 +309,7 @@
 	{
         hideOnSearch = YES; // Legacy behavior
 		filterCaseInsensitive = YES; // defaults to true on search
+		filterAnchored = NO; // defaults to false on search
 		searchString = @"";
 		defaultSeparatorInsets = UIEdgeInsetsZero;
 	}
@@ -1322,7 +1323,7 @@
 		ourSearchAttribute = @"title";
 	}
 	
-	NSStringCompareOptions searchOpts = (filterCaseInsensitive ? NSCaseInsensitiveSearch : 0);
+	NSStringCompareOptions searchOpts = (filterCaseInsensitive ? NSCaseInsensitiveSearch : 0) | (filterAnchored ? NSAnchoredSearch : 0);
 	
 	for (TiUITableViewSectionProxy * thisSection in [(TiUITableViewProxy *)[self proxy] internalSections]) 
 	{
@@ -1888,6 +1889,11 @@
 	}, NO);
 }
 
+-(void)setFilterAnchored_:(id)anchoredBool
+{
+	filterAnchored = [TiUtils boolValue:anchoredBool];
+}
+
 -(void)setFilterCaseInsensitive_:(id)caseBool
 {
 	filterCaseInsensitive = [TiUtils boolValue:caseBool];
@@ -1978,7 +1984,8 @@
             return;
         }
 		tableHeaderPullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.tableView.bounds.size.width, self.tableView.bounds.size.height)];
-		tableHeaderPullView.backgroundColor = [UIColor lightGrayColor];
+		TiColor* pullBgColor = [TiUtils colorValue:[value valueForUndefinedKey:@"pullBackgroundColor"]];
+		tableHeaderPullView.backgroundColor = ((pullBgColor == nil) ? [UIColor lightGrayColor] : [pullBgColor color]);
 		UIView *view = [value view];
 		[[self tableView] addSubview:tableHeaderPullView];
 		[tableHeaderPullView addSubview:view];
@@ -2362,6 +2369,13 @@ return result;	\
 		result = NSLocalizedString(@"Delete",@"Table View Delete Confirm");
 	}
 	return result;
+}
+
+- (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath{
+    TiUITableViewRowProxy *row = nil;
+    TiUITableViewSectionProxy  *section = nil;
+    section = [(TiUITableViewProxy *)[self proxy] sectionForIndex:indexPath row:&row];
+    [row.section reorderRows];
 }
 
 - (void)tableView:(UITableView *)ourTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath

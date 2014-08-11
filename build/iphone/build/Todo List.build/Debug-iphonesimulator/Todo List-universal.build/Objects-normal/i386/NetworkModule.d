@@ -1,11 +1,10 @@
 dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/NetworkModule.m \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/NetworkModule.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiNetworkCookieProxy.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiProxy.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiBase.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiThreading.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiPublicAPI.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiModule.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiProxy.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiEvaluator.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/KrollContext.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/headers/TiCore/TiCore.h \
@@ -17,6 +16,8 @@ dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/KrollCallback.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/KrollObject.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiBindingRunLoop.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/NetworkModule.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiModule.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiUtils.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiDimension.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiColor.h \
@@ -24,7 +25,7 @@ dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiFile.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiBuffer.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiBlob.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/Reachability.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/Reachability.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiApp.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiHost.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/Bridge.h \
@@ -43,9 +44,4 @@ dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiRect.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiViewTemplate.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/SBJSON.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiNetworkSocketProxy.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequest.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequestConfig.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequestDelegate.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIProgressDelegate.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASICacheDelegate.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiNetworkSocketProxy.h

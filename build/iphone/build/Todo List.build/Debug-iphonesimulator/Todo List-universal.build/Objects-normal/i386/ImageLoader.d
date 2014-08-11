@@ -1,16 +1,15 @@
 dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ImageLoader.m \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ImageLoader.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequest.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequestConfig.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIHTTPRequestDelegate.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASIProgressDelegate.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASICacheDelegate.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/ASINetworkQueue.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiDimension.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiBase.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiThreading.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiPublicAPI.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPClient.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPRequest.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPResponse.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPPostForm.h \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/APSHTTPClient/APSHTTPHelper.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/OperationQueue.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiUtils.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiColor.h \

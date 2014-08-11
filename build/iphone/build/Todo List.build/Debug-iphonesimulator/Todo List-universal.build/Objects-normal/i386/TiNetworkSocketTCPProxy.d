@@ -28,4 +28,4 @@ dependencies: \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiColor.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/WebFont.h \
   /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/TiFile.h \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/Reachability.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/Reachability.h

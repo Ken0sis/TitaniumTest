@@ -133,7 +133,6 @@ static NSArray* scrollViewKeySequence;
     if (TiLayoutRuleIsVertical(layoutProperties.layoutStyle)) {
         //Vertical layout. Just get the maximum child width
         CGFloat thisWidth = 0.0;
-        pthread_rwlock_rdlock(&childrenLock);
         NSArray* subproxies = [self children];
         for (TiViewProxy * thisChildProxy in subproxies) {
             thisWidth = [thisChildProxy minimumParentWidthForSize:contentSize];
@@ -141,11 +140,9 @@ static NSArray* scrollViewKeySequence;
                 result = thisWidth;
             }
         }
-        pthread_rwlock_unlock(&childrenLock);
     }
     else if (TiLayoutRuleIsHorizontal(layoutProperties.layoutStyle)) {
         //Horizontal Layout with auto width. Stretch Indefinitely.
-        pthread_rwlock_rdlock(&childrenLock);
         NSArray* subproxies = [self children];
         for (TiViewProxy * thisChildProxy in subproxies) {
             if ([thisChildProxy widthIsAutoFill]) {
@@ -159,7 +156,6 @@ static NSArray* scrollViewKeySequence;
                 result += [thisChildProxy minimumParentWidthForSize:contentSize];
             }
         }
-        pthread_rwlock_unlock(&childrenLock);
     }
     else {
         result = [super autoWidthForSize:contentSize];
@@ -200,7 +196,6 @@ static NSArray* scrollViewKeySequence;
     
     CGFloat result = 0.0;
     if (TiLayoutRuleIsVertical(layoutProperties.layoutStyle)) {
-        pthread_rwlock_rdlock(&childrenLock);
         NSArray* subproxies = [self children];
         for (TiViewProxy * thisChildProxy in subproxies) {
             if ([thisChildProxy heightIsAutoFill]) {
@@ -214,13 +209,11 @@ static NSArray* scrollViewKeySequence;
                 result += [thisChildProxy minimumParentHeightForSize:contentSize];
             }
         }
-        pthread_rwlock_unlock(&childrenLock);
     }
     else if (TiLayoutRuleIsHorizontal(layoutProperties.layoutStyle)) {
         BOOL horizontalWrap = TiLayoutFlagsHasHorizontalWrap(&layoutProperties);
         if(flexibleContentWidth) {
             CGFloat thisHeight = 0;
-            pthread_rwlock_rdlock(&childrenLock);
             NSArray* subproxies = [self children];
             for (TiViewProxy * thisChildProxy in subproxies) {
                 if ([thisChildProxy heightIsAutoFill]) {
@@ -237,7 +230,6 @@ static NSArray* scrollViewKeySequence;
                     result = thisHeight;
                 }
             }
-            pthread_rwlock_unlock(&childrenLock);
         }
         else {
             //Not flexible width and wraps

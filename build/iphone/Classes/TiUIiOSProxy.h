@@ -50,6 +50,9 @@ typedef enum {
 
 @property (nonatomic,readonly) NSNumber* SCROLL_DECELERATION_RATE_NORMAL;
 @property (nonatomic,readonly) NSNumber* SCROLL_DECELERATION_RATE_FAST;
+@property (nonatomic,readonly) NSNumber* CLIP_MODE_DEFAULT;
+@property (nonatomic,readonly) NSNumber* CLIP_MODE_ENABLED;
+@property (nonatomic,readonly) NSNumber* CLIP_MODE_DISABLED;
 
 #ifdef USE_TI_UIIOSATTRIBUTEDSTRING
 @property (nonatomic,readonly) NSNumber* ATTRIBUTE_FONT;
@@ -92,8 +95,7 @@ typedef enum {
 @property (nonatomic,readonly) NSNumber* ATTRIBUTE_WRITING_DIRECTION_LEFT_TO_RIGHT;
 @property (nonatomic,readonly) NSNumber* ATTRIBUTE_WRITING_DIRECTION_RIGHT_TO_LEFT;
 
-@property (nonatomic,readonly) NSNumber* ATTRIBUTE_LETTERPRESS_STYLE;
-
+@property (nonatomic,readonly) NSString * ATTRIBUTE_LETTERPRESS_STYLE;
 // -----
 #endif
 

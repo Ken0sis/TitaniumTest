@@ -7,6 +7,7 @@
  * WARNING: This is generated code. Modify at your own risk and without support.
  */
 #import "TiModule.h"
+#import "APSHTTPClient.h"
 
 #ifdef USE_TI_GEOLOCATION
 

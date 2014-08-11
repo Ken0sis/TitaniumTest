@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/Reachability.m \
-  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/ASI/Reachability.h
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/Reachability.m \
+  /Users/Atlas/Desktop/TitaniumWS/TitaniumTest/build/iphone/Classes/Reachability.h
