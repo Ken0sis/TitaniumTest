@@ -104,23 +104,27 @@ exports.EditWindow = function(_id, _item, _goalID)
 
 		botView.removeAllChildren( );
 
+		var a = Ti.UI.createAnimation({
+			opacity:0,
+			duration:1500,
+			height: 15,
+		});
+
+		var b = Ti.UI.createAnimation({
+			opacity:1,
+			duration:2000,
+			delay: 500,
+		});
+
 		for (var i in e) 
 		{
-			if (i != 'Work') 
+			if (i == 'Combo1' || i == 'Combo2') 
 				{
+					
 					var badgeView = Ti.UI.createView({
 						layout: 'vertical',
 						width: Ti.UI.SIZE,
 						height: Ti.UI.SIZE,
-					});
-
-					var badgeLabel = Ti.UI.createLabel ({
-						text: e[i],
-						textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-						font:
-						{
-							fontSize: 14,
-						},
 					});
 
 					var badgeImage = Titanium.UI.createImageView ({
@@ -129,11 +133,18 @@ exports.EditWindow = function(_id, _item, _goalID)
 						height: 30,
 					});
 
-					badgeView.add(badgeLabel);
+
+					badgeImage.addEventListener('click', function() {
+						badgeImage.animate(a);
+					});
+
+
 					badgeView.add(badgeImage);
 					botView.add(badgeView);
 				}
 		}
+
+		Ti.App.fireEvent('app:flash');
 	};
 
 //Create labels and buttons
