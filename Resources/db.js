@@ -156,6 +156,8 @@ exports.addWork = function(_taskID, _goalID) {
 
 	var d_lastCombo1Re = db.execute('select max(TimeStamp) from rewards where Combo1Reward > ?',0);
 	var d_lastCombo2Re = db.execute('select max(TimeStamp) from rewards where Combo2Reward > ?',0);
+	var d_lastDoneRedRe = db.execute('select cast(julianday(max(TimeStamp)) as integer) from rewards where DoneRedReward > ?',0);
+	var d_lastDoneOrangeRe = db.execute('select cast(julianday(max(TimeStamp)) as integer) from rewards where DoneOrangeReward > ?',0);
 	var d_totalEarlyRe = db.execute('select count(EarlyReward) from rewards where (cast(julianday(TimeStamp) as integer) = ? and strftime (\'%H\', TimeStamp) >= ? and strftime (\'%H\', TimeStamp) <= ?)', julianNow, 5, 12);
 	var d_totalEarlyHrs = db.execute('select sum(WorkDelta) from history where (cast(julianday(TimeStamp) as integer) = ? and strftime (\'%H\', TimeStamp) >= ? and strftime (\'%H\', TimeStamp) <= ?)', julianNow, 5, 12);
 	var d_redWrkToday = db.execute('select sum(WorkDelta) from history where GoalType = ? and cast(julianday(TimeStamp) as integer) = ?', 3, julianNow);
@@ -169,64 +171,66 @@ exports.addWork = function(_taskID, _goalID) {
 		lastUpdate: lastUpdate.fieldByName('max(TimeStamp)'),
 		lastCombo1Re: d_lastCombo1Re.fieldByName('max(TimeStamp)'),
 		lastCombo2Re: d_lastCombo2Re.fieldByName('max(TimeStamp)'),
+		lastDoneRedRe: d_lastDoneRedRe.fieldByName('cast(julianday(max(TimeStamp)) as integer)'),
+		lastDoneOrangeRe: d_lastDoneOrangeRe.fieldByName('cast(julianday(max(TimeStamp)) as integer)'),
 		totalEarlyRe: d_totalEarlyRe.fieldByName('count(EarlyReward)'),
 		totalEarlyHrs: d_totalEarlyHrs.fieldByName('sum(WorkDelta)'),
 		redWrkToday: d_redWrkToday.fieldByName('sum(WorkDelta)'),
 		orangeWrkToday: d_orangeWrkToday.fieldByName('sum(WorkDelta)'),
 		redBalance: d_redBalance.fieldByName('sum(GoalGuide*(1-GoalProgress/100))'),
 		orangeBalance: d_orangeBalance.fieldByName('sum(GoalGuide*(1-GoalProgress/100))'),
-		totalRewards: d_totalRewards.fieldByName('TotalReward')
+		totalRewards: d_totalRewards.fieldByName('TotalReward'),
 		};
 
 	//Create rewards output
 
-	var rewards =
+	var rewardWork = 5;
+
+	var reward =
 		{
-		Work: 5,
 		Combo1: 0,
 		Combo2: 0,
 		Early: 0,
 		Goal: 0,
 		DoneRed: 0,
 		DoneOrange: 0,
-		Total: 0
 		};
 
 	//Rewards decisioning
 
 	if (input.goalProgress >= 100)
 	{
-		rewards.Goal = n_GoalGuide*5;
+		reward.Goal = n_GoalGuide*rewardWork;
 	}
 
 	if (input.totalEarlyRe<input.totalEarlyHrs)
 	{
-		rewards.Early = Math.floor(input.totalEarlyHrs-input.totalEarlyRe)*5;
+		reward.Early = Math.floor(input.totalEarlyHrs-input.totalEarlyRe)*rewardWork;
 	}
 
 	if (now.getTime()-Date.parse(input.lastUpdateTime)>(40*60*1000) && now.getTime()-Date.parse(input.lastCombo1Re)>(40*60*1000))
 	{
-		rewards.Combo1 = 10;
+		reward.Combo1 = 10;
 	}
 
 	if (Math.floor(input.lastUpdate/86400000 + 2440587.5) > julianNow && now.getTime()-Date.parse(input.lastUpdateTime)>(6*60*60*1000))
 	{
-		rewards.Combo2 = input.totalRewards*0.5; 
+		reward.Combo2 = input.totalRewards*0.15; 
 	}
 
-	if (input.redBalance == null && input.redWrkToday >0)
+	if (input.redBalance == null && input.redWrkToday >0 && input.lastDoneRedRe > julianNow)
 	{
-		rewards.DoneRed = input.redWrkToday/12 * 160; 
+		reward.DoneRed = input.redWrkToday/12 * 160; 
 	}
 
-	if (input.orangeBalance == null && input.orangeWrkToday >0 && input.redBalance == null)
+	if (input.orangeBalance == null && input.orangeWrkToday >0 && input.redBalance == null && input.lastDoneOrangeRe > julianNow)
 	{
-		rewards.DoneOrange = input.orangeWrkToday/12 * 120; 
+		reward.DoneOrange = input.orangeWrkToday/12 * 120; 
 	}
 
-	rewards.Total = input.totalRewards + rewards.Work + rewards.Goal + rewards.Early + rewards.Combo1 + rewards.Combo2 + rewards.DoneRed + rewards.DoneOrange;
+	var rewardTotal = input.totalRewards + rewardWork + reward.Goal + reward.Early + reward.Combo1 + reward.Combo2 + reward.DoneRed + reward.DoneOrange;
 
-	db.execute ('insert into rewards (TaskID, Active, Category, Item, WorkReward, GoalReward, EarlyReward, Combo1Reward, Combo2Reward, DoneRedReward, DoneOrangeReward, TotalReward) values (?,?,?,?,?,?,?,?,?,?,?,?)', taskPull.fieldByName('TaskID'), 1, taskPull.fieldByName('Category'), taskPull.fieldByName('Item'), rewards.Work, rewards.Goal, rewards.Early, rewards.Combo1, rewards.Combo2, rewards.DoneRed, rewards.DoneOrange, rewards.Total);
+	db.execute ('insert into rewards (TaskID, Active, Category, Item, WorkReward, GoalReward, EarlyReward, Combo1Reward, Combo2Reward, DoneRedReward, DoneOrangeReward, TotalReward) values (?,?,?,?,?,?,?,?,?,?,?,?)', taskPull.fieldByName('TaskID'), 1, taskPull.fieldByName('Category'), taskPull.fieldByName('Item'), rewardWork, reward.Goal, reward.Early, reward.Combo1, reward.Combo2, reward.DoneRed, reward.DoneOrange, rewardTotal);
 
 	var retData = [];
 	var rows = db.execute('select * from history where TimeStamp = (select max(TimeStamp) from history)');
@@ -254,6 +258,6 @@ exports.addWork = function(_taskID, _goalID) {
 
 	db.close();
 	console.log(retData);
-	console.log(rewards);
-	return rewards;
+	console.log(reward);
+	return reward;
 };

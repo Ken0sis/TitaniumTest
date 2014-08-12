@@ -12,12 +12,12 @@ exports.EditWindow = function(_id, _item, _goalID)
 	var imageLink = 
 	{
 		WorkHrs: 'images/Numbers-1-filled-icon.png',
-		Combo1: 'images/Numbers-2-filled-icon.png',
-		Combo2: 'images/Numbers-3-filled-icon.png',
-		Early: 'images/Numbers-4-filled-icon.png',
-		Goal: 'images/Numbers-5-filled-icon.png',
-		DoneRed: 'images/Numbers-5-filled-icon.png',
-		DoneOrange: 'images/Numbers-5-filled-icon.png',
+		Combo1: 'images/orange-sticker-badges-036-icon.png',
+		Combo2: 'images/orange_grunge_sticker_badges_209.png',
+		Early: 'images/orange-sticker-badges-295-icon.png',
+		Goal: 'images/orange_grunge_sticker_badges_145.png',
+		DoneRed: 'images/orange-sticker-badges-139-icon.png',
+		DoneOrange: 'images/orange_grunge_sticker_badges',
 		Total: 'images/Numbers-5-filled-icon.png'
 	};
 	var tempMem = 
@@ -29,7 +29,6 @@ exports.EditWindow = function(_id, _item, _goalID)
 		Goal: 0,
 		DoneRed: 0,
 		DoneOrange: 0,
-		Total: 0
 	};
 	Ti.App.addEventListener('app:resetCounter', function(e) {
 	for (var i in tempMem)
