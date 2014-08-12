@@ -116,35 +116,51 @@ exports.EditWindow = function(_id, _item, _goalID)
 			delay: 500,
 		});
 
+		var badgeImage = {};
+		var badgeView = {};
+		var badgeLabel = {};
+
 		for (var i in e) 
 		{
-			if (i == 'Combo1' || i == 'Combo2') 
-				{
-					
-					var badgeView = Ti.UI.createView({
-						layout: 'vertical',
-						width: Ti.UI.SIZE,
-						height: Ti.UI.SIZE,
-					});
+			if (i != 'Work') 
+			{
+			
 
-					var badgeImage = Titanium.UI.createImageView ({
-						image: imageLink[i],
-						width: 30,
-						height: 30,
-					});
+				badgeView[i] = Ti.UI.createView({
+					layout: 'vertical',
+					width: Ti.UI.SIZE,
+					height: Ti.UI.SIZE,
+				});
 
+				badgeImage[i] = Titanium.UI.createImageView ({
+					image: imageLink[i],
+					width: 30,
+					height: 30,
+				});
 
-					badgeImage.addEventListener('click', function() {
-						badgeImage.animate(a);
-					});
+				badgeLabel[i] = Ti.UI.createLabel ({
+					text: e[i],
+					textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+					font:
+					{
+						fontSize: 14,
+					},
+				});
 
+				botView.add(badgeView[i]);
+				badgeView[i].add(badgeLabel[i]);
+				badgeView[i].add(badgeImage[i]);
+				
+			}
 
-					badgeView.add(badgeImage);
-					botView.add(badgeView);
-				}
+			if (i == 'Combo1')
+			{
+				badgeImage[i].animate(a);
+			}
+
 		}
 
-		Ti.App.fireEvent('app:flash');
+		
 	};
 
 //Create labels and buttons
