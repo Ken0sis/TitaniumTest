@@ -182,6 +182,8 @@ exports.addWork = function(_taskID, _goalID) {
 		totalRewards: d_totalRewards.fieldByName('TotalReward'),
 		};
 
+	console.log('READ THIS'+input.lastDoneOrangeRe);
+
 	//Create rewards output
 
 	var rewardWork = 5;
@@ -218,12 +220,12 @@ exports.addWork = function(_taskID, _goalID) {
 		reward.Combo2 = input.totalRewards*0.15; 
 	}
 
-	if (input.redBalance == null && input.redWrkToday >0 && input.lastDoneRedRe > julianNow)
+	if ((input.redBalance == null || input.redBalance == 0) && input.redWrkToday >0 && (input.lastDoneRedRe < julianNow || input.lastDoneRedRe == null))
 	{
 		reward.DoneRed = input.redWrkToday/12 * 160; 
 	}
 
-	if (input.orangeBalance == null && input.orangeWrkToday >0 && input.redBalance == null && input.lastDoneOrangeRe > julianNow)
+	if ((input.orangeBalance == null || input.orangeBalance == 0) && input.orangeWrkToday >0 && input.redBalance == null && (input.lastDoneOrangeRe < julianNow || input.lastDoneOrangeRe == null))
 	{
 		reward.DoneOrange = input.orangeWrkToday/12 * 120; 
 	}

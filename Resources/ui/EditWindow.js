@@ -17,8 +17,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		Early: 'images/orange-sticker-badges-295-icon.png',
 		Goal: 'images/orange_grunge_sticker_badges_145.png',
 		DoneRed: 'images/orange-sticker-badges-139-icon.png',
-		DoneOrange: 'images/orange_grunge_sticker_badges',
-		Total: 'images/Numbers-5-filled-icon.png'
+		DoneOrange: 'images/orange_grunge_sticker_badges.png',
 	};
 	var tempMem = 
 	{
