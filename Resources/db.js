@@ -182,7 +182,6 @@ exports.addWork = function(_taskID, _goalID) {
 		totalRewards: d_totalRewards.fieldByName('TotalReward'),
 		};
 
-	console.log('READ THIS'+input.lastDoneOrangeRe);
 
 	//Create rewards output
 
@@ -259,7 +258,7 @@ exports.addWork = function(_taskID, _goalID) {
 	}
 
 	db.close();
-	console.log(retData);
-	console.log(reward);
+	//console.log(retData);
+	//console.log(reward);
 	return reward;
 };

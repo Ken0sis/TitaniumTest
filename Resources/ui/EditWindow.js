@@ -19,6 +19,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		DoneRed: 'images/orange-sticker-badges-139-icon.png',
 		DoneOrange: 'images/orange_grunge_sticker_badges.png',
 	};
+	var newRewards = {};
 	var tempMem = 
 	{
 		WorkHrs: 0,
@@ -32,22 +33,10 @@ exports.EditWindow = function(_id, _item, _goalID)
 	Ti.App.addEventListener('app:resetCounter', function(e) {
 	for (var i in tempMem)
 	{
-		tempMem[i]=0;
+		tempMem[i]=[0,0];
+		botView.removeAllChildren();
 	}});
-
-//Function to refresh counter
-
-	var updateCounter = function (e)
-	{
-		for (var i in e) 
-		{
-			if (i != 'Work') 
-				{
-					tempMem[i] = tempMem[i]+1;
-				}
-		}
-		tempMem['WorkHrs'] = tempMem['WorkHrs']+0.5;
-	};
+	
 
 //Create tabs, windows and views
 
@@ -94,72 +83,22 @@ exports.EditWindow = function(_id, _item, _goalID)
 		bottom: 140,
 	});
 
+	var botOld = Ti.UI.createView({
+		width: Ti.UI.SIZE,
+		height: Ti.UI.SIZE,
+		layout:'horizontal',
+	});
 
-//Function to show badge
+	var botOld = Ti.UI.createView({
+		width: Ti.UI.SIZE,
+		height: Ti.UI.SIZE,
+		layout:'horizontal',
+	});
 
-	var showBadge = function (e)
-	{
+	var badgeImage = {};
+	var badgeView = {};
+	var badgeLabel = {};
 
-		botView.removeAllChildren( );
-
-		var a = Ti.UI.createAnimation({
-			opacity:0,
-			duration:1500,
-			height: 15,
-		});
-
-		var b = Ti.UI.createAnimation({
-			opacity:1,
-			duration:2000,
-			delay: 500,
-		});
-
-		var badgeImage = {};
-		var badgeView = {};
-		var badgeLabel = {};
-
-		for (var i in e) 
-		{
-			if (i != 'Work') 
-			{
-			
-
-				badgeView[i] = Ti.UI.createView({
-					layout: 'vertical',
-					width: Ti.UI.SIZE,
-					height: Ti.UI.SIZE,
-				});
-
-				badgeImage[i] = Titanium.UI.createImageView ({
-					image: imageLink[i],
-					width: 30,
-					height: 30,
-				});
-
-				badgeLabel[i] = Ti.UI.createLabel ({
-					text: e[i],
-					textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-					font:
-					{
-						fontSize: 14,
-					},
-				});
-
-				botView.add(badgeView[i]);
-				badgeView[i].add(badgeLabel[i]);
-				badgeView[i].add(badgeImage[i]);
-				
-			}
-
-			if (i == 'Combo1')
-			{
-				badgeImage[i].animate(a);
-			}
-
-		}
-
-		
-	};
 
 //Create labels and buttons
 
@@ -231,9 +170,11 @@ exports.EditWindow = function(_id, _item, _goalID)
 		},
 	});
 	addWorkButton.addEventListener('touchstart', function(e) {
-		updateCounter(db.addWork(_id, _goalID));
-		showBadge(tempMem);
+		newRewards = db.addWork(_id, _goalID);
+		console.log(newRewards);
+		updateCounter();
 		console.log(tempMem);
+		showBadge();
 		Ti.App.fireEvent('app:updateDisplay');
 	});
 
@@ -251,7 +192,105 @@ exports.EditWindow = function(_id, _item, _goalID)
 	rightView.add(goalProgress);
 	tabGroup.addTab(tabWindow);
 	tabGroup.currentTab = tabWindow;
-	
+
+
+//Function to update temporary memory counter
+
+	var updateCounter = function ()
+	{
+
+		for (var i in newRewards) 
+		{
+
+			if (newRewards[i]>0) 
+				{
+					tempMem[i] = tempMem[i] + newRewards[i];
+				}
+
+		}
+		tempMem['WorkHrs'] = tempMem['WorkHrs']+0.5;
+	};
+
+
+//Function to show badge
+
+	var showBadge = function ()
+	{
+
+		var a = Ti.UI.createAnimation({
+			opacity:0.2,
+			duration:200,
+			autoreverse: false,
+			delay:0,
+		});
+
+		var b = Ti.UI.createAnimation({
+			opacity:1,
+			duration:200,
+			autoreverse: false,
+			delay: 1000,
+		});
+
+		for (var i in tempMem) 
+		{
+			if (i != 'WorkHrs' && newRewards[i]>0 && tempMem[i]-newRewards[i] == 0) 
+			{
+
+				badgeView[i] = Ti.UI.createView({
+					layout: 'vertical',
+					width: Ti.UI.SIZE,
+					height: Ti.UI.SIZE,
+				});
+
+				badgeImage[i] = Titanium.UI.createImageView ({
+					image: imageLink[i],
+					width: 30,
+					height: 30,
+				});
+
+				badgeLabel[i] = Ti.UI.createLabel ({
+					text: tempMem[i],
+					textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+					font:
+					{
+						fontSize: 10,
+					},
+				});
+
+				botView.add(badgeView[i]);
+				badgeView[i].add(badgeLabel[i]);
+				badgeView[i].add(badgeImage[i]);
+				
+			}
+
+		}
+
+		for (var i in badgeImage)
+		{
+			if ( newRewards[i] > 0)
+			{
+				badgeLabel[i].text = tempMem[i];
+				badgeView[i].animate(a, function(){
+					badgeView[i].animate(b);
+					console.log('flash back');
+				});
+				console.log('flash');
+			}
+
+		}
+
+		/*for (var i in badgeImage)
+		{
+			if ( newRewards[i] > 0)
+			{
+				badgeImage[i].animate(b);
+				console.log('activated b');
+			}
+		}*/
+		
+		
+	};
+
 	return tabGroup;
 
 };
