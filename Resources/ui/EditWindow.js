@@ -67,8 +67,8 @@ exports.EditWindow = function(_id, _item, _goalID)
 		width: .5,
 		borderWidth: .25,
 		borderColor: '#ADADAD',
-		top: 20,
-		height: 150,
+		top: '3.5%',
+		height: '35%',
 	}); 
 
 	var rightView = Ti.UI.createView({
@@ -77,10 +77,10 @@ exports.EditWindow = function(_id, _item, _goalID)
 	});
 
 	var botView = Ti.UI.createView({
-		width: '100%',
-		height: '15%',
-		backgroundColor: 'green',
-		bottom: 190,
+		width: Ti.UI.SIZE,
+		height: 80,
+		layout: 'horizontal',
+		bottom: '40%',
 	});
 
 	var badgeImage = {};
@@ -141,6 +141,9 @@ exports.EditWindow = function(_id, _item, _goalID)
 	doneButton.addEventListener('click', function(e) {
 		Ti.App.fireEvent('app:updateTables');
 		tabGroup.close();
+	});
+
+	var testLbl = Ti.UI.createLabel ({
 	});
 
 	var addWorkButton = Ti.UI.createButton({
@@ -204,20 +207,18 @@ exports.EditWindow = function(_id, _item, _goalID)
 
 	var forward = Ti.UI.createAnimation({
 		opacity:0.2,
-		duration:80,
+		duration:85,
 		autoreverse: false,
 		width: 42,
 		height: 42,
-
 	});
 
 	var backward = Ti.UI.createAnimation({
 		opacity:1,
-		duration:80,
+		duration:85,
 		autoreverse: false,
-		width: 50,
-		height: 50,
-
+		width: 58,
+		height: 58,
 	});
 
 //Function to show badge
@@ -231,22 +232,21 @@ exports.EditWindow = function(_id, _item, _goalID)
 			{
 
 				badgeView[i] = Ti.UI.createView({
-					width: '16%',
+					width: 58,
 					height: '100%',
-					backgroundColor: 'yellow',
 				});
 
 				badgeImage[i] = Titanium.UI.createImageView ({
 					image: imageLink[i],
-					width: 55,
-					height: 55,
+					width: 58,
+					height: 58,
 				});
 
 				badgeLabel[i] = Ti.UI.createLabel ({
 					text: '$'+tempMem[i],
 					textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 					color: 'gray',
-					top: '1%',
+					top: '2%',
 					font:
 					{
 						fontSize: 8,
@@ -257,8 +257,10 @@ exports.EditWindow = function(_id, _item, _goalID)
 				botView.add(badgeView[i]);
 				badgeView[i].add(badgeLabel[i]);
 				badgeView[i].add(badgeImage[i]);
+
+				console.log('Added ' + i);
 			}
-		}	
+		}
 
 		for (var i in newRewards)
 		{
@@ -266,7 +268,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 			{
 				badgeLabel[i].text = '$'+tempMem[i];
 			}
-		}
+		}	
 	};
 
 //Function to animate
@@ -289,7 +291,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 					{
 						eval(callback);
 					}
-					console.log ('fired1 ' + new Date().getTime());
+					console.log ('fired ' + new Date().getTime());
 					clearInterval(t);
 					t=null;
 				}, 90);
