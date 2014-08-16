@@ -331,10 +331,10 @@ exports.EditWindow = function(_id, _item, _goalID)
 		}
 
 
-		animate1('DoneOrange',animate1('Goal',1));
+		animate1('Combo2',animate1('Combo1',animate1('Early',animate1('Goal',animate1('DoneRed',animate1('DoneOrange',1))))));
 		var t1 = setTimeout(function () 
 		{
-			animate2('DoneOrange',animate2('Goal',1));
+			animate2('Combo2',animate2('Combo1',animate2('Early',animate2('Goal',animate2('DoneRed',animate2('DoneOrange',1))))));
 			clearInterval(t1);
 			t1=null;
 		}, 90);
