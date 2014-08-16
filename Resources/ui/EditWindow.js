@@ -155,6 +155,9 @@ exports.EditWindow = function(_id, _item, _goalID)
 		tabGroup.close();
 	});
 
+	var testLbl = Ti.UI.createLabel ({
+	});
+
 	var addWorkButton = Ti.UI.createButton({
 		title: '+ Work',
 		width: '35%',
@@ -175,6 +178,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		updateCounter();
 		console.log(tempMem);
 		showBadge();
+		animateBadge();
 		Ti.App.fireEvent('app:updateDisplay');
 	});
 
@@ -211,25 +215,26 @@ exports.EditWindow = function(_id, _item, _goalID)
 		tempMem['WorkHrs'] = tempMem['WorkHrs']+0.5;
 	};
 
+//Functions for animations
+
+	var forward = Ti.UI.createAnimation({
+		opacity:0.2,
+		duration:125,
+		autoreverse: false,
+		delay: 0,
+	});
+
+	var backward = Ti.UI.createAnimation({
+		opacity:1,
+		duration:125,
+		autoreverse: false,
+		delay: 0,
+	});
 
 //Function to show badge
 
 	var showBadge = function ()
 	{
-
-		var a = Ti.UI.createAnimation({
-			opacity:0.2,
-			duration:200,
-			autoreverse: false,
-			delay:0,
-		});
-
-		var b = Ti.UI.createAnimation({
-			opacity:1,
-			duration:200,
-			autoreverse: false,
-			delay: 1000,
-		});
 
 		for (var i in tempMem) 
 		{
@@ -260,35 +265,81 @@ exports.EditWindow = function(_id, _item, _goalID)
 				botView.add(badgeView[i]);
 				badgeView[i].add(badgeLabel[i]);
 				badgeView[i].add(badgeImage[i]);
+			}
+		}	
+	};
+
+//Function to animate
+
+	var animateBadge = function ()
+	{
+
+		function animate1 (input, callback)
+		{
+			if (badgeImage[input] != null & newRewards[input] > 0)
+			{
+				setTimeout(function()
+				{
+					badgeImage[input].animate(forward);
+					if (callback != 1)
+					{
+						eval(callback);
+					}
+					console.log ('fired ' + new Date().getTime());
+				}, 150);
+			}
+			else
+			{
+				if (callback != 1)
+					{
+						eval(callback);
+					}
+					console.log ('fired '+ new Date().getTime());
+			}
+		}
+
+		function animate2 (input, callback)
+		{
+			if (badgeImage[input] != null & newRewards[input] > 0)
+			{
+				setTimeout(function()
+				{
+					badgeImage[input].animate(backward);
+					if (callback != 1)
+					{
+						eval(callback);
+					}
+					console.log ('fired ' + new Date().getTime());
+				}, 150);
+			}
+			else
+			{
+				if (callback != 1)
+					{
+						eval(callback);
+					}
+					console.log ('fired '+ new Date().getTime());
+			}
+		}
+
+		function fullAnimate (flashForward, flashBackward)
+		{
+			setTimeout(function()
+			{
+				if (flashForward != 1)
+				{
+					eval(flashForward);
+					fullAnimate(flashBackward)	
+				}
 				
-			}
 
+			});
 		}
 
-		for (var i in badgeImage)
-		{
-			if ( newRewards[i] > 0)
-			{
-				badgeLabel[i].text = tempMem[i];
-				badgeView[i].animate(a, function(){
-					badgeView[i].animate(b);
-					console.log('flash back');
-				});
-				console.log('flash');
-			}
 
-		}
+		animate1('DoneOrange',animate1('Goal',1));
+		setTimeout(function () {animate2('DoneOrange',animate2('Goal',1));}, 160);
 
-		/*for (var i in badgeImage)
-		{
-			if ( newRewards[i] > 0)
-			{
-				badgeImage[i].animate(b);
-				console.log('activated b');
-			}
-		}*/
-		
-		
 	};
 
 	return tabGroup;
