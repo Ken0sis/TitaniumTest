@@ -219,14 +219,14 @@ exports.EditWindow = function(_id, _item, _goalID)
 
 	var forward = Ti.UI.createAnimation({
 		opacity:0.2,
-		duration:125,
+		duration:85,
 		autoreverse: false,
 		delay: 0,
 	});
 
 	var backward = Ti.UI.createAnimation({
 		opacity:1,
-		duration:125,
+		duration:85,
 		autoreverse: false,
 		delay: 0,
 	});
@@ -276,9 +276,13 @@ exports.EditWindow = function(_id, _item, _goalID)
 
 		function animate1 (input, callback)
 		{
-			if (badgeImage[input] != null & newRewards[input] > 0)
+
+			console.log(input);
+			console.log(callback);
+
+			if (newRewards[input] > 0)
 			{
-				setTimeout(function()
+				var t = setTimeout(function()
 				{
 					badgeImage[input].animate(forward);
 					if (callback != 1)
@@ -286,7 +290,9 @@ exports.EditWindow = function(_id, _item, _goalID)
 						eval(callback);
 					}
 					console.log ('fired ' + new Date().getTime());
-				}, 150);
+					clearInterval(t);
+					t=null;
+				}, 90);
 			}
 			else
 			{
@@ -294,23 +300,25 @@ exports.EditWindow = function(_id, _item, _goalID)
 					{
 						eval(callback);
 					}
-					console.log ('fired '+ new Date().getTime());
+					console.log ('fired2 '+ new Date().getTime());
 			}
 		}
 
 		function animate2 (input, callback)
 		{
-			if (badgeImage[input] != null & newRewards[input] > 0)
+			if (newRewards[input] > 0)
 			{
-				setTimeout(function()
+				var t = setTimeout(function()
 				{
 					badgeImage[input].animate(backward);
 					if (callback != 1)
 					{
 						eval(callback);
 					}
-					console.log ('fired ' + new Date().getTime());
-				}, 150);
+					console.log ('fired3 ' + new Date().getTime());
+					clearInterval(t);
+					t=null;
+				}, 90);
 			}
 			else
 			{
@@ -318,27 +326,18 @@ exports.EditWindow = function(_id, _item, _goalID)
 					{
 						eval(callback);
 					}
-					console.log ('fired '+ new Date().getTime());
+					console.log ('fired4 '+ new Date().getTime());
 			}
-		}
-
-		function fullAnimate (flashForward, flashBackward)
-		{
-			setTimeout(function()
-			{
-				if (flashForward != 1)
-				{
-					eval(flashForward);
-					fullAnimate(flashBackward)	
-				}
-				
-
-			});
 		}
 
 
 		animate1('DoneOrange',animate1('Goal',1));
-		setTimeout(function () {animate2('DoneOrange',animate2('Goal',1));}, 160);
+		var t1 = setTimeout(function () 
+		{
+			animate2('DoneOrange',animate2('Goal',1));
+			clearInterval(t1);
+			t1=null;
+		}, 90);
 
 	};
 
