@@ -67,7 +67,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		width: .5,
 		borderWidth: .25,
 		borderColor: '#ADADAD',
-		top: '3.5%',
+		top: '3%',
 		height: '35%',
 	}); 
 
@@ -78,9 +78,9 @@ exports.EditWindow = function(_id, _item, _goalID)
 
 	var botView = Ti.UI.createView({
 		width: Ti.UI.SIZE,
-		height: 80,
+		height: 85,
 		layout: 'horizontal',
-		bottom: '40%',
+		top: '42%',
 	});
 
 	var badgeImage = {};
@@ -94,7 +94,7 @@ exports.EditWindow = function(_id, _item, _goalID)
 		width: Titanium.UI.SIZE,
 		height: Titanium.UI.SIZE,
 		top: 25,
-		text: db.selectByID(_id)[0].goalGuide == 0 ? '-' : db.selectByID(_id)[0].goalGuide,
+		text: db.selectByID(_id).goalGuide == 0 ? '-' : db.selectByID(_id).goalGuide,
 		textAlign: 'center',
 		color: '#0080f0',
 		font: 
@@ -103,19 +103,19 @@ exports.EditWindow = function(_id, _item, _goalID)
 		}
 	});
 	Ti.App.addEventListener('app:updateDisplay', function(e) {
-		goalLbl.text = db.selectByID(_id)[0].goalGuide == 0 ? '-' : db.selectByID(_id)[0].goalGuide;
+		goalLbl.text = db.selectByID(_id).goalGuide == 0 ? '-' : db.selectByID(_id).goalGuide;
 	});
 
 	var goalProgress = Ti.UI.createLabel ({
 
-		text: Math.round(db.selectByID(_id)[0].goalProgress)+'%',
+		text: Math.round(db.selectByID(_id).goalProgress)+'%',
 		font:
 		{
 			fontSize: 14,
 		},
 	});
 	Ti.App.addEventListener('app:updateDisplay', function(e) {
-		goalProgress.text = db.selectByID(_id)[0].goalGuide == 0 ? '': Math.round(db.selectByID(_id)[0].goalProgress)+'%';
+		goalProgress.text = db.selectByID(_id).goalGuide == 0 ? '': Math.round(db.selectByID(_id).goalProgress)+'%';
 	});
 
 	var rewardLbl = Ti.UI.createLabel ({
@@ -217,8 +217,8 @@ exports.EditWindow = function(_id, _item, _goalID)
 		opacity:1,
 		duration:85,
 		autoreverse: false,
-		width: 58,
-		height: 58,
+		width: 65,
+		height: 65,
 	});
 
 //Function to show badge
@@ -232,14 +232,14 @@ exports.EditWindow = function(_id, _item, _goalID)
 			{
 
 				badgeView[i] = Ti.UI.createView({
-					width: 58,
+					width: 65,
 					height: '100%',
 				});
 
 				badgeImage[i] = Titanium.UI.createImageView ({
 					image: imageLink[i],
-					width: 58,
-					height: 58,
+					width: 65,
+					height: 65,
 				});
 
 				badgeLabel[i] = Ti.UI.createLabel ({

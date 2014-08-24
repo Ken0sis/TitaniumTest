@@ -62,7 +62,7 @@ exports.selectByID = function(_taskID) {
 		rows.next();
 	}
 	db.close();
-	return retData;
+	return retData[0];
 };
 
 exports.updateItem = function(_id, _Done) { 
